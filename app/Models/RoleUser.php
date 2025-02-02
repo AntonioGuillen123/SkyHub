@@ -13,7 +13,7 @@ class RoleUser extends Model
         'name'
     ];
 
-    public function destinationDeparture(){
+    public function users(){
         return $this->hasMany(User::class);
     }
 }

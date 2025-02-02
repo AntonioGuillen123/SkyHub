@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Models\User;
 
 class Flight extends Pivot
 {
@@ -23,5 +24,10 @@ class Flight extends Pivot
 
     public function journey(){
         return $this->belongsTo(Journey::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'booking')->withTimestamps();
     }
 }

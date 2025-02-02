@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\RoleUser;
+use App\Models\Flight;
 
 class User extends Authenticatable
 {
@@ -49,6 +50,11 @@ class User extends Authenticatable
     }
 
     public function roleUser(){
-        $this->belongsTo(RoleUser:class);
+        return $this->belongsTo(RoleUser::class);
+    }
+
+    public function flights()
+    {
+        return $this->belongsToMany(Flight::class, 'booking')->withTimestamps();
     }
 }
