@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Destination;
+use App\Models\Airplane;
+use App\Models\Flight;
 
 class Journey extends Model
 {
@@ -20,5 +22,13 @@ class Journey extends Model
 
     public function destinationArrival(){
         return $this->belongsTo(Destination::class, 'arrival_id');
+    }
+
+    public function airplanes()
+    {
+        return $this->belongsToMany(Airplane::class)
+            ->using(Flight::class)
+            ->withPivot('flight_date', 'state')
+            ->withTimestamps();
     }
 }

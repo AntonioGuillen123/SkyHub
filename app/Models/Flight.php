@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Flight extends Model
+class Flight extends Pivot
 {
     protected $table = 'flight';
 
@@ -14,6 +14,8 @@ class Flight extends Model
         'flight_date',
         'state'
     ];
+
+    public $incrementing = true;
 
     public function airplane(){
         return $this->belongsTo(Airplane::class);

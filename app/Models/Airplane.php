@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Journey;
 use App\Models\Flight;
 
 class Airplane extends Model
@@ -14,7 +15,11 @@ class Airplane extends Model
         'maximum_places'
     ];
 
-    public function flights(){
-        return $this->hasMany(Flight::class);
+    public function journeys()
+    {
+        return $this->belongsToMany(Journey::class)
+            ->using(Flight::class)
+            ->withPivot('flight_date', 'state')
+            ->withTimestamps();
     }
 }
