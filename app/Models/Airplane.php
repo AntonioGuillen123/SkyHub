@@ -19,7 +19,7 @@ class Airplane extends Model
     {
         return $this->belongsToMany(Journey::class, 'flight')
             ->using(Flight::class)
-            ->withPivot('flight_date', 'state')
+            ->withPivot('flight_date', 'state', 'remaining_places')
             ->withTimestamps();
     }
 }

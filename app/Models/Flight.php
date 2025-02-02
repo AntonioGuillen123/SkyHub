@@ -13,7 +13,8 @@ class Flight extends Pivot
         'airplane_id',
         'journey_id',
         'flight_date',
-        'state'
+        'state',
+        'remaining_places'
     ];
 
     public $incrementing = true;
