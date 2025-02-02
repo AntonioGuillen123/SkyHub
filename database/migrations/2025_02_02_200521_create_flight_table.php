@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Airplane;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->foreignId('journey_id')->constrained('journey')->onDelete('cascade');
             $table->timestamp('flight_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->boolean('state')->default(1);
+            $table->integer('remaining_places')->default(-1);
             $table->timestamps();
         });
     }
