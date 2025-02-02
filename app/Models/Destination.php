@@ -14,10 +14,10 @@ class Destination extends Model
     ];
 
     public function journeyDepartures(){
-        return $this->hasMany(Journey::class);
+        return $this->hasMany(Journey::class, 'departure_id');
     }
 
     public function journeyArrivals(){
-        return $this->hasMany(Journey::class);
+        return $this->hasMany(Journey::class, 'arrival_id');
     }
 }
