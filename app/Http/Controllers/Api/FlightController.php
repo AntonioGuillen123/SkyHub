@@ -29,9 +29,15 @@ class FlightController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Flight $flight)
+    public function show(int $id)
     {
-        //
+        $flight = $this->getFlightById($id);
+
+        if (!$flight) {
+            return $this->responseWithError('The flight id does not exist', 404);
+        }
+
+        return $this->responseWithSuccess($flight);
     }
 
     /**
@@ -52,6 +58,10 @@ class FlightController extends Controller
 
     private function getAllFlights(){
         return Flight::all();
+    }
+
+    private function getFlightById(int $id){
+        return Flight::with(['airplane', 'journey'])->find($id);
     }
 
     private function responseWithSuccess($data, $status = 200)
