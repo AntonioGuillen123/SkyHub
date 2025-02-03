@@ -25,10 +25,7 @@ class AirplaneController extends Controller
     {
         $validated = $this->validateData($request, 'store');
 
-        $airplane = Airplane::create([
-            'name' => $validated['name'],
-            'maximum_places' => $validated['maximum_places']
-        ]);
+        $airplane = Airplane::create($validated)->refresh();
 
         return $this->responseWithSuccess($airplane, 201);
     }
@@ -60,10 +57,9 @@ class AirplaneController extends Controller
 
         $validated = $this->validateData($request, 'update');
 
-        $airplane->update([
-            'name' => $validated['name'] ?? $airplane->name,
-            'maximum_places' => (int)($validated['maximum_places'] ?? $airplane->maximum_places)
-        ]);
+        $airplane->update($validated);
+
+        $airplane->refresh();
 
         return $this->responseWithSuccess($airplane);
     }
@@ -109,12 +105,12 @@ class AirplaneController extends Controller
         return $request->validate($rules);
     }
 
-    private function responseWithSuccess($data, $status = 200)
+    private function responseWithSuccess(mixed $data, int $status = 200)
     {
         return response()->json($data, $status);
     }
 
-    private function responseWithError($message, $status)
+    private function responseWithError(string $message, int $status)
     {
         return response()->json([
             'message' => $message . ' :('
