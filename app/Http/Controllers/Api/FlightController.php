@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Airplane;
 use App\Models\Flight;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,18 @@ class FlightController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateData($request, 'store');
+
+        $airplane = $this->getAirplaneById($validated['airplane_id']);
+
+        if(!$airplane){
+            return $this->responseWithError('The airplane id does not exist', 404);
+        }
+
+        $journey = $this->getAirplaneById($validated['journey_id']);
+
+        if(!$journey){
+            return $this->responseWithError('The journey id does not exist', 404);
+        }
 
         $flight = Flight::create($validated)->refresh();
 
@@ -66,6 +79,11 @@ class FlightController extends Controller
 
     private function getFlightById(int $id){
         return Flight::with(['airplane', 'journey'])->find($id);
+    }
+
+    private function getAirplaneById(int $id)
+    {
+        return Airplane::find($id);
     }
 
     private function validateData(Request $request, string $option)
