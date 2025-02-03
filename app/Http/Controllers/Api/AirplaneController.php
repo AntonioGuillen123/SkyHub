@@ -77,9 +77,17 @@ class AirplaneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Airplane $airplane)
+    public function destroy(int $id)
     {
-        //
+        $airplane = Airplane::find($id);
+
+        if(!$airplane){
+            return $this->responseWithError('The airplane id does not exist', 404);
+        }
+
+        $airplane->delete();
+
+        return $this->responseWithSuccess([], 204);
     }
 
     private function responseWithSuccess($data, $status = 200){
