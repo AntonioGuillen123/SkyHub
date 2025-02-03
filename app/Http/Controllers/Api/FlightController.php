@@ -86,7 +86,7 @@ class FlightController extends Controller
 
         $flight->refresh();
 
-        return $this->responseWithSuccess($flight, 201);
+        return $this->responseWithSuccess($flight, 200);
     }
 
     /**
