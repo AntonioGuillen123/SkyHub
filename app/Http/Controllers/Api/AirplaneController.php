@@ -23,7 +23,17 @@ class AirplaneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'maximum_places' => 'required|integer|min:0'
+        ]);
+
+        $airplane = Airplane::create([
+            'name' => $validated['name'],
+            'maximum_places' => $validated['maximum_places']
+        ]);
+
+        return $this->responseWithSuccess($airplane, 201);
     }
 
     /**
