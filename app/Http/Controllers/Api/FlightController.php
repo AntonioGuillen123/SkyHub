@@ -23,7 +23,11 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $this->validateData($request, 'store');
+
+        $flight = Flight::create($validated)->refresh();
+
+        return $this->responseWithSuccess($flight, 201);
     }
 
     /**
@@ -62,6 +66,27 @@ class FlightController extends Controller
 
     private function getFlightById(int $id){
         return Flight::with(['airplane', 'journey'])->find($id);
+    }
+
+    private function validateData(Request $request, string $option)
+    {
+        $rules = $option === 'store'
+            ? [
+                'airplane_id' => 'required|integer|min:0',
+                'journey_id' => 'required|integer|min:0',
+                'state' => 'boolean',
+                'remaining_places' => 'integer|min:0',
+                'flight_date' => 'date_format:Y-m-d H:i'
+            ]
+            : [
+                'airplane_id' => 'integer|min:0',
+                'journey_id' => 'integer|min:0',
+                'state' => 'boolean',
+                'remaining_places' => 'integer|min:0',
+                'flight_date' => 'date_format:m-d-Y H:i'
+            ];
+
+        return $request->validate($rules);
     }
 
     private function responseWithSuccess($data, $status = 200)
