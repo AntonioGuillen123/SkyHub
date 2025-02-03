@@ -92,9 +92,17 @@ class FlightController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Flight $flight)
+    public function destroy(int $id)
     {
-        //
+        $flight = $this->getFlightById($id);
+
+        if (!$flight) {
+            return $this->responseWithError('The flight id does not exist', 404);
+        }
+
+        $flight->delete();
+
+        return $this->responseWithSuccess([], 204);
     }
 
     private function getAllFlights(){
