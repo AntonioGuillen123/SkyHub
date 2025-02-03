@@ -12,9 +12,9 @@ class Flight extends Pivot
     protected $fillable = [
         'airplane_id',
         'journey_id',
-        'flight_date',
         'state',
-        'remaining_places'
+        'remaining_places',
+        'flight_date'
     ];
 
     public $incrementing = true;
