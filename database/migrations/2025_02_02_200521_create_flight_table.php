@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('airplane_id')->constrained('airplane')->onDelete('cascade');
             $table->foreignId('journey_id')->constrained('journey')->onDelete('cascade');
-            $table->timestamp('flight_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->boolean('state')->default(1);
             $table->integer('remaining_places')->default(-1);
+            $table->timestamp('flight_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }
