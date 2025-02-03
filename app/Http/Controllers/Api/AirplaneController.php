@@ -29,9 +29,15 @@ class AirplaneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Airplane $airplane)
+    public function show(int $id)
     {
-        //
+        $airplane = Airplane::find($id);
+
+        if(!$airplane){
+            return $this->responseWithError('The airplane id does not exist', 404);
+        }
+
+        return $this->responseWithSuccess($airplane);
     }
 
     /**
