@@ -29,13 +29,13 @@ class FlightController extends Controller
 
         $airplane = $this->getAirplaneById($validated['airplane_id']);
 
-        if(!$airplane){
+        if (!$airplane) {
             return $this->responseWithError('The airplane id does not exist', 404);
         }
 
         $journey = $this->getAirplaneById($validated['journey_id']);
 
-        if(!$journey){
+        if (!$journey) {
             return $this->responseWithError('The journey id does not exist', 404);
         }
 
@@ -73,13 +73,13 @@ class FlightController extends Controller
 
         $airplane = $this->getAirplaneById($validated['airplane_id'] ?? $flight->airplane_id);
 
-        if(!$airplane){
+        if (!$airplane) {
             return $this->responseWithError('The airplane id does not exist', 404);
         }
 
         $journey = $this->getJourneyById($validated['journey_id'] ?? $flight->journey_id);
 
-        if(!$journey){
+        if (!$journey) {
             return $this->responseWithError('The journey id does not exist', 404);
         }
 
@@ -106,11 +106,13 @@ class FlightController extends Controller
         return $this->responseWithSuccess([], 204);
     }
 
-    private function getAllFlights(){
+    private function getAllFlights()
+    {
         return Flight::all();
     }
 
-    private function getFlightById(int $id){
+    private function getFlightById(int $id)
+    {
         return Flight::with(['airplane', 'journey'])->find($id);
     }
 
@@ -145,12 +147,12 @@ class FlightController extends Controller
         return $request->validate($rules);
     }
 
-    private function responseWithSuccess($data, $status = 200)
+    private function responseWithSuccess(mixed $data, int $status = 200)
     {
         return response()->json($data, $status);
     }
 
-    private function responseWithError($message, $status)
+    private function responseWithError(string $message, int $status)
     {
         return response()->json([
             'message' => $message . ' :('
