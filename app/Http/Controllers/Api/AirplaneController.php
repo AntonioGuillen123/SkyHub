@@ -13,7 +13,7 @@ class AirplaneController extends Controller
      */
     public function index()
     {
-        $airplanes = Airplane::all();
+        $airplanes = $this->getAllAirplanes();
 
         return $this->responseWithSuccess($airplanes);
     }
@@ -23,10 +23,7 @@ class AirplaneController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'maximum_places' => 'required|integer|min:0'
-        ]);
+        $validated = $this->validateData($request, 'store');
 
         $airplane = Airplane::create([
             'name' => $validated['name'],
@@ -41,9 +38,9 @@ class AirplaneController extends Controller
      */
     public function show(int $id)
     {
-        $airplane = Airplane::find($id);
+        $airplane = $this->getAirplaneById($id);
 
-        if(!$airplane){
+        if (!$airplane) {
             return $this->responseWithError('The airplane id does not exist', 404);
         }
 
@@ -55,16 +52,13 @@ class AirplaneController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $airplane = Airplane::find($id);
+        $airplane = $this->getAirplaneById($id);
 
-        if(!$airplane){
+        if (!$airplane) {
             return $this->responseWithError('The airplane id does not exist', 404);
         }
 
-        $validated = $request->validate([
-            'name' => 'string|max:255',
-            'maximum_places' => 'integer|min:0'
-        ]);
+        $validated = $this->validateData($request, 'update');
 
         $airplane->update([
             'name' => $validated['name'] ?? $airplane->name,
@@ -79,9 +73,9 @@ class AirplaneController extends Controller
      */
     public function destroy(int $id)
     {
-        $airplane = Airplane::find($id);
+        $airplane = $this->getAirplaneById($id);
 
-        if(!$airplane){
+        if (!$airplane) {
             return $this->responseWithError('The airplane id does not exist', 404);
         }
 
@@ -90,11 +84,38 @@ class AirplaneController extends Controller
         return $this->responseWithSuccess([], 204);
     }
 
-    private function responseWithSuccess($data, $status = 200){
+    private function getAllAirplanes()
+    {
+        return Airplane::all();
+    }
+
+    private function getAirplaneById(int $id)
+    {
+        return Airplane::find($id);
+    }
+
+    private function validateData(Request $request, string $option)
+    {
+        $rules = $option === 'store'
+            ? [
+                'name' => 'required|string|max:255',
+                'maximum_places' => 'required|integer|min:0'
+            ]
+            : [
+                'name' => 'string|max:255',
+                'maximum_places' => 'integer|min:0'
+            ];
+
+        return $request->validate($rules);
+    }
+
+    private function responseWithSuccess($data, $status = 200)
+    {
         return response()->json($data, $status);
     }
 
-    private function responseWithError($message, $status){
+    private function responseWithError($message, $status)
+    {
         return response()->json([
             'message' => $message . ' :('
         ], $status);
