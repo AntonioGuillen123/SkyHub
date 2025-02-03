@@ -53,9 +53,25 @@ class AirplaneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Airplane $airplane)
+    public function update(Request $request, int $id)
     {
-        //
+        $airplane = Airplane::find($id);
+
+        if(!$airplane){
+            return $this->responseWithError('The airplane id does not exist', 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'string|max:255',
+            'maximum_places' => 'integer|min:0'
+        ]);
+
+        $airplane->update([
+            'name' => $validated['name'] ?? $airplane->name,
+            'maximum_places' => (int)($validated['maximum_places'] ?? $airplane->maximum_places)
+        ]);
+
+        return $this->responseWithSuccess($airplane);
     }
 
     /**
