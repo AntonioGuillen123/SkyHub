@@ -15,7 +15,7 @@ class AirplaneController extends Controller
     {
         $airplanes = Airplane::all();
 
-        return response()->json($airplanes, 200);
+        return $this->responseWithSuccess($airplanes, 200);
     }
 
     /**
@@ -48,5 +48,15 @@ class AirplaneController extends Controller
     public function destroy(Airplane $airplane)
     {
         //
+    }
+
+    private function responseWithSuccess($data, $status){
+        return response()->json($data, $status);
+    }
+
+    private function responseWithError($message, $status){
+        return response()->json([
+            'message' => $message . ' :('
+        ], $status);
     }
 }
