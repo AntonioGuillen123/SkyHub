@@ -60,9 +60,33 @@ class FlightController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Flight $flight)
+    public function update(Request $request, int $id)
     {
-        //
+        $flight = $this->getFlightById($id);
+
+        if (!$flight) {
+            return $this->responseWithError('The flight id does not exist', 404);
+        }
+
+        $validated = $this->validateData($request, 'update');
+
+        $airplane = $this->getAirplaneById($validated['airplane_id'] ?? $flight->airplane_id);
+
+        if(!$airplane){
+            return $this->responseWithError('The airplane id does not exist', 404);
+        }
+
+        $journey = $this->getAirplaneById($validated['journey_id'] ?? $flight->journey_id);
+
+        if(!$journey){
+            return $this->responseWithError('The journey id does not exist', 404);
+        }
+
+        $flight->update($validated);
+
+        $flight->refresh();
+
+        return $this->responseWithSuccess($flight, 201);
     }
 
     /**
