@@ -15,7 +15,7 @@ class AirplaneController extends Controller
     {
         $airplanes = Airplane::all();
 
-        return $this->responseWithSuccess($airplanes, 200);
+        return $this->responseWithSuccess($airplanes);
     }
 
     /**
@@ -50,7 +50,7 @@ class AirplaneController extends Controller
         //
     }
 
-    private function responseWithSuccess($data, $status){
+    private function responseWithSuccess($data, $status = 200){
         return response()->json($data, $status);
     }
 
