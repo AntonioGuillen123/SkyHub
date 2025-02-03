@@ -13,7 +13,9 @@ class FlightController extends Controller
      */
     public function index()
     {
-        //
+        $flights = $this->getAllFlights();
+
+        return $this->responseWithSuccess($flights);
     }
 
     /**
@@ -46,6 +48,10 @@ class FlightController extends Controller
     public function destroy(Flight $flight)
     {
         //
+    }
+
+    private function getAllFlights(){
+        return Flight::all();
     }
 
     private function responseWithSuccess($data, $status = 200)
