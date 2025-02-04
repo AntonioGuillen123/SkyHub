@@ -49,5 +49,15 @@ class Flight extends Pivot
                 }
             });
         });
+
+        static::created(function (Flight $flight) {
+            $remaining_places = $flight->remaining_places;
+
+            if (!$remaining_places) {
+                $flight->remaining_places = $flight->airplane->maximum_places;
+
+                $flight->save();
+            }
+        });
     }
 }
