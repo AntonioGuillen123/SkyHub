@@ -73,4 +73,43 @@ class FlightTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment($data);
     }
+
+    public function test_CheckIfPostAnEntryOfFlightWrongInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $data = [
+            'airplane_id' => 99999,
+            'journey_id' => 1,
+            'state' => 0,
+            'remaining_places' => 999
+        ];
+
+        $response = $this->postJson(route('apiStoreFlight'), $data);
+
+        $errorData = [
+            'message' => 'The airplane id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($errorData);
+
+        $data = [
+            'airplane_id' => 1,
+            'journey_id' => 99999,
+            'state' => 0,
+            'remaining_places' => 999
+        ];
+
+        $response = $this->postJson(route('apiStoreFlight'), $data);
+
+        $errorData = [
+            'message' => 'The journey id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($errorData);
+    }
 }
