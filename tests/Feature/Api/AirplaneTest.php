@@ -66,4 +66,19 @@ class AirplaneTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment($data);
     }
+
+    public function test_CheckIfUpdateAnEntryOfAirplaneByIdInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $data = [
+            'name' => 'Test Airplane Updated',
+            'maximum_places' => 999
+        ];
+
+        $response = $this->putJson(route('apiUpdateAirplane', 1), $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($data);
+    }
 }
