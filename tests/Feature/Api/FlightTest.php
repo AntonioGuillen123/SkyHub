@@ -21,4 +21,23 @@ class FlightTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(10);
     }
+
+    public function test_CheckIfRecieveAnEntryOfFlightByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->getJson(route('apiShowFlight', 1));
+
+        $responseData = [
+            'id' => 1,
+            'airplane_id' => 1,
+            'journey_id' => 1,
+            'state' => 1,
+            'remaining_places' => 420
+        ];
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
 }
