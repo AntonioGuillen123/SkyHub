@@ -51,4 +51,19 @@ class AirplaneTest extends TestCase
             ->assertStatus(404)
             ->assertJsonFragment($errorData);
     }
+
+    public function test_CheckIfPostAnEntryOfAirplaneInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $data = [
+            'name' => 'Test Airplane',
+            'maximum_places' => 999
+        ];
+
+        $response = $this->postJson(route('apiStoreAirplane'), $data);
+
+        $response
+            ->assertStatus(201)
+            ->assertJsonFragment($data);
+    }
 }
