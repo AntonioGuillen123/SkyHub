@@ -113,7 +113,8 @@ class FlightTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
-    public function test_CheckIfUpdateAnEntryOfFlightByIdInJsonFile(){
+    public function test_CheckIfUpdateAnEntryOfFlightByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $data = [
@@ -186,7 +187,8 @@ class FlightTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
-    public function test_CheckIfDeleteAnEntryOfFlightByIdInJsonFile(){
+    public function test_CheckIfDeleteAnEntryOfFlightByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->deleteJson(route('apiDestroyFlight', 1));
@@ -195,7 +197,8 @@ class FlightTest extends TestCase
             ->assertStatus(204);
     }
 
-    public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile(){
+    public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->deleteJson(route('apiDestroyFlight', -1));

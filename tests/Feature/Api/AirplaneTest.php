@@ -22,7 +22,8 @@ class AirplaneTest extends TestCase
             ->assertJsonCount(10);
     }
 
-    public function test_CheckIfRecieveAnEntryOfAirplaneByIdInJsonFile(){
+    public function test_CheckIfRecieveAnEntryOfAirplaneByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->getJson(route('apiShowAirplane', 1));
@@ -38,7 +39,8 @@ class AirplaneTest extends TestCase
             ->assertJsonFragment($responseData);
     }
 
-    public function test_CheckIfRecieveAnEntryOfAirplaneWrongByIdInJsonFile(){
+    public function test_CheckIfRecieveAnEntryOfAirplaneWrongByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->getJson(route('apiShowAirplane', -1));
@@ -52,7 +54,8 @@ class AirplaneTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
-    public function test_CheckIfPostAnEntryOfAirplaneInJsonFile(){
+    public function test_CheckIfPostAnEntryOfAirplaneInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $data = [
@@ -67,7 +70,8 @@ class AirplaneTest extends TestCase
             ->assertJsonFragment($data);
     }
 
-    public function test_CheckIfUpdateAnEntryOfAirplaneByIdInJsonFile(){
+    public function test_CheckIfUpdateAnEntryOfAirplaneByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $data = [
@@ -82,7 +86,8 @@ class AirplaneTest extends TestCase
             ->assertJsonFragment($data);
     }
 
-    public function test_CheckIfUpdateAnEntryOfAirplaneWrongByIdInJsonFile(){
+    public function test_CheckIfUpdateAnEntryOfAirplaneWrongByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $data = [
@@ -101,7 +106,8 @@ class AirplaneTest extends TestCase
             ->assertJsonFragment($errorData);
     }
 
-    public function test_CheckIfDeleteAnEntryOfAirplaneByIdInJsonFile(){
+    public function test_CheckIfDeleteAnEntryOfAirplaneByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->deleteJson(route('apiDestroyAirplane', 1));
@@ -110,7 +116,8 @@ class AirplaneTest extends TestCase
             ->assertStatus(204);
     }
 
-    public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile(){
+    public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $response = $this->deleteJson(route('apiDestroyAirplane', -1));
