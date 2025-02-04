@@ -40,4 +40,19 @@ class FlightTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment($responseData);
     }
+
+    public function test_CheckIfRecieveAnEntryOfFlightWrongByIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->getJson(route('apiShowFlight', -1));
+
+        $errorData = [
+            'message' => 'The flight id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($errorData);
+    }
 }
