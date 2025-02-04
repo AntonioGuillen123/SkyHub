@@ -185,4 +185,13 @@ class FlightTest extends TestCase
             ->assertStatus(404)
             ->assertJsonFragment($errorData);
     }
+
+    public function test_CheckIfDeleteAnEntryOfFlightByIdInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->deleteJson(route('apiDestroyFlight', 1));
+
+        $response
+            ->assertStatus(204);
+    }
 }
