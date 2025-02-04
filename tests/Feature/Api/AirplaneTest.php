@@ -104,7 +104,7 @@ class AirplaneTest extends TestCase
     public function test_CheckIfDeleteAnEntryOfAirplaneByIdInJsonFile(){
         $this->seed(DatabaseSeeder::class);
 
-        $response = $this->deleteJson(route('apiUpdateAirplane', 1));
+        $response = $this->deleteJson(route('apiDestroyAirplane', 1));
 
         $response
             ->assertStatus(204);
@@ -113,7 +113,7 @@ class AirplaneTest extends TestCase
     public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile(){
         $this->seed(DatabaseSeeder::class);
 
-        $response = $this->deleteJson(route('apiUpdateAirplane', -1));
+        $response = $this->deleteJson(route('apiDestroyAirplane', -1));
 
         $errorData = [
             'message' => 'The airplane id does not exist :('
