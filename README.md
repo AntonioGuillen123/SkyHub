@@ -171,6 +171,8 @@ POST /api/airplane
 - **Status Code:** 201, 422
 - **Content Type:** application/json
 
+#
+
 #### 4 Update an existing airplane by ID
 
 ```http
@@ -203,6 +205,8 @@ PUT /api/airplane/{id}
 - **Status Code:** 200, 404, 422
 - **Content Type:** application/json
 
+#
+
 #### 5 Delete an airplane by ID
 
 ```http
@@ -227,6 +231,8 @@ DELETE /api/airplane/{id}
 
 - **Status Code:** 204, 404
 - **Content Type:** No-Content, application/json
+
+#
 
 ### Flight
 #### 1 Get all flight entries
@@ -306,6 +312,8 @@ POST /api/flight
 - **Status Code:** 201, 404, 422
 - **Content Type:** application/json
 
+#
+
 #### 4 Update an existing flight by ID
 
 ```http
@@ -340,6 +348,8 @@ PUT /api/flight/{id}
 
 - **Status Code:** 200, 404, 422
 - **Content Type:** application/json
+
+#
 
 #### 5 Delete a flight by ID
 
