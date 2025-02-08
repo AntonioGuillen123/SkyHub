@@ -141,7 +141,64 @@ class AirplaneController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/airplane/{id}",
+     *     tags={"Airplane"},
+     *     summary="Update an Airplane by Id",
+     *     description="This endpoint updates the details of an existing airplane by Id.",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="The Id of the airplane to update",
+     *          @OA\Schema(type="integer", example="1")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Airplane data to update. Only the fields provided will be updated.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),
+     *             @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
+     *              @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
+     *              @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
+     *              @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *              @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The airplane id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The maximum places field must be at least 0."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="name", type="array",
+     *                     @OA\Items(type="string", example="The name field must not be greater than 255 characters.")
+     *                 ),
+     *                 @OA\Property(property="maximum_places", type="array", 
+     *                     @OA\Items(type="string", example="The maximum places field must be at least 0.")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function update(Request $request, int $id)
     {
