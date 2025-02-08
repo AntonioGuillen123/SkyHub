@@ -39,7 +39,50 @@ class AirplaneController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/airplane",
+     *     tags={"Airplane"},
+     *     summary="Create a new Airplane",
+     *     description="This endpoint creates a new airplane in the system.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Airplane data to be created.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),
+     *             @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420)
+     *         )    
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
+     *              @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
+     *              @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
+     *              @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *              @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The name field is required"),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="name", type="array",
+     *                     @OA\Items(type="string", example="The name field is required.")
+     *                 ),
+     *                 @OA\Property(property="maximum_places", type="array", 
+     *                     @OA\Items(type="string", example="The maximum places field is required.")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
