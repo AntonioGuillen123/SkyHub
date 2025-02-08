@@ -49,6 +49,7 @@ class AirplaneController extends Controller
      *         description="Airplane data to be created.",
      *         @OA\JsonContent(
      *             type="object",
+     *              required={"name", "maximum_places"},
      *             @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),
      *             @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420)
      *         )    
