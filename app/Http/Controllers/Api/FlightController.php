@@ -364,7 +364,35 @@ class FlightController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/flight/{id}",
+     *     tags={"Flight"},
+     *     summary="Delete a Fligt by Id",
+     *     description="This endpoint deletes a flight from the system by its unique Id.",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="The Id of the flight to delete",
+     *          @OA\Schema(type="integer", example="1")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No Content",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The flight id does not exist :(")
+     *         )
+     *     )
+     * )
      */
     public function destroy(int $id)
     {
