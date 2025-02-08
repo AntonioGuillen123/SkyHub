@@ -9,15 +9,25 @@ use Illuminate\Http\Request;
 class AirplaneController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * 
      * @OA\Get(
      *     path="/api/airplane",
      *     tags={"Airplane"},
-     *     summary="List Of All Airplanes",
+     *     summary="List all Airplanes in the system",
+     *     description="This endpoint returns a list of all airplanes available in the system.",
      *     @OA\Response(
      *         response=200,
-     *         description="OK"
+     *         description="OK",
+     *         @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                  type="object",
+     *                  @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
+     *                  @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
+     *                  @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
+     *                  @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *                  @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *              )
+     *         )
      *     )
      * )
      */
