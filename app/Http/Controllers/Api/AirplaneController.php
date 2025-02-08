@@ -71,7 +71,7 @@ class AirplaneController extends Controller
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="The name field is required"),
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
      *             @OA\Property(property="errors", type="object",
      *                 @OA\Property(property="name", type="array",
      *                     @OA\Items(type="string", example="The name field is required.")
@@ -187,7 +187,7 @@ class AirplaneController extends Controller
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="The maximum places field must be at least 0."),
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
      *             @OA\Property(property="errors", type="object",
      *                 @OA\Property(property="name", type="array",
      *                     @OA\Items(type="string", example="The name field must not be greater than 255 characters.")
