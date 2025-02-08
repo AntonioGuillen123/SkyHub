@@ -61,7 +61,7 @@ class FlightController extends Controller
             return $this->responseWithError('The journey id does not exist', 404);
         }
 
-        $flight = Flight::create($validated)->refresh();
+        $flight = $this->createFlightWithRelationShips($validated);
 
         return $this->responseWithSuccess($flight, 201);
     }
@@ -211,6 +211,10 @@ class FlightController extends Controller
     private function getJourneyById(int $id)
     {
         return Journey::find($id);
+    }
+
+    private function createFlightWithRelationShips($data){
+        return Flight::create($data)->refresh()->load(['journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
     }
 
     private function validateData(Request $request, string $option)
