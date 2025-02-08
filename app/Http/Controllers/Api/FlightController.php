@@ -43,7 +43,94 @@ class FlightController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/flight",
+     *     tags={"Flight"},
+     *     summary="Create a new flight",
+     *     description="This endpoint allows creating a new flight in the system.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *              type="object",
+     *              required={"airplane_id", "journey_id"},
+     *              @OA\Property(property="airplane_id", type="integer", description="The unique identifier of the airplane associated with the flight.", example=1),
+     *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
+     *              @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
+     *              @OA\Property(property="remaining_places", type="integer", description="The remaining places of the flight.", example=420),
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40:00")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", description="The unique identifier for the flight.", example=1),
+     *              @OA\Property(property="airplane_id", type="integer", description="The unique identifier of the airplane associated with the flight.", example=1),
+     *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
+     *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
+     *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-02-04 16:10:13"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
+     *              
+     *              @OA\Property(property="airplane", type="object", description="Details of the airplane associated with the flight.",
+     *                  @OA\Property(property="id", type="integer", description="The unique identifier of the airplane.", example=1),
+     *                  @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),
+     *                  @OA\Property(property="maximum_places", type="integer", description="The maximum number of seats available in the airplane.", example=420),
+     *                  @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *              ),
+     *              
+     *              @OA\Property(property="journey", type="object", description="Details of the journey associated with the flight.",
+     *                  @OA\Property(property="id", type="integer", description="The unique identifier of the journey.", example=1),
+     *                  @OA\Property(property="departure_id", type="integer", description="The ID of the departure destination.", example=1),
+     *                  @OA\Property(property="arrival_id", type="integer", description="The ID of the arrival destination.", example=2),
+     *                  @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the journey record was created.", example="2025-02-04T15:10:13.000000Z"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the journey record was last updated.", example="2025-02-04T15:10:13.000000Z"),
+     *                  
+     *                  @OA\Property(property="destination_departure", type="object", description="Details of the departure destination.",
+     *                      @OA\Property(property="id", type="integer", description="The unique identifier of the departure destination.", example=1),
+     *                      @OA\Property(property="name", type="string", description="The name of the departure destination.", example="New York"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the destination record was created.", example="2025-02-04T15:10:13.000000Z"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the destination record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *                  ),
+     *                  
+     *                  @OA\Property(property="destination_arrival", type="object", description="Details of the arrival destination.",
+     *                      @OA\Property(property="id", type="integer", description="The unique identifier of the arrival destination.", example=2),
+     *                      @OA\Property(property="name", type="string", description="The name of the arrival destination.", example="London"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the destination record was created.", example="2025-02-04T15:10:13.000000Z"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the destination record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *                  )
+     *              )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="airplane_id", type="array",
+     *                     @OA\Items(type="string", example="The airplane_id field is required.")
+     *                 ),
+     *                 @OA\Property(property="journey_id", type="array",
+     *                     @OA\Items(type="string", example="The journey_id field is required.")
+     *                 ),
+     *                 @OA\Property(property="state", type="array",
+     *                     @OA\Items(type="string", example="The state field must be true or false.")
+     *                 ),
+     *                 @OA\Property(property="remaining_places", type="array",
+     *                     @OA\Items(type="string", example="The remaining_places field must be at least 0.")
+     *                 ),
+     *                 @OA\Property(property="flight_date", type="array",
+     *                     @OA\Items(type="string", example="The flight_date field does not match the format Y-m-d H:i.")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -213,7 +300,8 @@ class FlightController extends Controller
         return Journey::find($id);
     }
 
-    private function createFlightWithRelationShips($data){
+    private function createFlightWithRelationShips($data)
+    {
         return Flight::create($data)->refresh()->load(['journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
     }
 
