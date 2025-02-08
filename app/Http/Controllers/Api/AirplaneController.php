@@ -121,8 +121,9 @@ class AirplaneController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="An airplane with the specified Id was not found",
+     *         description="Not Found",
      *         @OA\JsonContent(
+     *             type="object",
      *             @OA\Property(property="message", type="string", example="The airplane id does not exist :(")
      *         )
      *     )
