@@ -13,6 +13,11 @@ namespace App\Http\Controllers;
  *       url=L5_SWAGGER_CONST_HOST,
  *       description="Main Server"
  * )
+ * 
+ * @OA\Tag(
+ *  name="Airplane",
+ *  description="URLs Of The Airplanes"
+ * )
  */
 abstract class Controller
 {
