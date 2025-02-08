@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
  * @OA\Info(
  *       title="Sky Hub API", 
  *       version="1.0",
- *       description="List Of API URLS"
+ *       description="List Of API URLs"
  * )
  *
  * @OA\Server(
