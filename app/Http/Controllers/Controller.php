@@ -16,7 +16,7 @@ namespace App\Http\Controllers;
  * 
  * @OA\Tag(
  *  name="Airplane",
- *  description="URLs Of The Airplanes"
+ *  description="URLs of the Airplanes"
  * )
  */
 abstract class Controller
