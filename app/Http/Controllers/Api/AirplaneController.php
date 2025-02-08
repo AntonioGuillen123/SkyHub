@@ -10,6 +10,16 @@ class AirplaneController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * @OA\Get(
+     *     path="/api/airplane",
+     *     tags={"Airplane"},
+     *     summary="List Of All Airplanes",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
      */
     public function index()
     {
