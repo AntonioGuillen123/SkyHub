@@ -218,7 +218,35 @@ class AirplaneController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/airplane/{id}",
+     *     tags={"Airplane"},
+     *     summary="Delete an Airplane by Id",
+     *     description="This endpoint deletes an airplane from the system by its unique Id.",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="The Id of the airplane to delete",
+     *          @OA\Schema(type="integer", example="1")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No Content",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The airplane id does not exist :(")
+     *         )
+     *     )
+     * )
      */
     public function destroy(int $id)
     {
