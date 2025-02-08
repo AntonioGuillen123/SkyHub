@@ -300,7 +300,7 @@ class FlightController extends Controller
 
     private function createFlightWithRelationShips($data)
     {
-        return Flight::create($data)->refresh()->load(['journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
+        return Flight::create($data)->fresh(['journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
     }
 
     private function updateFlightWithRelationShips($flight, $data)
