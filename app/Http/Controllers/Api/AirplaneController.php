@@ -24,8 +24,8 @@ class AirplaneController extends Controller
      *                  @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
      *                  @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
      *                  @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
-     *                  @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
-     *                  @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *                  @OA\Property(property="created_at", type="string", format="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
      *              )
      *         )
      *     )
@@ -61,8 +61,8 @@ class AirplaneController extends Controller
      *              @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
      *              @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
      *              @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
-     *              @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
-     *              @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
      *
      *         )
      *     ),
@@ -114,8 +114,8 @@ class AirplaneController extends Controller
      *              @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
      *              @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
      *              @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
-     *              @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
-     *              @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
      *
      *         )
      *     ),
@@ -170,8 +170,8 @@ class AirplaneController extends Controller
      *              @OA\Property(property="id", type="integer", description="The unique identifier for the airplane.", example=1),
      *              @OA\Property(property="name", type="string", description="The model or name of the airplane.", example="Boeing 747"),   
      *              @OA\Property(property="maximum_places", type="integer", description="The maximum seating capacity of the airplane.", example=420),     
-     *              @OA\Property(property="created_at", type="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
-     *              @OA\Property(property="updated_at", type="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="The timestamp when the airplane record was created.", example="2025-02-04T15:10:13.000000Z"),     
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="The timestamp when the airplane record was last updated.", example="2025-02-04T15:10:13.000000Z")
      *         )
      *     ),
      *     @OA\Response(
