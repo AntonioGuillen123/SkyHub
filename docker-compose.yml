@@ -1,0 +1,54 @@
+services:
+    web:
+        build:
+            context: './vendor/laravel/sail/runtimes/8.4' # Indica donde se encuentra el dockerfile
+            dockerfile: Dockerfile # Indica como se llama el archivo
+            args: # Argumentos pasados en tiempo de ejecución
+                WWWGROUP: '${WWWGROUP:-1000}' # Indica el grupo de usuarios de la máquina host (Asignado por defecto el 1000 ya que ese usuairo en linux es el primer usuario normal creado)
+        image: 'sail-8.4/app' # Indica la imagen a utilizar
+        restart: on-failure # Indica al servicio que debe reiniciarse cada vez que falle
+        extra_hosts: # Permite que el contenedor se pueda comunicar con la máquina host 
+            - 'host.docker.internal:host-gateway' # Permite que el contenedor acceda al host a través de esta dirección
+        ports: # Indica los puertos que van a utilizarse en este servicio, en el host la izquierda y en el docker la derecha
+            - '${APP_PORT:-8000}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment: # Indica las variables de entorno dentro del contenedor
+            WWWUSER: '${WWWUSER:-1000}' # Indica el usuario del sistema
+            LARAVEL_SAIL: 1 # Indica que se está ejecutando en Laravel Sail
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}' # Indica la configuración para el XDEBUG de PHP (No recomendado en prod)
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}' # Indica la configuración para el XDEBUG de PHP (No recomendado en prod)
+        volumes: # Indica los volúmenes del servicio
+            - '.:/var/www/html' # Indica que todo el contenido donde esté este archivo (La raíz en este caso), se copiará a esa carpeta dentro del docker
+        networks: # Indica las redes del servicio
+            - sail # Indica la red a utilizar llamada sail
+        depends_on: # Indica que el servicio se iniciará después de que funcionen los que se indiquen
+            - mysql
+    mysql:
+        image: 'mysql:latest' # Indica la imagen a utilizar
+        restart: on-failure # Indica al servicio que debe reiniciarse cada vez que falle
+        ports: # Indica los puertos que van a utilizarse en este servicio, en el host la izquierda y en el docker la derecha
+            - '${FORWARD_DB_PORT:-3307}:3306'
+        environment: # Indica las variables de entorno dentro del contenedor
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}' # Indica la contraseña del root de la DB
+            MYSQL_ROOT_HOST: '%' # Indica el host de la DB (Permite conexiones remotas desde cualquier IP)
+            MYSQL_DATABASE: '${DB_DATABASE}' # Indica el nombre de la DB
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1 # Indica si MySQL se puede iniciar sin contraseña
+            TZ: Europe/Madrid ## Indica la zona horaria de la DB
+        volumes: # Indica los volúmenes del servicio
+            - 'mysql-data:/var/lib/mysql' # Indica que los datos almacenados en el volumen se copien a la carpeta de mysql dentro del contenedor
+        networks: # Indica las redes del servicio
+            - sail # Indica la red a utilizar llamada sail
+        healthcheck: # Comprobación de salud del servicio
+            test: # Indica los comandos a utilizar en la comprobación
+                - CMD
+                - mysqladmin
+                - ping
+                - '-p${DB_PASSWORD}'
+            retries: 3 # Indica el número de veces que se va a intentar si falla
+            timeout: 5s # Indica el tiempo de espera por cada intento
+networks: # Define las redes a utilizar en los contenedores
+    sail: # Define la red llamada sail
+        driver: bridge # Indica que la red permite la comunicación entre contenedores sin exponer a la máquina host
+volumes: # Define los volúmenes a utilizar en los contenedores para guardar datos de forma persistente
+    mysql-data: # Define un volúmen llamado mysql-data
+        driver: local # Indica que los datos se guardan de manera local
