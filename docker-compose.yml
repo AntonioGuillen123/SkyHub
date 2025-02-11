@@ -27,7 +27,7 @@ services:
         image: 'mysql:latest' # Indica la imagen a utilizar
         restart: on-failure # Indica al servicio que debe reiniciarse cada vez que falle
         ports: # Indica los puertos que van a utilizarse en este servicio, en el host la izquierda y en el docker la derecha
-            - '${FORWARD_DB_PORT:-3307}:3306'
+            - '${FORWARD_DB_PORT:-3306}:3306'
         environment: # Indica las variables de entorno dentro del contenedor
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}' # Indica la contraseña del root de la DB
             MYSQL_ROOT_HOST: '%' # Indica el host de la DB (Permite conexiones remotas desde cualquier IP)
