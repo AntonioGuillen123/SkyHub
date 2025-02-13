@@ -254,7 +254,7 @@ class FlightController extends Controller
      *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
      *              @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining seats of the flight.", example=420),
-     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40:00")
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40")
      *         )
      *     ),
      *     @OA\Response(
