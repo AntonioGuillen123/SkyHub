@@ -26,7 +26,7 @@ class FlightController extends Controller
      *                  @OA\Property(property="id", type="integer", description="The unique identifier for the flight.", example=1),
      *                  @OA\Property(property="airplane_id", type="integer", description="The unique identifier of the airplane associated with the flight. This field references the Airplane model.", example=1),   
      *                  @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight. This field references the Journey model.", example=1),     
-     *                  @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
+     *                  @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
      *                  @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),     
      *                  @OA\Property(property="remaining_places", type="integer", description="The remaining places of the flight.", example=420),     
      *                  @OA\Property(property="created_at", type="date-time", description="The timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),     
@@ -177,7 +177,7 @@ class FlightController extends Controller
      *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
      *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
-     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-02-04 16:10:13"),
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
      *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
      *              
@@ -267,7 +267,7 @@ class FlightController extends Controller
      *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
      *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
-     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-02-04 16:10:13"),
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
      *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
      *              
