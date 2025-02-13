@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+})->middleware('auth:api');
 
 Route::get('/airplane', [AirplaneController::class, 'index'])->name('apiIndexAirplane');
 Route::get('/airplane/{id}', [AirplaneController::class, 'show'])->name('apiShowAirplane');
