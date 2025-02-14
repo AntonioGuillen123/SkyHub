@@ -40,9 +40,16 @@ class AuthController extends Controller
     }
 
     private function generateAccessToken(User $user){
-        $tokenName = config(self::PERSONAL_ACCESS_CLIENT_NAME);
+        $tokenName = 'User' . config(self::PERSONAL_ACCESS_CLIENT_NAME);
 
-        return $user->createToken($tokenName)->accessToken;
+        $scopes = [
+            'make-booking',
+            'cancel-booking',
+            'list-flights',
+            'list-bookings'
+        ];
+
+        return $user->createToken($tokenName, $scopes)->accessToken;
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
