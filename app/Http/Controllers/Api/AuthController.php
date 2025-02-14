@@ -31,4 +31,9 @@ class AuthController extends Controller
 
         return $user->createToken($tokenName)->accessToken;
     }
+
+    private function responseWithSuccess(mixed $data, int $status = 200)
+    {
+        return response()->json($data, $status);
+    }
 }
