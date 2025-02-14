@@ -58,4 +58,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Flight::class, 'booking')->withTimestamps();
     }
+
+    public function hasRole(string $roleUser){
+        return $this->roleUser()->where('name', $roleUser)->exists();
+    }
 }
