@@ -10,6 +10,19 @@ class AuthController extends Controller
 {
     private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
 
+    public function register(Request $request){
+        $validated = $this->validateData($request);
+
+        $user = $this->createUser($validated);
+
+        $token = $this->generateAccessToken($user);
+
+        return $this->responseWithSuccess([
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
+
     private function validateData(Request $request){
         return $request->validate([
             'name' => 'required|string|max:255',
