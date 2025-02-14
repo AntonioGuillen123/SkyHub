@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AirplaneController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FlightController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 
 Route::get('/airplane', [AirplaneController::class, 'index'])->name('apiIndexAirplane');
 Route::get('/airplane/{id}', [AirplaneController::class, 'show'])->name('apiShowAirplane');
