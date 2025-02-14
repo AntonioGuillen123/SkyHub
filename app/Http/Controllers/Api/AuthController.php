@@ -15,4 +15,12 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed'
         ]);
     }
+
+    private function createUser(mixed $data){
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
 }
