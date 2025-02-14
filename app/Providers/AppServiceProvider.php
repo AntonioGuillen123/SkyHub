@@ -30,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
             'list-bookings' => 'This scope allows list bookings',
             'list-all-bookings' => 'This scope allows list all users bookings'
         ]);
+
+        Passport::setDefaultScope([
+            'list-flights'
+        ]);
     }
 }
