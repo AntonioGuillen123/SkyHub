@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
+
     private function validateData(Request $request){
         return $request->validate([
             'name' => 'required|string|max:255',
@@ -22,5 +24,11 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    private function generateAccessToken(User $user){
+        $tokenName = config(self::PERSONAL_ACCESS_CLIENT_NAME);
+
+        return $user->createToken($tokenName)->accessToken;
     }
 }
