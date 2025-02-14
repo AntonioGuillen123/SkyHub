@@ -20,9 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Passport::hashClientSecrets();
+        Passport::hashClientSecrets(); // Indica que se cifren los secretos de los clientes en la DB.
 
-        Passport::tokensCan([
+        Passport::tokensCan([ // Indica los permisos que existen en la aplicación
             'manage-airplanes'=> 'This scope allows manage airplanes',
             'manage-flights'=> 'This scope allows manage flights',
             'make-booking'=> 'This scope allows make a booking',
@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'list-all-bookings' => 'This scope allows list all users bookings'
         ]);
 
-        Passport::setDefaultScope([
+        Passport::setDefaultScope([ // Indica que permisos se asignan por defecto al crear el Personal Access Token
             'list-flights'
         ]);
     }
