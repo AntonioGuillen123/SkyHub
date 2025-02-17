@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 
 Route::prefix('airplane')
-    ->middleware(['auth:api', /* 'scope:manage-airplanes', 'checkRole:admin' */])
+    ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
     ->controller(AirplaneController::class)
     ->group(function () {
         Route::get('/', 'index')->name('apiIndexAirplane');
