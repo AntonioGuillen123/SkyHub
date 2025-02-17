@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -22,6 +23,35 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token
         ], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $validated = $this->validateData($request, 'login');
+
+        $isLogged = Auth::attempt(
+            [
+                'email' => $validated['email'],
+                'password' => $validated['password']
+            ]
+        );
+
+        if(!$isLogged){
+            return $this->responseWithError('The credentials are invalid', 401);
+        }
+
+        $user = $request->user();
+
+        $user->tokens->each(function ($token){
+            $token->revoke(); // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
+        });
+
+        $token = $this->generateAccessToken($user);
+
+        return $this->responseWithSuccess([
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
 
     private function validateData(Request $request, string $option)
@@ -66,5 +96,12 @@ class AuthController extends Controller
     private function responseWithSuccess(mixed $data, int $status = 200)
     {
         return response()->json($data, $status);
+    }
+
+    private function responseWithError(string $message, int $status)
+    {
+        return response()->json([
+            'message' => $message . ' :('
+        ], $status);
     }
 }
