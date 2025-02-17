@@ -10,8 +10,9 @@ class AuthController extends Controller
 {
     private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
 
-    public function register(Request $request){
-        $validated = $this->validateData($request);
+    public function register(Request $request)
+    {
+        $validated = $this->validateData($request, 'register');
 
         $user = $this->createUser($validated);
 
@@ -23,15 +24,24 @@ class AuthController extends Controller
         ], 201);
     }
 
-    private function validateData(Request $request){
-        return $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:8|confirmed'
-        ]);
+    private function validateData(Request $request, string $option)
+    {
+        $rules = $option === 'register'
+            ? [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email|max:255',
+                'password' => 'required|string|min:8|confirmed'
+            ]
+            : [
+                'email' => 'required|email|max:255',
+                'password' => 'required|string|min:8'
+            ];
+
+        return $request->validate($rules);
     }
 
-    private function createUser(mixed $data){
+    private function createUser(mixed $data)
+    {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -39,7 +49,8 @@ class AuthController extends Controller
         ]);
     }
 
-    private function generateAccessToken(User $user){
+    private function generateAccessToken(User $user)
+    {
         $tokenName = 'User' . config(self::PERSONAL_ACCESS_CLIENT_NAME);
 
         $scopes = [
