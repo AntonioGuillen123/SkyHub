@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 
-Route::get('/airplane', [AirplaneController::class, 'index'])->name('apiIndexAirplane');
+Route::get('/airplane', [AirplaneController::class, 'index'])->name('apiIndexAirplane')->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin']);
 Route::get('/airplane/{id}', [AirplaneController::class, 'show'])->name('apiShowAirplane');
 Route::post('/airplane', [AirplaneController::class, 'store'])->name('apiStoreAirplane');
 Route::put('/airplane/{id}', [AirplaneController::class, 'update'])->name('apiUpdateAirplane');
