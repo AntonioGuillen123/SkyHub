@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,8 @@ class AuthController extends Controller
         $user = $this->createUser($validated);
 
         $token = $this->generateAccessToken($user);
+
+        event(new Registered($user));
 
         return $this->responseWithSuccess('User registered successfully', [
             'user' => $user,
