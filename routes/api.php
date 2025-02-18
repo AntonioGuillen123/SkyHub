@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 Route::post('/login', [AuthController::class, 'login'])->name('apiLogin');
+Route::post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
 
 Route::prefix('airplane')
     ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
