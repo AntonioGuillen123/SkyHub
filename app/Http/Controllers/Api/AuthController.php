@@ -63,12 +63,8 @@ class AuthController extends Controller
     }
 
     private function revokeTokensFromUser(User $user)
-    {
-        $user->tokens->each(function ($token) {
-            $token->revoke(); // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
-        });
-
-        $user->makeHidden(['tokens']);
+    {// Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
+        $user->tokens()->update(['revoked' => true]);
     }
 
     private function validateData(Request $request, string $option)
