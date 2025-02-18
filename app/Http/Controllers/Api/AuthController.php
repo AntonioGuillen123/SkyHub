@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         $token = $this->generateAccessToken($user);
 
-        return $this->responseWithSuccess([
+        return $this->responseWithSuccess('User registered successfully', [
             'user' => $user,
             'token' => $token
         ], 201);
@@ -41,10 +41,10 @@ class AuthController extends Controller
 
         $token = $this->generateAccessToken($user);
 
-        return $this->responseWithSuccess([
+        return $this->responseWithSuccess('User logged in successfully', [
             'user' => $user,
             'token' => $token
-        ], 200);
+        ]);
     }
 
     public function logout(Request $request)
@@ -53,9 +53,7 @@ class AuthController extends Controller
 
         $this->revokeCurrentToken($user);
 
-        return $this->responseWithSuccess([
-            'message' => 'Logged out successfully'
-        ]);
+        return $this->responseWithSuccess('Logged out successfully');
     }
 
     private function validateData(Request $request, string $option)
@@ -127,9 +125,17 @@ class AuthController extends Controller
         $user->token()->revoke();
     }
 
-    private function responseWithSuccess(mixed $data, int $status = 200)
+    private function responseWithSuccess(string $message, mixed $data = null, int $status = 200)
     {
-        return response()->json($data, $status);
+        $response = [
+            'message' => $message . ' :)'
+        ];
+
+        if (!is_null($data)) {
+            $response['data'] = $data;
+        }
+
+        return response()->json($response, $status);
     }
 
     private function responseWithError(string $message, int $status)
