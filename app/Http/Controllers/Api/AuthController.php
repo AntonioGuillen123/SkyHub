@@ -47,26 +47,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    private function authenticate(array $data)
-    {
-        return Auth::attempt(
-            [
-                'email' => $data['email'],
-                'password' => $data['password']
-            ]
-        );
-    }
-
-    private function getUserFromAuth()
-    {
-        return Auth::user();
-    }
-
-    private function revokeTokensFromUser(User $user)
-    {// Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
-        $user->tokens()->update(['revoked' => true]);
-    }
-
     private function validateData(Request $request, string $option)
     {
         $rules = $option === 'register'
@@ -104,6 +84,26 @@ class AuthController extends Controller
         ];
 
         return $user->createToken($tokenName, $scopes)->accessToken;
+    }
+
+    private function authenticate(array $data)
+    {
+        return Auth::attempt(
+            [
+                'email' => $data['email'],
+                'password' => $data['password']
+            ]
+        );
+    }
+
+    private function getUserFromAuth()
+    {
+        return Auth::user();
+    }
+
+    private function revokeTokensFromUser(User $user)
+    { // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
+        $user->tokens()->update(['revoked' => true]);
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
