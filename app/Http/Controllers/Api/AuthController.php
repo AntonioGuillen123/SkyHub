@@ -47,6 +47,17 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function logout(Request $request)
+    {
+        $user = $this->getUserFromRequest($request);
+
+        $this->revokeCurrentToken($user);
+
+        return $this->responseWithSuccess([
+            'message' => 'Logged out successfully'
+        ]);
+    }
+
     private function validateData(Request $request, string $option)
     {
         $rules = $option === 'register'
@@ -101,9 +112,19 @@ class AuthController extends Controller
         return Auth::user();
     }
 
+    private function getUserFromRequest(Request $request)
+    {
+        return $request->user();
+    }
+
     private function revokeTokensFromUser(User $user)
     { // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
         $user->tokens()->update(['revoked' => true]);
+    }
+
+    private function revokeCurrentToken(User $user)
+    {
+        $user->token()->revoke();
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
