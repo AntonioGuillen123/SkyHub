@@ -29,22 +29,15 @@ class AuthController extends Controller
     {
         $validated = $this->validateData($request, 'login');
 
-        $isLogged = Auth::attempt(
-            [
-                'email' => $validated['email'],
-                'password' => $validated['password']
-            ]
-        );
+        $isLogged = $this->authenticate($validated);
 
-        if(!$isLogged){
+        if (!$isLogged) {
             return $this->responseWithError('The credentials are invalid', 401);
         }
 
-        $user = $request->user();
+        $user = $this->getUserFromAuth();
 
-        $user->tokens->each(function ($token){
-            $token->revoke(); // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
-        });
+        $this->revokeTokensFromUser($user);
 
         $token = $this->generateAccessToken($user);
 
@@ -52,6 +45,30 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token
         ], 200);
+    }
+
+    private function authenticate(mixed $data)
+    {
+        return Auth::attempt(
+            [
+                'email' => $data['email'],
+                'password' => $data['password']
+            ]
+        );
+    }
+
+    private function getUserFromAuth()
+    {
+        return Auth::user();
+    }
+
+    private function revokeTokensFromUser(User $user)
+    {
+        $user->tokens->each(function ($token) {
+            $token->revoke(); // Se revoca ya que así se podrá tener un registro de los tokens en la DB :)
+        });
+
+        $user->makeHidden(['tokens']);
     }
 
     private function validateData(Request $request, string $option)
