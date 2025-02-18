@@ -47,7 +47,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    private function authenticate(mixed $data)
+    private function authenticate(array $data)
     {
         return Auth::attempt(
             [
@@ -87,7 +87,7 @@ class AuthController extends Controller
         return $request->validate($rules);
     }
 
-    private function createUser(mixed $data)
+    private function createUser(array $data)
     {
         return User::create([
             'name' => $data['name'],
