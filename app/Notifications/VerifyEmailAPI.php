@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class VerifyEmailAPI extends Notification
 {
@@ -34,6 +35,8 @@ class VerifyEmailAPI extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $url = $this->generateSignedURL($notifiable);
+
         return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
@@ -50,5 +53,19 @@ class VerifyEmailAPI extends Notification
         return [
             //
         ];
+    }
+
+    private function generateSignedURL(object $notifiable){
+        $userId = $notifiable->id;
+        $userEmail = $notifiable->email;
+
+        return URL::temporarySignedRoute(
+            'apiVerifyEmail',
+            now()->addMinutes(60),
+            [
+                'id' => $userId,
+                'email' => sha1($userEmail)
+            ]
+        );
     }
 }
