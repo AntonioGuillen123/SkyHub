@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         $this->sendNotification($user);
 
-        return $this->responseWithSuccess('User registered successfully', [
+        return $this->responseWithSuccess('User registered successfully. Check your inbox for verify email', [
             'user' => $user,
             'token' => $token
         ], 201);
