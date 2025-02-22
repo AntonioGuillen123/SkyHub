@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\ForgotPasswordAPI;
 use App\Notifications\VerifyEmailAPI;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class AuthController extends Controller
 
         $token = $this->generateAccessToken($user);
 
-        $this->sendNotification($user);
+        $this->sendNotification($user, 'verifyEmail');
 
         return $this->responseWithSuccess('User registered successfully. Check your inbox for verify email', [
             'user' => $user,
@@ -104,7 +105,7 @@ class AuthController extends Controller
             return $this->responseWithError('This user alredy has email verified', 409);
         }
 
-        $this->sendNotification($user);
+        $this->sendNotification($user, 'verifyEmail');
 
         return $this->responseWithSuccess('Email sent successfully');
     }
@@ -115,16 +116,28 @@ class AuthController extends Controller
 
     private function validateData(Request $request, string $option)
     {
-        $rules = $option === 'register'
-            ? [
+        $rules = [];
+
+        if($option === 'register'){
+            $rules = [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email|max:255',
                 'password' => 'required|string|min:8|confirmed'
-            ]
-            : [
+            ];
+        }
+
+        if($option === 'login'){
+            $rules = [
                 'email' => 'required|email|max:255',
                 'password' => 'required|string|min:8'
             ];
+        }
+
+        if($option === 'forgot'){
+            $rules = [
+                'email' => 'required|email|max:255'
+            ];
+        }
 
         return $request->validate($rules);
     }
@@ -196,9 +209,14 @@ class AuthController extends Controller
         $user->token()->revoke();
     }
 
-    private function sendNotification(User $user)
+    private function sendNotification(User $user, string $option)
     {
-        $user->notify(new VerifyEmailAPI($user));
+        $notifications = [
+            'verifyEmail' => VerifyEmailAPI::class,
+            'forgotPassword' => ForgotPasswordAPI::class,
+        ];
+
+        $user->notify(new $notifications[$option]($user));
     }
 
     private function responseWithSuccess(string $message, mixed $data = null, int $status = 200)
