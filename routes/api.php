@@ -15,6 +15,7 @@ Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']
 Route::middleware('signed')->get('/email/verify/{id}/{email}', [AuthController::class, 'verifyEmail'])->name('apiVerifyEmail');
 Route::middleware('auth:api')->post('/email/resend', [AuthController::class, 'resendEmail'])->name('apiResendEmail');
 Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('apiForgotPassword');
+Route::post('/password/reset', [AuthController::class, 'forgotPassword'])->name('apiResetPassword');
 
 Route::prefix('airplane')
     ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])

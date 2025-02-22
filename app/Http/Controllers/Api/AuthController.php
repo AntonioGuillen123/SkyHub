@@ -110,6 +110,16 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Email sent successfully');
     }
 
+    public function forgotPassword(Request $request){
+        $validated = $this->validateData($request, 'forgot');
+
+        $user = $this->getUserFromEmail($validated['email']);
+
+        $this->sendNotification($user, 'forgotPassword');
+
+        return $this->responseWithSuccess('A password reset email has been sent');
+    }
+
     private function hideRoleUser(User $user){
         return $user->fresh('roleUser')->makeHidden('role_user_id');
     }
@@ -188,6 +198,11 @@ class AuthController extends Controller
     private function getUserFromRoute(string $id)
     {
         return User::find($id);
+    }
+
+    private function getUserFromEmail(string $email)
+    {
+        return User::where('email', $email)->get()->first();
     }
 
     private function checkHashFromRoute(User $user, string $hash)
