@@ -37,10 +37,7 @@ class ForgotPasswordAPI extends Notification
     {
         $url = $this->generateSignedURL($notifiable);
 
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return $this->generateEmail($notifiable, $url);
     }
 
     /**
@@ -69,5 +66,18 @@ class ForgotPasswordAPI extends Notification
                 'email' => hash($encryptionAlgorithm, $userEmail)
             ]
         );
+    }
+
+    private function generateEmail(object $notifiable, string $url)
+    {
+        $name = $notifiable->name;
+
+        return (new MailMessage)
+            ->greeting('Hello ' . $name . '!')
+            ->subject('Reset Password')
+            ->line('Click the link below to reset your password.')
+            ->line('A new valid password must be entered 2 times.')
+            ->action('Reset Password', $url)
+            ->line('Thank you for using our application!');
     }
 }
