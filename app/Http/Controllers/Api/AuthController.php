@@ -9,6 +9,7 @@ use App\Notifications\VerifyEmailAPI;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 
 class AuthController extends Controller
@@ -238,6 +239,12 @@ class AuthController extends Controller
         ];
 
         $user->notify(new $notifications[$option]($user));
+    }
+
+    private function passwordExists(User $user, string $newPassword){
+        $currentPassword = $user->password;
+
+        return Hash::check($newPassword, $currentPassword);
     }
 
     private function responseWithSuccess(string $message, mixed $data = null, int $status = 200)
