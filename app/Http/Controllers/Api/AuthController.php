@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         $token = $this->generateAccessToken($user);
 
-        Notification::send($user, new VerifyEmailAPI($user));
+        $this->sendNotification($user);
 
         return $this->responseWithSuccess('User registered successfully', [
             'user' => $user,
@@ -83,6 +83,20 @@ class AuthController extends Controller
         $user->markEmailAsVerified();
 
         return $this->responseWithSuccess('Email successfully verified');
+    }
+
+    public function resendEmail(Request $request){
+        $user = $this->getUserFromRequest($request);
+
+        $hasVerifiedEmail = $user->hasVerifiedEmail();
+
+        if($hasVerifiedEmail){
+            return $this->responseWithError('This user alredy has email verified', 404);
+        }
+
+        $this->sendNotification($user);
+        
+        return $this->responseWithSuccess('Email sent successfully');
     }
 
     private function validateData(Request $request, string $option)
@@ -162,6 +176,10 @@ class AuthController extends Controller
     private function revokeCurrentToken(User $user)
     {
         $user->token()->revoke();
+    }
+
+    private function sendNotification(User $user){
+        Notification::send($user, new VerifyEmailAPI($user));
     }
 
     private function responseWithSuccess(string $message, mixed $data = null, int $status = 200)
