@@ -35,6 +35,16 @@ class AirplaneTest extends TestCase
             ->assertJsonCount(10);
     }
 
+    public function test_CheckIfRecieveAllEntriesOfAirplanesUnauthenticatedInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->getJson(route('apiIndexAirplane'));
+
+        $response
+            ->assertStatus(401);
+    }
+
     public function test_CheckIfRecieveAnEntryOfAirplaneByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
