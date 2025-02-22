@@ -14,6 +14,14 @@ class AuthController extends Controller
 {
     private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
 
+    public function showUser(Request $request){
+        $user = $this->getUserFromRequest($request);
+
+        $userWithRole = $this->hideRoleUser($user);
+
+        return $this->responseWithSuccess('User show successfully', $userWithRole);
+    }
+
     public function register(Request $request)
     {
         $validated = $this->validateData($request, 'register');
@@ -99,6 +107,10 @@ class AuthController extends Controller
         $this->sendNotification($user);
 
         return $this->responseWithSuccess('Email sent successfully');
+    }
+
+    private function hideRoleUser(User $user){
+        return $user->fresh('roleUser')->makeHidden('role_user_id');
     }
 
     private function validateData(Request $request, string $option)
