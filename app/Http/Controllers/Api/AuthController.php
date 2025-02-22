@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\VerifyEmailAPI;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class AuthController extends Controller
 {
@@ -20,7 +22,7 @@ class AuthController extends Controller
 
         $token = $this->generateAccessToken($user);
 
-        event(new Registered($user));
+        Notification::send($user, new VerifyEmailAPI($user));
 
         return $this->responseWithSuccess('User registered successfully', [
             'user' => $user,
@@ -57,6 +59,30 @@ class AuthController extends Controller
         $this->revokeCurrentToken($user);
 
         return $this->responseWithSuccess('Logged out successfully');
+    }
+
+    public function verifyEmail(Request $request){
+        $user = $this->getUserFromRoute($request->route('id'));
+
+        if(!$user){
+            return $this->responseWithError('This user not exists', 404);
+        }
+
+        $isHashCorrect = $this->checkHashFromRoute($user, $request->route('email'));
+
+        if(!$isHashCorrect){
+            return $this->responseWithError('This link is invalid', 400);
+        }
+
+        $hasVerifiedEmail = $user->hasVerifiedEmail();
+
+        if($hasVerifiedEmail){
+            return $this->responseWithError('This user alredy has email verified', 404);
+        }
+
+        $user->markEmailAsVerified();
+
+        return $this->responseWithSuccess('Email successfully verified');
     }
 
     private function validateData(Request $request, string $option)
@@ -116,6 +142,16 @@ class AuthController extends Controller
     private function getUserFromRequest(Request $request)
     {
         return $request->user();
+    }
+
+    private function getUserFromRoute(string $id){
+        return User::find($id);
+    }
+
+    private function checkHashFromRoute(User $user, string $hash){
+        $userMailHash = sha1($user->email);
+
+        return hash_equals($userMailHash, $hash);
     }
 
     private function revokeTokensFromUser(User $user)
