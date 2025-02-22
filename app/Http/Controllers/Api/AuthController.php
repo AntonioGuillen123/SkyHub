@@ -121,6 +121,30 @@ class AuthController extends Controller
         return $this->responseWithSuccess('A password reset email has been sent');
     }
 
+    public function resetPassword(Request $request){
+        $validated = $this->validateData($request, 'reset');
+
+        $user = $this->getUserFromRoute($request->route('id'));
+
+        if (!$user) {
+            return $this->responseWithError('This user not exists', 404);
+        }
+
+        $newPassword = $validated['new_password'];
+
+        $passwordExists = $this->passwordExists($user, $newPassword);
+
+        if($passwordExists){
+            return $this->responseWithError('The new password cannot be the same as the old one', 409);
+        }
+
+        $this->revokeTokensFromUser($user);
+
+        $this->updatePassword($user, $newPassword);
+
+        return $this->responseWithSuccess('The password has been update successfully');
+    }
+
     private function hideRoleUser(User $user){
         return $user->fresh('roleUser')->makeHidden('role_user_id');
     }
@@ -165,6 +189,12 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+        ]);
+    }
+
+    private function updatePassword(User $user, string $password){
+        $user->update([
+            'password' => bcrypt($password)
         ]);
     }
 
