@@ -61,23 +61,24 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Logged out successfully');
     }
 
-    public function verifyEmail(Request $request){
+    public function verifyEmail(Request $request)
+    {
         $user = $this->getUserFromRoute($request->route('id'));
 
-        if(!$user){
+        if (!$user) {
             return $this->responseWithError('This user not exists', 404);
         }
 
         $isHashCorrect = $this->checkHashFromRoute($user, $request->route('email'));
 
-        if(!$isHashCorrect){
+        if (!$isHashCorrect) {
             return $this->responseWithError('This link is invalid', 400);
         }
 
         $hasVerifiedEmail = $user->hasVerifiedEmail();
 
-        if($hasVerifiedEmail){
-            return $this->responseWithError('This user alredy has email verified', 404);
+        if ($hasVerifiedEmail) {
+            return $this->responseWithError('This user alredy has email verified', 409);
         }
 
         $user->markEmailAsVerified();
@@ -85,17 +86,18 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Email successfully verified');
     }
 
-    public function resendEmail(Request $request){
+    public function resendEmail(Request $request)
+    {
         $user = $this->getUserFromRequest($request);
 
         $hasVerifiedEmail = $user->hasVerifiedEmail();
 
-        if($hasVerifiedEmail){
-            return $this->responseWithError('This user alredy has email verified', 404);
+        if ($hasVerifiedEmail) {
+            return $this->responseWithError('This user alredy has email verified', 409);
         }
 
         $this->sendNotification($user);
-        
+
         return $this->responseWithSuccess('Email sent successfully');
     }
 
@@ -158,12 +160,16 @@ class AuthController extends Controller
         return $request->user();
     }
 
-    private function getUserFromRoute(string $id){
+    private function getUserFromRoute(string $id)
+    {
         return User::find($id);
     }
 
-    private function checkHashFromRoute(User $user, string $hash){
-        $userMailHash = sha1($user->email);
+    private function checkHashFromRoute(User $user, string $hash)
+    {
+        $encryptionAlgorithm = env('MAIL_HASH', 'sha256');
+
+        $userMailHash = hash($encryptionAlgorithm, $user->email);
 
         return hash_equals($userMailHash, $hash);
     }
@@ -178,8 +184,9 @@ class AuthController extends Controller
         $user->token()->revoke();
     }
 
-    private function sendNotification(User $user){
-        Notification::send($user, new VerifyEmailAPI($user));
+    private function sendNotification(User $user)
+    {
+        $user->notify(new VerifyEmailAPI($user));
     }
 
     private function responseWithSuccess(string $message, mixed $data = null, int $status = 200)
