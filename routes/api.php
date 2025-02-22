@@ -6,10 +6,9 @@ use App\Http\Controllers\Api\FlightController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
 
+
+Route::middleware('auth:api')->get('/user', [AuthController::class, 'showUser'])->name('apiShowUser');
 Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 Route::post('/login', [AuthController::class, 'login'])->name('apiLogin');
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
