@@ -149,6 +149,12 @@ class AuthController extends Controller
             ];
         }
 
+        if($option === 'reset'){
+            $rules = [
+                'new_password' => 'required|string|min:8|confirmed'
+            ];
+        }
+
         return $request->validate($rules);
     }
 
