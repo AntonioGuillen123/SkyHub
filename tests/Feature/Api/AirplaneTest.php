@@ -2,18 +2,31 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class AirplaneTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function authenticate(){
+        $user = User::find(1);
+
+        Passport::actingAs(
+            $user,
+            ['manage-airplanes']
+        );
+    }
+
     public function test_CheckIfRecieveAllEntriesOfAirplanesInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate();
 
         $response = $this->getJson(route('apiIndexAirplane'));
 
@@ -25,6 +38,8 @@ class AirplaneTest extends TestCase
     public function test_CheckIfRecieveAnEntryOfAirplaneByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate();
 
         $response = $this->getJson(route('apiShowAirplane', 1));
 
@@ -43,6 +58,8 @@ class AirplaneTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        $this->authenticate();
+
         $response = $this->getJson(route('apiShowAirplane', -1));
 
         $errorData = [
@@ -57,6 +74,8 @@ class AirplaneTest extends TestCase
     public function test_CheckIfPostAnEntryOfAirplaneInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate();
 
         $data = [
             'name' => 'Test Airplane',
@@ -74,6 +93,8 @@ class AirplaneTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        $this->authenticate();
+
         $data = [
             'name' => 'Test Airplane Updated',
             'maximum_places' => 999
@@ -89,6 +110,8 @@ class AirplaneTest extends TestCase
     public function test_CheckIfUpdateAnEntryOfAirplaneWrongByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate();
 
         $data = [
             'name' => 'Test Airplane Updated',
@@ -110,6 +133,8 @@ class AirplaneTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        $this->authenticate();
+
         $response = $this->deleteJson(route('apiDestroyAirplane', 1));
 
         $response
@@ -119,6 +144,8 @@ class AirplaneTest extends TestCase
     public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate();
 
         $response = $this->deleteJson(route('apiDestroyAirplane', -1));
 
