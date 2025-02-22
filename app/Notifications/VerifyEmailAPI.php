@@ -54,6 +54,7 @@ class VerifyEmailAPI extends Notification
 
     private function generateSignedURL(object $notifiable)
     {
+        $encryptionAlgorithm = env('MAIL_HASH', 'sha256');
         $userId = $notifiable->id;
         $userEmail = $notifiable->email;
 
@@ -62,7 +63,7 @@ class VerifyEmailAPI extends Notification
             now()->addMinutes(60),
             [
                 'id' => $userId,
-                'email' => sha1($userEmail)
+                'email' => hash($encryptionAlgorithm, $userEmail)
             ]
         );
     }
