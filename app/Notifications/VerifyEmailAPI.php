@@ -37,10 +37,7 @@ class VerifyEmailAPI extends Notification
     {
         $url = $this->generateSignedURL($notifiable);
 
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return $this->generateEmail($notifiable, $url);
     }
 
     /**
@@ -55,7 +52,8 @@ class VerifyEmailAPI extends Notification
         ];
     }
 
-    private function generateSignedURL(object $notifiable){
+    private function generateSignedURL(object $notifiable)
+    {
         $userId = $notifiable->id;
         $userEmail = $notifiable->email;
 
@@ -67,5 +65,17 @@ class VerifyEmailAPI extends Notification
                 'email' => sha1($userEmail)
             ]
         );
+    }
+
+    private function generateEmail(object $notifiable, string $url)
+    {
+        $name = $notifiable->name;
+
+        return (new MailMessage)
+            ->greeting('Hello ' . $name . '!')
+            ->subject('Verify Email')
+            ->line('Click the link below to verify your email.')
+            ->action('Verify Email', $url)
+            ->line('Thank you for using our application!');
     }
 }
