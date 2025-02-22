@@ -13,6 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
 Route::post('/login', [AuthController::class, 'login'])->name('apiLogin');
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
+Route::middleware('signed')->get('/email/verify/{id}/{email}', [AuthController::class, 'verifyEmail'])->name('apiVerifyEmail');
 
 Route::prefix('airplane')
     ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
