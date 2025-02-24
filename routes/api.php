@@ -11,23 +11,44 @@ Route::prefix('auth')
     ->group(function () {
         Route::prefix('user')
             ->group(function () {
-                Route::get('/', 'showUser')->middleware(['auth:api', 'verified'])->name('apiShowUser');
-                Route::post('/register', 'register')->name('apiRegister');
-                Route::post('/login', 'login')->name('apiLogin');
-                Route::post('/logout', 'logout')->middleware('auth:api')->name('apiLogout');
+                Route::get('/', 'showUser')
+                    ->middleware(['auth:api', 'verified', 'throttle:100,1'])
+                    ->name('apiShowUser');
+
+                Route::post('/register', 'register')
+                    ->middleware('throttle:5,1')
+                    ->name('apiRegister');
+
+                Route::post('/login', 'login')
+                    ->middleware('throttle:5,1')
+                    ->name('apiLogin');
+
+                Route::post('/logout', 'logout')
+                    ->middleware(['auth:api', 'throttle:30,1'])
+                    ->name('apiLogout');
             });
 
         Route::prefix('email')
             ->group(function () {
-                Route::get('/verify/{id}/{hash}', 'verifyEmail')->middleware('signed')->name('apiVerifyEmail');
-                Route::post('/resend', 'resendEmail')->middleware('auth:api')->name('apiResendEmail');
+                Route::get('/verify/{id}/{hash}', 'verifyEmail')
+                    ->middleware(['signed', 'throttle:10,1'])
+                    ->name('apiVerifyEmail');
+
+                Route::post('/resend', 'resendEmail')
+                    ->middleware(['auth:api', 'throttle:3,5'])
+                    ->name('apiResendEmail');
             });
 
         Route::prefix('password')
             ->middleware('verified')
             ->group(function () {
-                Route::post('/forgot', 'forgotPassword')->name('apiForgotPassword');
-                Route::post('/reset/{id}/{hash}', 'resetPassword')->middleware('signed')->name('apiResetPassword');
+                Route::post('/forgot', 'forgotPassword')
+                    ->middleware('throttle:3,5')
+                    ->name('apiForgotPassword');
+
+                Route::post('/reset/{id}/{hash}', 'resetPassword')
+                    ->middleware(['signed', 'throttle:5,1'])
+                    ->name('apiResetPassword');
             });
     });
 
