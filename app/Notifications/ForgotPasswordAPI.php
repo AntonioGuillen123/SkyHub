@@ -63,7 +63,7 @@ class ForgotPasswordAPI extends Notification
             now()->addMinutes(60),
             [
                 'id' => $userId,
-                'email' => hash($encryptionAlgorithm, $userEmail)
+                'hash' => hash($encryptionAlgorithm, $userEmail)
             ]
         );
     }

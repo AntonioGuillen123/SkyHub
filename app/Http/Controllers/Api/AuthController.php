@@ -74,17 +74,7 @@ class AuthController extends Controller
 
     public function verifyEmail(Request $request)
     {
-        $user = $this->getUserFromRoute($request->route('id'));
-
-        if (!$user) {
-            return $this->responseWithError('This user not exists', 404);
-        }
-
-        $isHashCorrect = $this->checkHashFromRoute($user, $request->route('email'));
-
-        if (!$isHashCorrect) {
-            return $this->responseWithError('This link is invalid', 400);
-        }
+        $user = $this->checkRoute($request->route('id'), $request->route('hash'));
 
         $hasVerifiedEmail = $user->hasVerifiedEmail();
 
@@ -125,13 +115,9 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $user = $this->checkRoute($request->route('id'), $request->route('hash'));
+
         $validated = $this->validateData($request, 'reset');
-
-        $user = $this->getUserFromRoute($request->route('id'));
-
-        if (!$user) {
-            return $this->responseWithError('This user not exists', 404);
-        }
 
         $newPassword = $validated['new_password'];
 
@@ -263,6 +249,22 @@ class AuthController extends Controller
         ];
 
         $user->notify(new $notifications[$option]($user));
+    }
+
+    private function checkRoute(string $id, string $hash){
+        $user = $this->getUserFromRoute($id);
+
+        if (!$user) {
+            return $this->responseWithError('This user not exists', 404);
+        }
+
+        $isHashCorrect = $this->checkHashFromRoute($user, $hash);
+
+        if (!$isHashCorrect) {
+            return $this->responseWithError('This link is invalid', 400);
+        }
+
+        return $user;
     }
 
     private function passwordExists(User $user, string $newPassword)
