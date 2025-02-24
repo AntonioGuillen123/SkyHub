@@ -2,19 +2,21 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    private function authenticate(array $scopes = [])
     {
-        $response = $this->get('/');
+        $user = User::find(1);
 
-        $response->assertStatus(200);
+        Passport::actingAs(
+            $user,
+            $scopes
+        );
     }
 }
