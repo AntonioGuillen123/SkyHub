@@ -6,16 +6,26 @@ use App\Http\Controllers\Api\FlightController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('auth')
+    ->controller(AuthController::class)
+    ->group(function () {
+        Route::middleware('auth:api')->get('/user', [AuthController::class, 'showUser'])->name('apiShowUser'); // auth:api
+        Route::post('/register', [AuthController::class, 'register'])->name('apiRegister'); // nada
+        Route::post('/login', [AuthController::class, 'login'])->name('apiLogin'); // nada
+        Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
 
+        Route::prefix('email')
+            ->group(function () {
+                Route::get('/verify/{id}/{hash}', 'verifyEmail')->middleware('signed')->name('apiVerifyEmail');
+                Route::post('/resend', 'resendEmail')->middleware('auth:api')->name('apiResendEmail');
+            });
 
-Route::middleware('auth:api')->get('/user', [AuthController::class, 'showUser'])->name('apiShowUser');
-Route::post('/register', [AuthController::class, 'register'])->name('apiRegister');
-Route::post('/login', [AuthController::class, 'login'])->name('apiLogin');
-Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
-Route::middleware('signed')->get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('apiVerifyEmail');
-Route::middleware('auth:api')->post('/email/resend', [AuthController::class, 'resendEmail'])->name('apiResendEmail');
-Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('apiForgotPassword');
-Route::middleware('signed')->post('/password/reset/{id}/{hash}', [AuthController::class, 'resetPassword'])->name('apiResetPassword');
+        Route::prefix('password')
+            ->group(function () {
+                Route::post('/forgot', 'forgotPassword')->name('apiForgotPassword');
+                Route::post('/reset/{id}/{hash}', 'resetPassword')->middleware('signed')->name('apiResetPassword');
+            });
+    });
 
 Route::prefix('airplane')
     ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
