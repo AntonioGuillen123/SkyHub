@@ -50,4 +50,24 @@ class CheckUserRoleTest extends TestCase
             ->assertStatus($statusTest)
             ->assertContent($messageTest);
     }
+
+    public function test_CheckIfMiddlewareIsWrong()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $messageTest = [
+            'message' => 'Access denied. You don´t have permissions to do that'
+        ];
+        $statusTest = 403;
+
+        $this->createTestRoute('user', $messageTest['message'], $statusTest);
+
+        $this->authenticate();
+
+        $response = $this->get('/test');
+
+        $response
+            ->assertStatus($statusTest)
+            ->assertJsonFragment($messageTest);
+    }
 }
