@@ -151,36 +151,25 @@ class AuthController extends Controller
 
     private function validateData(Request $request, string $option)
     {
-        $rules = [];
-
-        if($option === 'register'){
-            $rules = [
+        $rules = [
+            'register' => [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email|max:255',
                 'password' => 'required|string|min:8|confirmed'
-            ];
-        }
-
-        if($option === 'login'){
-            $rules = [
+            ],
+            'login' => [
                 'email' => 'required|email|max:255',
                 'password' => 'required|string|min:8'
-            ];
-        }
-
-        if($option === 'forgot'){
-            $rules = [
+            ],
+            'forgot' => [
                 'email' => 'required|email|max:255'
-            ];
-        }
-
-        if($option === 'reset'){
-            $rules = [
+            ],
+            'reset' => [
                 'new_password' => 'required|string|min:8|confirmed'
-            ];
-        }
+            ]
+        ];
 
-        return $request->validate($rules);
+        return $request->validate($rules[$option]);
     }
 
     private function createUser(array $data)
