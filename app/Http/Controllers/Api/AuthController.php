@@ -16,7 +16,8 @@ class AuthController extends Controller
 {
     private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
 
-    public function showUser(Request $request){
+    public function showUser(Request $request)
+    {
         $user = $this->getUserFromRequest($request);
 
         $userWithRole = $this->hideRoleUser($user);
@@ -111,7 +112,8 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Email sent successfully');
     }
 
-    public function forgotPassword(Request $request){
+    public function forgotPassword(Request $request)
+    {
         $validated = $this->validateData($request, 'forgot');
 
         $user = $this->getUserFromEmail($validated['email']);
@@ -121,7 +123,8 @@ class AuthController extends Controller
         return $this->responseWithSuccess('A password reset email has been sent');
     }
 
-    public function resetPassword(Request $request){
+    public function resetPassword(Request $request)
+    {
         $validated = $this->validateData($request, 'reset');
 
         $user = $this->getUserFromRoute($request->route('id'));
@@ -134,7 +137,7 @@ class AuthController extends Controller
 
         $passwordExists = $this->passwordExists($user, $newPassword);
 
-        if($passwordExists){
+        if ($passwordExists) {
             return $this->responseWithError('The new password cannot be the same as the old one', 409);
         }
 
@@ -145,7 +148,8 @@ class AuthController extends Controller
         return $this->responseWithSuccess('The password has been update successfully');
     }
 
-    private function hideRoleUser(User $user){
+    private function hideRoleUser(User $user)
+    {
         return $user->fresh('roleUser')->makeHidden('role_user_id');
     }
 
@@ -181,7 +185,8 @@ class AuthController extends Controller
         ]);
     }
 
-    private function updatePassword(User $user, string $password){
+    private function updatePassword(User $user, string $password)
+    {
         $user->update([
             'password' => bcrypt($password)
         ]);
@@ -260,7 +265,8 @@ class AuthController extends Controller
         $user->notify(new $notifications[$option]($user));
     }
 
-    private function passwordExists(User $user, string $newPassword){
+    private function passwordExists(User $user, string $newPassword)
+    {
         $currentPassword = $user->password;
 
         return Hash::check($newPassword, $currentPassword);
