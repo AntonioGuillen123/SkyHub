@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')
     ->controller(AuthController::class)
     ->group(function () {
-        Route::middleware('auth:api')->get('/user', [AuthController::class, 'showUser'])->name('apiShowUser'); // auth:api
-        Route::post('/register', [AuthController::class, 'register'])->name('apiRegister'); // nada
-        Route::post('/login', [AuthController::class, 'login'])->name('apiLogin'); // nada
-        Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('apiLogout');
+        Route::prefix('user')
+            ->group(function () {
+                Route::get('/', 'showUser')->middleware(['auth:api', 'verified'])->name('apiShowUser');
+                Route::post('/register', 'register')->name('apiRegister');
+                Route::post('/login', 'login')->name('apiLogin');
+                Route::post('/logout', 'logout')->middleware('auth:api')->name('apiLogout');
+            });
 
         Route::prefix('email')
             ->group(function () {
@@ -21,6 +24,7 @@ Route::prefix('auth')
             });
 
         Route::prefix('password')
+            ->middleware('verified')
             ->group(function () {
                 Route::post('/forgot', 'forgotPassword')->name('apiForgotPassword');
                 Route::post('/reset/{id}/{hash}', 'resetPassword')->middleware('signed')->name('apiResetPassword');
