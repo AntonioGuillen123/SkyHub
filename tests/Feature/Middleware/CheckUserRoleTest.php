@@ -15,11 +15,11 @@ class CheckUserRoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function createTestRoute(string $role, int $status)
+    private function createTestRoute(string $role, string $message, int $status)
     {
         Route::middleware('checkRole:' . $role)
-            ->get('/test', function () use ($status) {
-                return response('Ok', $status);
+            ->get('/test', function () use ($message, $status) {
+                return response($message, $status);
             });
     }
 
@@ -37,13 +37,17 @@ class CheckUserRoleTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->createTestRoute('admin', 200);
+        $messageTest = 'OK';
+        $statusTest = 200;
+
+        $this->createTestRoute('admin', $messageTest, $statusTest);
 
         $this->authenticate();
 
         $response = $this->get('/test');
 
         $response
-            ->assertStatus(200);
+            ->assertStatus($statusTest)
+            ->assertContent($messageTest);
     }
 }
