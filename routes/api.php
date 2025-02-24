@@ -56,11 +56,25 @@ Route::prefix('airplane')
     ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
     ->controller(AirplaneController::class)
     ->group(function () {
-        Route::get('/', 'index')->name('apiIndexAirplane');
-        Route::get('/{id}', 'show')->name('apiShowAirplane');
-        Route::post('/', 'store')->name('apiStoreAirplane');
-        Route::put('/{id}', 'update')->name('apiUpdateAirplane');
-        Route::delete('/{id}', 'destroy')->name('apiDestroyAirplane');
+        Route::get('/', 'index')
+            ->middleware('throttle:60,1')
+            ->name('apiIndexAirplane');
+
+        Route::get('/{id}', 'show')
+            ->middleware('throttle:60,1')
+            ->name('apiShowAirplane');
+
+        Route::post('/', 'store')
+            ->middleware('throttle:10,1')
+            ->name('apiStoreAirplane');
+
+        Route::put('/{id}', 'update')
+            ->middleware('throttle:10,1')
+            ->name('apiUpdateAirplane');
+
+        Route::delete('/{id}', 'destroy')
+            ->middleware('throttle:10,1')
+            ->name('apiDestroyAirplane');
     });
 
 
