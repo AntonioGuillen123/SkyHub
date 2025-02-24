@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $personalAccessTokenExpiration = intval(env('PASSPORT_PERSONAL_ACCESS_TOKEN_EXPIRATION', 15));
+
+        Passport::personalAccessTokensExpireIn(now()->addDays($personalAccessTokenExpiration)); // Indica el tiempo de expiración de el Personal Access Token
+        
         Passport::hashClientSecrets(); // Indica que se cifren los secretos de los clientes en la DB.
 
         Passport::tokensCan([ // Indica los permisos que existen en la aplicación
