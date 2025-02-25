@@ -12,6 +12,7 @@ class AirplaneController extends Controller
      * @OA\Get(
      *     path="/api/airplane",
      *     tags={"Airplane"},
+     *     security={{ "pat": {} }},
      *     summary="List all Airplanes in the system",
      *     description="This endpoint returns a list of all airplanes available in the system.",
      *     @OA\Response(
