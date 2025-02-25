@@ -117,6 +117,10 @@ class AuthController extends Controller
     {
         $user = $this->checkRoute($request->route('id'), $request->route('hash'));
 
+        if ($user instanceof \Illuminate\Http\JsonResponse) {
+            return $user;
+        }
+
         $validated = $this->validateData($request, 'reset');
 
         $newPassword = $validated['new_password'];
