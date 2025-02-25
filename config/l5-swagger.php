@@ -215,12 +215,19 @@ return [
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
                 */
+                'pat' => [
+                    'type' => 'apiKey',
+                    'description' => 'Authentication using Passport Personal Access Token (Bearer Token).',
+                    'name' => 'Authorization',  // The name of the header used to send the token
+                    'in' => 'header',  // The token is passed in the header of the request
+                ]
             ],
             'security' => [
                 /*
                  * Examples of Securities
                  */
                 [
+                    'pat' => []
                     /*
                     'oauth2_security_example' => [
                         'read',
