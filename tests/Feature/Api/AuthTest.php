@@ -82,4 +82,44 @@ class AuthTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment($responseData);
     }
+
+    public function test_CheckIfICanLoginInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'email' => 'john@example.com',
+            'password' => 'P@ssw0rd',
+        ];
+
+        $responseData = [
+            'message' =>  'User logged in successfully :)',
+        ];
+
+        $response = $this->postJson(route('apiLogin'), $requestData);
+        
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanLoginWrongInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'email' => 'john@example.com',
+            'password' => 'P@ssw0rd1',
+        ];
+
+        $responseData = [
+            'message' =>  'The credentials are invalid :(',
+        ];
+
+        $response = $this->postJson(route('apiLogin'), $requestData);
+        
+        $response
+            ->assertStatus(401)
+            ->assertJsonFragment($responseData);
+    }
 }
