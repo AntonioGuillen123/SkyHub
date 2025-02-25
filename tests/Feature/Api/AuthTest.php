@@ -8,7 +8,6 @@ use App\Notifications\VerifyEmailAPI;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\URL;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -189,6 +188,31 @@ class AuthTest extends TestCase
 
         $response
             ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanVerifyEmailWrongInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $user = User::find(1);
+
+        Notification::fake();
+
+        $user->notify(new VerifyEmailAPI($user));
+
+        $notification = Notification::sent($user, VerifyEmailAPI::class)->first();
+
+        $signedURL = $notification->toMail($user)->actionUrl;
+
+        $responseData = [
+            'message' =>  'This user alredy has email verified :(',
+        ];
+
+        $response = $this->getJson($signedURL);
+
+        $response
+            ->assertStatus(409)
             ->assertJsonFragment($responseData);
     }
 }
