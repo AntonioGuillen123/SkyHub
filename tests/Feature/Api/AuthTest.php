@@ -264,4 +264,23 @@ class AuthTest extends TestCase
             ->assertStatus(409)
             ->assertJsonFragment($responseData);
     }
+
+    public function test_CheckIfICanForgotPasswordInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'email' => 'john@example.com'
+        ];
+
+        $responseData = [
+            'message' =>  'A password reset email has been sent :)',
+        ];
+
+        $response = $this->postJson(route('apiForgotPassword'), $requestData);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
 }
