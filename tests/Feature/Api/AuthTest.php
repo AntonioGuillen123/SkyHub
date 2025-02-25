@@ -2,18 +2,25 @@
 
 namespace Tests\Feature\Api;
 
+use App\CreatePersonalAccessClient;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, CreatePersonalAccessClient;
+    
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        $this->createPersonalAccessClient();
+    }
 
-    private function authenticate(User $user, array $scopes = ['manage-airplanes'])
+    private function authenticate(User $user, array $scopes = [])
     {
         Passport::actingAs(
             $user,
@@ -45,13 +52,34 @@ class AuthTest extends TestCase
                     'updated_at' => $user->roleUser->updated_at
                 ],
             ],
-
         ];
 
         $response = $this->getJson(route('apiShowUser'));
 
         $response
             ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanRegisterInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'name' => 'Name Test',
+            'email' => 'example@example.com',
+            'password' => 'P@ssw0rd',
+            'password_confirmation' => 'P@ssw0rd',
+        ];
+
+        $responseData = [
+            'message' =>  'User registered successfully. Check your inbox for verify email :)',
+        ];
+
+        $response = $this->postJson(route('apiRegister'), $requestData);
+        
+        $response
+            ->assertStatus(201)
             ->assertJsonFragment($responseData);
     }
 }
