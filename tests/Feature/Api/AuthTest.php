@@ -215,4 +215,34 @@ class AuthTest extends TestCase
             ->assertStatus(409)
             ->assertJsonFragment($responseData);
     }
+
+    public function test_CheckIfICanResendEmailInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'name' => 'Name Test',
+            'email' => 'example@example.com',
+            'password' => 'P@ssw0rd',
+            'password_confirmation' => 'P@ssw0rd',
+        ];
+
+        $response = $this->postJson(route('apiRegister'), $requestData);
+
+        $userId = $response['data']['user']['id'];
+
+        $user = User::find($userId);
+
+        $this->authenticate($user);
+
+        $responseData = [
+            'message' =>  'Email sent successfully :)',
+        ];
+
+        $response = $this->postJson(route('apiResendEmail'));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
 }
