@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AirplaneController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FlightController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')
@@ -40,7 +39,6 @@ Route::prefix('auth')
             });
 
         Route::prefix('password')
-            ->middleware('verified')
             ->group(function () {
                 Route::post('/forgot', 'forgotPassword')
                     ->middleware('throttle:3,5')
