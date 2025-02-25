@@ -4,8 +4,10 @@ namespace Tests\Feature\Api;
 
 use App\CreatePersonalAccessClient;
 use App\Models\User;
+use App\Notifications\ForgotPasswordAPI;
 use App\Notifications\VerifyEmailAPI;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
@@ -280,6 +282,36 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson(route('apiForgotPassword'), $requestData);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanResetPasswordInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        Notification::fake();
+
+        $requestData = [
+            'new_password' => 'P@ssw0rd2',
+            'new_password_confirmation' => 'P@ssw0rd2',
+        ];
+
+        $user = User::find(1);
+
+        $user->notify(new ForgotPasswordAPI($user));
+
+        $notification = Notification::sent($user, ForgotPasswordAPI::class)->first();
+
+        $signedURL = $notification->toMail($user)->actionUrl;
+
+        $responseData = [
+            'message' =>  'The password has been update successfully :)',
+        ];
+
+        $response = $this->postJson($signedURL, $requestData);
 
         $response
             ->assertStatus(200)
