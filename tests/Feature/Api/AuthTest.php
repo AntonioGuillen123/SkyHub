@@ -374,9 +374,42 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson($signedURL, $requestData);
-        
+
         $response
             ->assertStatus(404)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanResetPasswordWithWrongHashInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        Notification::fake();
+
+        $requestData = [
+            'new_password' => 'P@ssw0rd2',
+            'new_password_confirmation' => 'P@ssw0rd2',
+        ];
+
+        $user = User::find(1);
+
+        $user->notify(new ForgotPasswordAPI($user));
+
+        $notification = Notification::sent($user, ForgotPasswordAPI::class)->first();
+
+        $signedURL = $notification->toMail($user)->actionUrl;
+
+        $user->email = '';
+        $user->save();
+
+        $responseData = [
+            'message' =>  'This link is invalid :(',
+        ];
+
+        $response = $this->postJson($signedURL, $requestData);
+
+        $response
+            ->assertStatus(400)
             ->assertJsonFragment($responseData);
     }
 }
