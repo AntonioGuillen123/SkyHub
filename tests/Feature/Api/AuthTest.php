@@ -159,6 +159,8 @@ class AuthTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        Notification::fake();
+
         $requestData = [
             'name' => 'Name Test',
             'email' => 'example@example.com',
@@ -171,8 +173,6 @@ class AuthTest extends TestCase
         $userId = $response['data']['user']['id'];
 
         $user = User::find($userId);
-
-        Notification::fake();
 
         $user->notify(new VerifyEmailAPI($user));
 
@@ -219,6 +219,8 @@ class AuthTest extends TestCase
     public function test_CheckIfICanResendEmailInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+
+        Notification::fake();
 
         $requestData = [
             'name' => 'Name Test',
