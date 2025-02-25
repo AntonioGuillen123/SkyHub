@@ -4,8 +4,11 @@ namespace Tests\Feature\Api;
 
 use App\CreatePersonalAccessClient;
 use App\Models\User;
+use App\Notifications\VerifyEmailAPI;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -145,6 +148,42 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson(route('apiLogout'), [], $requestHeader);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanVerifyEmailInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'name' => 'Name Test',
+            'email' => 'example@example.com',
+            'password' => 'P@ssw0rd',
+            'password_confirmation' => 'P@ssw0rd',
+        ];
+
+        $response = $this->postJson(route('apiRegister'), $requestData);
+
+        $userId = $response['data']['user']['id'];
+
+        $user = User::find($userId);
+
+        Notification::fake();
+
+        $user->notify(new VerifyEmailAPI($user));
+
+        $notification = Notification::sent($user, VerifyEmailAPI::class)->first();
+
+        $signedURL = $notification->toMail($user)->actionUrl;
+
+        $responseData = [
+            'message' =>  'Email successfully verified :)',
+        ];
+
+        $response = $this->getJson($signedURL);
 
         $response
             ->assertStatus(200)
