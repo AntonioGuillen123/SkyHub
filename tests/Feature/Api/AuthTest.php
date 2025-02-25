@@ -12,11 +12,11 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     use RefreshDatabase, CreatePersonalAccessClient;
-    
+
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->createPersonalAccessClient();
     }
 
@@ -77,7 +77,7 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson(route('apiRegister'), $requestData);
-        
+
         $response
             ->assertStatus(201)
             ->assertJsonFragment($responseData);
@@ -97,7 +97,7 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson(route('apiLogin'), $requestData);
-        
+
         $response
             ->assertStatus(200)
             ->assertJsonFragment($responseData);
@@ -117,9 +117,37 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson(route('apiLogin'), $requestData);
-        
+
         $response
             ->assertStatus(401)
+            ->assertJsonFragment($responseData);
+    }
+
+    public function test_CheckIfICanLogoutInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'email' => 'john@example.com',
+            'password' => 'P@ssw0rd',
+        ];
+
+        $response = $this->postJson(route('apiLogin'), $requestData);
+
+        $token = $response['data']['token'];
+
+        $requestHeader = [
+            'Authorization' => 'Bearer ' . $token
+        ];
+
+        $responseData = [
+            'message' =>  'Logged out successfully :)',
+        ];
+
+        $response = $this->postJson(route('apiLogout'), [], $requestHeader);
+
+        $response
+            ->assertStatus(200)
             ->assertJsonFragment($responseData);
     }
 }
