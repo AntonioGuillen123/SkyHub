@@ -186,14 +186,27 @@ class AuthController extends Controller
     {
         $tokenName = 'User' . config(self::PERSONAL_ACCESS_CLIENT_NAME);
 
-        $scopes = [
-            'make-booking',
-            'cancel-booking',
-            'list-flights',
-            'list-bookings'
-        ];
+        $scopes = $this->chooseScopes($user);
 
         return $user->createToken($tokenName, $scopes)->accessToken;
+    }
+
+    private function chooseScopes(User $user)
+    {
+        $isAdmin = $user->hasRole('admin');
+
+        $scopes = $isAdmin
+            ? [
+                'manage-airplanes'
+            ]
+            : [
+                'make-booking',
+                'cancel-booking',
+                'list-flights',
+                'list-bookings'
+            ];
+
+        return $scopes;
     }
 
     private function authenticate(array $data)
@@ -255,7 +268,8 @@ class AuthController extends Controller
         $user->notify(new $notifications[$option]($user));
     }
 
-    private function checkRoute(string $id, string $hash){
+    private function checkRoute(string $id, string $hash)
+    {
         $user = $this->getUserFromRoute($id);
 
         if (!$user) {
