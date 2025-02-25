@@ -68,6 +68,8 @@ class AuthTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        Notification::fake();
+
         $requestData = [
             'name' => 'Name Test',
             'email' => 'example@example.com',
