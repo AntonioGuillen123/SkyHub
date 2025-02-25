@@ -40,18 +40,6 @@ class VerifyEmailAPI extends Notification
         return $this->generateEmail($notifiable, $url);
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
-    }
-
     private function generateSignedURL(object $notifiable)
     {
         $encryptionAlgorithm = env('MAIL_HASH', 'sha256');
