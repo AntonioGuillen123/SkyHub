@@ -52,7 +52,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="User not authenticated",
+     *         description="Unauthorized",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
@@ -60,7 +60,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Unverified user",
+     *         description="Forbidden",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="Your email address is not verified.")
@@ -264,6 +264,39 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/user/logout",
+     *     tags={"Auth"},
+     *     security={{ "pat": {} }},
+     *     summary="Logout the authenticated user",
+     *     description="This endpoint logs out the authenticated user by revoking their access token.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Response message", example="Logged out successfully :)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function logout(Request $request)
     {
         $user = $this->getUserFromRequest($request);
