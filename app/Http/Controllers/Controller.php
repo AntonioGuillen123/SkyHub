@@ -22,6 +22,11 @@ namespace App\Http\Controllers;
  *  name="Flight",
  *  description="URLs of the Flights"
  * )
+ * 
+ *  * @OA\Tag(
+ *  name="Auth",
+ *  description="URLs of Auth"
+ * )
  */
 abstract class Controller
 {
