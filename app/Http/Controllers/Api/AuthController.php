@@ -87,7 +87,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/register",
+     *     path="/api/auth/user/register",
      *     tags={"Auth"},
      *     summary="Register a new user",
      *     description="This endpoint registers a new user and returns the user data along with an access token.",
@@ -96,7 +96,7 @@ class AuthController extends Controller
      *         @OA\JsonContent(
      *             required={"name", "email", "password", "password_confirmation"},
      *             @OA\Property(property="name", type="string", description="The full name of the user", example="John Doe"),
-     *             @OA\Property(property="email", type="string", description="The email address of the user", example="johndoe@example.com"),
+     *             @OA\Property(property="email", type="string", description="The email address of the user", example="john@example.com"),
      *             @OA\Property(property="password", type="string", format="password", description="The user's password", example="P@ssw0rd"),
      *             @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation", example="P@ssw0rd")
      *         )
@@ -115,7 +115,7 @@ class AuthController extends Controller
      *                     type="object",
      *                     @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
      *                     @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
-     *                     @OA\Property(property="email", type="string", description="The email of the user", example="johndoe@example.com"),
+     *                     @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
      *                     @OA\Property(property="email_verified_at", type="string", format="date-time", description="The date when the user verified their email", example="2025-02-25T22:11:34.000000Z"),
      *                     @OA\Property(property="created_at", type="string", format="date-time", description="The date when the user was created", example="2025-03-04T13:22:00.000000Z"),
      *                     @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the user data was last updated", example="2025-03-04T13:22:00.000000Z"),
@@ -172,7 +172,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/login",
+     *     path="/api/auth/user/login",
      *     tags={"Auth"},
      *     summary="User login",
      *     description="This endpoint logs in an existing user and returns the user data along with an access token.",
@@ -180,7 +180,7 @@ class AuthController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", description="The email address of the user", example="johndoe@example.com"),
+     *             @OA\Property(property="email", type="string", description="The email address of the user", example="john@example.com"),
      *             @OA\Property(property="password", type="string", format="password", description="The user's password", example="P@ssw0rd")
      *         )
      *     ),
@@ -206,6 +206,14 @@ class AuthController extends Controller
      *                 ),
      *                 @OA\Property(property="token", type="string", description="The generated access token for the user", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...") 
      *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The credentials are invalid")
      *         )
      *     ),
      *     @OA\Response(
