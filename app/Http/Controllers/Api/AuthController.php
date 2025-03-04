@@ -170,6 +170,70 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/user/login",
+     *     tags={"Auth"},
+     *     summary="User login",
+     *     description="This endpoint logs in an existing user and returns the user data along with an access token.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", description="The email address of the user", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", description="The user's password", example="P@ssw0rd")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Response message", example="User logged in successfully :)"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="user",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
+     *                     @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
+     *                     @OA\Property(property="email_verified_at", type="string", format="date-time", description="The date when the user verified their email", example="2025-02-25T22:09:30.000000Z"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", description="The date when the user was created", example="2025-02-25T22:09:32.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the user data was last updated", example="2025-02-25T22:09:32.000000Z"),
+     *                     @OA\Property(property="role_user_id", type="integer", description="The unique identifier of the user role", example=1)
+     *                 ),
+     *                 @OA\Property(property="token", type="string", description="The generated access token for the user", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...") 
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="email", type="array",
+     *                     @OA\Items(type="email", example="The email field is required.")
+     *                 ),
+     *                 @OA\Property(property="password", type="array", 
+     *                     @OA\Items(type="string", example="The password field is required.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $validated = $this->validateData($request, 'login');
