@@ -85,6 +85,75 @@ class AuthController extends Controller
         return $this->responseWithSuccess('User show successfully', $userWithRole);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/user/register",
+     *     tags={"Auth"},
+     *     summary="Register a new user",
+     *     description="This endpoint registers a new user and returns the user data along with an access token.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "email", "password", "password_confirmation"},
+     *             @OA\Property(property="name", type="string", description="The full name of the user", example="John Doe"),
+     *             @OA\Property(property="email", type="string", description="The email address of the user", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", description="The user's password", example="P@ssw0rd"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation", example="P@ssw0rd")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Response message", example="User registered successfully. Check your inbox for verify email :)"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="user",
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
+     *                     @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", description="The email of the user", example="johndoe@example.com"),
+     *                     @OA\Property(property="email_verified_at", type="string", format="date-time", description="The date when the user verified their email", example="2025-02-25T22:11:34.000000Z"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", description="The date when the user was created", example="2025-03-04T13:22:00.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the user data was last updated", example="2025-03-04T13:22:00.000000Z"),
+     *                     @OA\Property(property="role_user_id", type="integer", description="The unique identifier of the user role", example="2")
+     *                 ),
+     *                 @OA\Property(property="token", type="string", description="The generated access token for the user", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="name", type="array",
+     *                     @OA\Items(type="string", example="The name field is required.")
+     *                 ),
+     *                 @OA\Property(property="email", type="array",
+     *                     @OA\Items(type="email", example="The email field is required.")
+     *                 ),
+     *                 @OA\Property(property="password", type="array", 
+     *                     @OA\Items(type="string", example="The password field is required.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         $validated = $this->validateData($request, 'register');
@@ -232,7 +301,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        ]);
+        ])->fresh();
     }
 
     private function updatePassword(User $user, string $password)
