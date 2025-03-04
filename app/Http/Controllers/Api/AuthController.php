@@ -21,7 +21,7 @@ class AuthController extends Controller
      *     path="/api/auth/user",
      *     tags={"Auth"},
      *     security={{ "pat": {} }},
-     *     summary="Show user data",
+     *     summary="Show the authenticated user data",
      *     description="This endpoint returns a list of all data from authenticated User.",
      *     @OA\Response(
      *         response=200,
