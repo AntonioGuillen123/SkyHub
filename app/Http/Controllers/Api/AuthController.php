@@ -16,6 +16,66 @@ class AuthController extends Controller
 {
     private const PERSONAL_ACCESS_CLIENT_NAME = 'passport.personal_access_client.name';
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/user",
+     *     tags={"Auth"},
+     *     security={{ "pat": {} }},
+     *     summary="Show user data",
+     *     description="This endpoint returns a list of all data from authenticated User.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Response message", example="User show successfully :)"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
+     *                 @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time", description="The date when the user verified their email", example="2025-02-25T22:11:34.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", description="The date when the user was created", example="2025-02-25T22:10:30.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the user data was last updated", example="2025-02-25T22:11:34.000000Z"),
+     *                 @OA\Property(
+     *                     property="role_user",
+     *                     type="object",
+     *                     description="The role assigned to the user",
+     *                     @OA\Property(property="id", type="integer", description="The unique identifier of the role", example=2),
+     *                     @OA\Property(property="name", type="string", description="The name of the role", example="user"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", description="The date when the role was created", example="2025-02-25T22:09:29.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the role was last updated", example="2025-02-25T22:09:29.000000Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="User not authenticated",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Unverified user",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Your email address is not verified.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Request limit exceeded",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function showUser(Request $request)
     {
         $user = $this->getUserFromRequest($request);
