@@ -61,4 +61,8 @@ class Flight extends Pivot
             }
         });
     }
+
+    public function isAvailable(){
+        return $this->state;
+    }
 }
