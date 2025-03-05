@@ -368,7 +368,7 @@ class AuthController extends Controller
      *         description="Not Found",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="This user not exists :(")
+     *             @OA\Property(property="message", type="string", example="This user does not exist :(")
      *         )
      *     ),
      *     @OA\Response(
@@ -429,7 +429,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=409,
-     *         description="User email is already verified",
+     *         description="Conflict",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="This user already has email verified :(")
      *         )
@@ -458,11 +458,64 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Email sent successfully');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/password/forgot",
+     *     tags={"Auth"},
+     *     summary="Send password reset email",
+     *     description="Sends a password reset email to the user with the provided email address. The email will contain a link to reset the user's password.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", description="The email address of the user who requested a password reset.", example="john@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="A password reset email has been sent :)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="This user does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="email", type="array",
+     *                     @OA\Items(type="email", example="The email field is required.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function forgotPassword(Request $request)
     {
         $validated = $this->validateData($request, 'forgot');
 
         $user = $this->getUserFromEmail($validated['email']);
+
+        if (!$user) {
+            return $this->responseWithError('This user does not exist', 404);
+        }
 
         $this->sendNotification($user, 'forgotPassword');
 
@@ -629,7 +682,7 @@ class AuthController extends Controller
         $user = $this->getUserFromRoute($id);
 
         if (!$user) {
-            return $this->responseWithError('This user not exists', 404);
+            return $this->responseWithError('This user does not exist', 404);
         }
 
         $isHashCorrect = $this->checkHashFromRoute($user, $hash);

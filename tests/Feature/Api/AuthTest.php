@@ -370,7 +370,7 @@ class AuthTest extends TestCase
         $user->delete();
 
         $responseData = [
-            'message' =>  'This user not exists :(',
+            'message' =>  'This user does not exist :(',
         ];
 
         $response = $this->postJson($signedURL, $requestData);
