@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Flight;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,12 @@ class BookingController extends Controller
     public function makeBooking(Request $request)
     {
         $validated = $this->validateData($request);
+
+        $flight = $this->getFlightById($validated['flight_id']);
+
+        if (!$flight) {
+            return $this->responseWithError('The flight id does not exist', 404);
+        }
     }
 
     /**
@@ -74,6 +81,11 @@ class BookingController extends Controller
         ];
 
         return $request->validate($rules);
+    }
+
+    private function getFlightById(int $id)
+    {
+        return Flight::find($id);
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
