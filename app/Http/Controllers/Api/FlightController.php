@@ -33,6 +33,13 @@ class FlightController extends Controller
      *                  @OA\Property(property="updated_at", type="date-time", description="The timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z")
      *              )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -107,6 +114,22 @@ class FlightController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user is not authenticated", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
@@ -129,6 +152,13 @@ class FlightController extends Controller
      *                     @OA\Items(type="string", example="The flight_date field does not match the format Y-m-d H:i.")
      *                 )
      *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -219,6 +249,13 @@ class FlightController extends Controller
      *             type="object",
      *             @OA\Property(property="message", type="string", example="The flight id does not exist :(")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -303,6 +340,30 @@ class FlightController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user is not authenticated", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Flight not found or one of the related IDs does not exist.", example="The flight id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
@@ -328,11 +389,10 @@ class FlightController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
-     *         description="Not Found",
+     *         response=429,
+     *         description="Too many attempts",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", description="Flight not found or one of the related IDs does not exist.", example="The flight id does not exist :(.")
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -386,11 +446,34 @@ class FlightController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user is not authenticated", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=404,
      *         description="Not Found",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="The flight id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
      *         )
      *     )
      * )
