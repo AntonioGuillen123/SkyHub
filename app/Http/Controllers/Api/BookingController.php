@@ -20,6 +20,11 @@ class BookingController extends Controller
         return $this->responseWithSuccess($bookings);
     }
 
+    public function makeBooking(Request $request)
+    {
+        $validated = $this->validateData($request);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -57,8 +62,18 @@ class BookingController extends Controller
         return $request->user();
     }
 
-    private function getBookingsFromUser(User $user){
+    private function getBookingsFromUser(User $user)
+    {
         return $user->flights;
+    }
+
+    private function validateData(Request $request)
+    {
+        $rules = [
+            'flight_id' => 'required|integer|min:0'
+        ];
+
+        return $request->validate($rules);
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
