@@ -32,6 +32,7 @@ class AuthController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
+     *                 description="Authenticated user data",
      *                 @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
      *                 @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
      *                 @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
@@ -55,7 +56,7 @@ class AuthController extends Controller
      *         description="Unauthorized",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", description="Error message when user is not authenticated", example="Unauthenticated.")
      *         )
      *     ),
      *     @OA\Response(
@@ -63,7 +64,7 @@ class AuthController extends Controller
      *         description="Forbidden",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Your email address is not verified.")
+     *             @OA\Property(property="message", type="string", description="Error message when user's email is not verified", example="Your email address is not verified.")
      *         )
      *     ),
      *     @OA\Response(
@@ -71,7 +72,7 @@ class AuthController extends Controller
      *         description="Request limit exceeded",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *             @OA\Property(property="message", type="string", description="Error message when rate limit is exceeded", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -110,9 +111,11 @@ class AuthController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
+     *                 description="User data and authentication token",
      *                 @OA\Property(
      *                     property="user",
      *                     type="object",
+     *                     description="User details",
      *                     @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
      *                     @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
      *                     @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
@@ -130,15 +133,15 @@ class AuthController extends Controller
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *             @OA\Property(property="errors", type="object",
-     *                 @OA\Property(property="name", type="array",
+     *             @OA\Property(property="message", type="string", description="Validation error message", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object", description="Validation errors details",
+     *                 @OA\Property(property="name", type="array", description="Name validation errors",
      *                     @OA\Items(type="string", example="The name field is required.")
      *                 ),
-     *                 @OA\Property(property="email", type="array",
+     *                 @OA\Property(property="email", type="array", description="Email validation errors",
      *                     @OA\Items(type="email", example="The email field is required.")
      *                 ),
-     *                 @OA\Property(property="password", type="array", 
+     *                 @OA\Property(property="password", type="array", description="Password validation errors", 
      *                     @OA\Items(type="string", example="The password field is required.")
      *                 )
      *             )
@@ -149,7 +152,7 @@ class AuthController extends Controller
      *         description="Too many requests",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *             @OA\Property(property="message", type="string", description="Rate limit exceeded message", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -193,9 +196,11 @@ class AuthController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
+     *                 description="Authenticated user data",
      *                 @OA\Property(
      *                     property="user",
      *                     type="object",
+     *                     description="User details",
      *                     @OA\Property(property="id", type="integer", description="The unique identifier of the user", example=1),
      *                     @OA\Property(property="name", type="string", description="The name of the user", example="John Doe"),
      *                     @OA\Property(property="email", type="string", description="The email of the user", example="john@example.com"),
@@ -204,7 +209,7 @@ class AuthController extends Controller
      *                     @OA\Property(property="updated_at", type="string", format="date-time", description="The date when the user data was last updated", example="2025-02-25T22:09:32.000000Z"),
      *                     @OA\Property(property="role_user_id", type="integer", description="The unique identifier of the user role", example=1)
      *                 ),
-     *                 @OA\Property(property="token", type="string", description="The generated access token for the user", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...") 
+     *                 @OA\Property(property="token", type="string", description="Access token for authentication", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...") 
      *             )
      *         )
      *     ),
@@ -213,7 +218,7 @@ class AuthController extends Controller
      *         description="Unauthorized",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="The credentials are invalid")
+     *             @OA\Property(property="message", type="string", description="Error message", example="The credentials are invalid")
      *         )
      *     ),
      *     @OA\Response(
@@ -221,12 +226,12 @@ class AuthController extends Controller
      *         description="Unprocessable Entity",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="message", type="string", description="Validation error message", example="The given data was invalid."),
      *             @OA\Property(property="errors", type="object",
-     *                 @OA\Property(property="email", type="array",
+     *                 @OA\Property(property="email", type="array", description="Email validation errors",
      *                     @OA\Items(type="email", example="The email field is required.")
      *                 ),
-     *                 @OA\Property(property="password", type="array", 
+     *                 @OA\Property(property="password", type="array", description="Password validation errors", 
      *                     @OA\Items(type="string", example="The password field is required.")
      *                 )
      *             )
@@ -237,7 +242,7 @@ class AuthController extends Controller
      *         description="Too many requests",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *             @OA\Property(property="message", type="string", description="Rate limit exceeded message", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -276,7 +281,7 @@ class AuthController extends Controller
      *         description="OK",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", description="Response message", example="Logged out successfully :)")
+     *             @OA\Property(property="message", type="string", description="Response message indicating successful logout", example="Logged out successfully :)")
      *         )
      *     ),
      *     @OA\Response(
@@ -284,7 +289,7 @@ class AuthController extends Controller
      *         description="Unauthorized",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", description="Error message when the user is not authenticated", example="Unauthenticated.")
      *         )
      *     ),
      *     @OA\Response(
@@ -292,7 +297,7 @@ class AuthController extends Controller
      *         description="Too many requests",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *             @OA\Property(property="message", type="string", description="Error message when the request limit is exceeded", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -316,28 +321,28 @@ class AuthController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="User ID",
+     *         description="The unique identifier of the user whose email is being verified",
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Parameter(
      *         name="hash",
      *         in="path",
      *         required=true,
-     *         description="Email verification hash",
+     *         description="A unique hash used to verify the email",
      *         @OA\Schema(type="string", example="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
      *     ),
      *     @OA\Parameter(
      *         name="expires",
      *         in="query",
      *         required=true,
-     *         description="Url expiration time",
+     *         description="The timestamp indicating when the verification link expires",
      *         @OA\Schema(type="integer", example=1741136442)
      *     ),
      *     @OA\Parameter(
      *         name="signature",
      *         in="query",
      *         required=true,
-     *         description="Signature of Url",
+     *         description="A cryptographic signature used to verify the integrity of the URL",
      *         @OA\Schema(type="string", example="056a6465f1c22955bae514cca945ba691228442ad96d7b5bfb399378de38b8f4")
      *     ),
      *     @OA\Response(
@@ -345,7 +350,7 @@ class AuthController extends Controller
      *         description="OK",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="Email successfully verified :)")
+     *             @OA\Property(property="message", type="string", description="Response message indicating successful email verification", example="Email successfully verified :)")
      *         )
      *     ),
      *     @OA\Response(
@@ -353,14 +358,14 @@ class AuthController extends Controller
      *         description="Bad Request",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="This link is invalid :(")
+     *             @OA\Property(property="message", type="string", description="Error message when the verification link is invalid", example="This link is invalid :(")
      *         )
      *     ),
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid signature.")
+     *             @OA\Property(property="message", type="string", description="Error message when the signature is invalid", example="Invalid signature.")
      *         )
      *     ),
      *     @OA\Response(
@@ -368,21 +373,21 @@ class AuthController extends Controller
      *         description="Not Found",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="message", type="string", example="This user does not exist :(")
+     *             @OA\Property(property="message", type="string", description="Error message when the user ID does not exist", example="This user does not exist :(")
      *         )
      *     ),
      *     @OA\Response(
      *         response=409,
      *         description="Conflict",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="This user already has email verified :(")
+     *             @OA\Property(property="message", type="string", description="Error message when the user's email is already verified", example="This user already has email verified :(")
      *         )
      *     ),
      *     @OA\Response(
      *         response=429,
      *         description="Too many requests",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *             @OA\Property(property="message", type="string", description="Error message when the request limit is exceeded", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -411,7 +416,7 @@ class AuthController extends Controller
      *     path="/api/auth/email/resend",
      *     tags={"Auth"},
      *     summary="Resend verification email",
-     *     description="Resends the verification email to the authenticated user if their email is not yet verified.",
+     *     description="This endpoint resends the verification email to the authenticated user if their email is not yet verified.",
      *     @OA\Response(
      *         response=200,
      *         description="OK",
@@ -463,7 +468,7 @@ class AuthController extends Controller
      *     path="/api/auth/password/forgot",
      *     tags={"Auth"},
      *     summary="Send password reset email",
-     *     description="Sends a password reset email to the user with the provided email address. The email will contain a link to reset the user's password.",
+     *     description="This endpoint sends a password reset email to the user with the provided email address. The email will contain a link to reset the user's password.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
