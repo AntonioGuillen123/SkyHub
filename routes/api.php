@@ -110,4 +110,8 @@ Route::prefix('booking')
         Route::get('/', 'index')
             ->middleware(['scope:list-bookings', 'checkRole:user', 'throttle:60,1'])
             ->name('apiIndexBooking');
+
+        Route::post('/', 'makeBooking')
+            ->middleware(['scope:make-booking', 'checkRole:user', 'throttle:10,1'])
+            ->name('apiMakeBooking');
     });
