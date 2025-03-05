@@ -108,6 +108,6 @@ Route::prefix('booking')
     ->middleware('auth:api')
     ->group(function () {
         Route::get('/', 'index')
-            ->middleware('throttle:60,1')
+            ->middleware(['scope:list-bookings', 'checkRole:user', 'throttle:60,1'])
             ->name('apiIndexBooking');
     });
