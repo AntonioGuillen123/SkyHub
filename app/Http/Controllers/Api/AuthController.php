@@ -306,9 +306,94 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Logged out successfully');
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/email/verify/{id}/{hash}",
+     *     tags={"Auth"},
+     *     summary="Verify user's email",
+     *     description="This endpoint verifies a user's email using their ID and a verification hash.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="User ID",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="hash",
+     *         in="path",
+     *         required=true,
+     *         description="Email verification hash",
+     *         @OA\Schema(type="string", example="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+     *     ),
+     *     @OA\Parameter(
+     *         name="expires",
+     *         in="query",
+     *         required=true,
+     *         description="Url expiration time",
+     *         @OA\Schema(type="integer", example=1741136442)
+     *     ),
+     *     @OA\Parameter(
+     *         name="signature",
+     *         in="query",
+     *         required=true,
+     *         description="Signature of Url",
+     *         @OA\Schema(type="string", example="056a6465f1c22955bae514cca945ba691228442ad96d7b5bfb399378de38b8f4")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Email successfully verified :)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="This link is invalid :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Invalid signature.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="This user not exists :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Conflict",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="This user already has email verified :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function verifyEmail(Request $request)
     {
         $user = $this->checkRoute($request->route('id'), $request->route('hash'));
+
+        if ($user instanceof \Illuminate\Http\JsonResponse) {
+            return $user;
+        }
 
         $hasVerifiedEmail = $user->hasVerifiedEmail();
 
