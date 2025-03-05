@@ -12,7 +12,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -45,5 +45,17 @@ class BookingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    private function responseWithSuccess(mixed $data, int $status = 200)
+    {
+        return response()->json($data, $status);
+    }
+
+    private function responseWithError(string $message, int $status)
+    {
+        return response()->json([
+            'message' => $message . ' :('
+        ], $status);
     }
 }
