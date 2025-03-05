@@ -522,6 +522,94 @@ class AuthController extends Controller
         return $this->responseWithSuccess('A password reset email has been sent');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/password/reset/{id}/{hash}",
+     *     tags={"Auth"},
+     *     summary="Reset the user's password",
+     *     description="Resets the password for the user identified by the provided ID and hash. The new password must meet the required criteria.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="User ID",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="hash",
+     *         in="path",
+     *         required=true,
+     *         description="Password reset hash",
+     *         @OA\Schema(type="string", example="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+     *     ),
+     *     @OA\Parameter(
+     *         name="expires",
+     *         in="query",
+     *         required=true,
+     *         description="Url expiration time",
+     *         @OA\Schema(type="integer", example=1741136442)
+     *     ),
+     *     @OA\Parameter(
+     *         name="signature",
+     *         in="query",
+     *         required=true,
+     *         description="Signature of Url",
+     *         @OA\Schema(type="string", example="056a6465f1c22955bae514cca945ba691228442ad96d7b5bfb399378de38b8f4")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"new_password", "new_password_confirmation"},
+     *             @OA\Property(property="new_password", type="string", example="newStrongPassword123", description="The new password for the user"),
+     *             @OA\Property(property="new_password_confirmation", type="string", example="newStrongPassword123", description="Confirmation of the new password")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The password has been updated successfully :)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="This link is invalid :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Invalid signature.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="This user does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Conflict",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The new password cannot be the same as the old one :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function resetPassword(Request $request)
     {
         $user = $this->checkRoute($request->route('id'), $request->route('hash'));
