@@ -699,7 +699,8 @@ class AuthController extends Controller
 
         $scopes = $isAdmin
             ? [
-                'manage-airplanes'
+                'manage-airplanes',
+                'manage-flights'
             ]
             : [
                 'make-booking',
