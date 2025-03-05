@@ -45,6 +45,13 @@ class AirplaneController extends Controller
      *             type="object",
      *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -115,6 +122,13 @@ class AirplaneController extends Controller
      *                 )
      *             )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -175,6 +189,13 @@ class AirplaneController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="The airplane id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
      *         )
      *     )
      * )
@@ -263,6 +284,13 @@ class AirplaneController extends Controller
      *                 )
      *             )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -326,6 +354,13 @@ class AirplaneController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="message", type="string", example="The airplane id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
      *         )
      *     )
      * )
