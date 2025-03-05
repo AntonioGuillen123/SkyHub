@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -10,9 +11,13 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+        $user = $this->getUserFromRequest($request);
+
+        $bookings = $this->getBookingsFromUser($user);
+
+        return $this->responseWithSuccess($bookings);
     }
 
     /**
@@ -50,6 +55,10 @@ class BookingController extends Controller
     private function getUserFromRequest(Request $request)
     {
         return $request->user();
+    }
+
+    private function getBookingsFromUser(User $user){
+        return $user->flights;
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
