@@ -47,6 +47,11 @@ class BookingController extends Controller
         //
     }
 
+    private function getUserFromRequest(Request $request)
+    {
+        return $request->user();
+    }
+
     private function responseWithSuccess(mixed $data, int $status = 200)
     {
         return response()->json($data, $status);
