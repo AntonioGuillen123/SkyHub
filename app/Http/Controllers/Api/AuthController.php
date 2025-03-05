@@ -406,6 +406,43 @@ class AuthController extends Controller
         return $this->responseWithSuccess('Email successfully verified');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/email/resend",
+     *     tags={"Auth"},
+     *     summary="Resend verification email",
+     *     description="Resends the verification email to the authenticated user if their email is not yet verified.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Email sent successfully :)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="User email is already verified",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="This user already has email verified :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many attempts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function resendEmail(Request $request)
     {
         $user = $this->getUserFromRequest($request);
