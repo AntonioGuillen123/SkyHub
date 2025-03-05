@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AirplaneController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\FlightController;
 use Illuminate\Support\Facades\Route;
 
@@ -100,4 +101,13 @@ Route::prefix('flight')
         Route::delete('/{id}', 'destroy')
             ->middleware('throttle:10,1')
             ->name('apiDestroyFlight');
+    });
+
+Route::prefix('booking')
+    ->controller(BookingController::class)
+    ->middleware('auth:api')
+    ->group(function () {
+        Route::get('/', 'index')
+            ->middleware('throttle:60,1')
+            ->name('apiIndexBooking');
     });
