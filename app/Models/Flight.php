@@ -35,7 +35,7 @@ class Flight extends Pivot
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'booking')->withTimestamps();
+        return $this->belongsToMany(User::class, 'booking', 'flight_id', 'user_id')->withTimestamps();
     }
 
     protected static function booted()
