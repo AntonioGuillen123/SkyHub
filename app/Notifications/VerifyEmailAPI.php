@@ -43,12 +43,13 @@ class VerifyEmailAPI extends Notification
     private function generateSignedURL(object $notifiable)
     {
         $encryptionAlgorithm = env('MAIL_HASH', 'sha256');
+        $expirationMinutes = env('MAIL_EXPIRATION_MINUTES', 30);
         $userId = $notifiable->id;
         $userEmail = $notifiable->email;
 
         return URL::temporarySignedRoute(
             'apiVerifyEmail',
-            now()->addMinutes(60),
+            now()->addMinutes($expirationMinutes),
             [
                 'id' => $userId,
                 'hash' => hash($encryptionAlgorithm, $userEmail)
