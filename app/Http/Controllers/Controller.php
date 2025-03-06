@@ -23,6 +23,11 @@ namespace App\Http\Controllers;
  *  description="URLs of the Flights"
  * )
  * 
+ * @OA\Tag(
+ *  name="Booking",
+ *  description="URLs of the Bookings"
+ * )
+ * 
  *  * @OA\Tag(
  *  name="Auth",
  *  description="URLs of Auth"
