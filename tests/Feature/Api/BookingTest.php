@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\Flight;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -70,6 +71,26 @@ class BookingTest extends TestCase
         
         $response
             ->assertStatus(404)
+            ->assertJsonFragment($resultData);
+    }
+
+    public function test_CheckIfPostAnEntryOfBookingWithUnavailableFlightIdInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['make-booking']);
+
+        $data = [
+            'flight_id' => 3
+        ];
+
+        $response = $this->postJson(route('apiMakeBooking'), $data);
+
+        $resultData = [
+            'message' => 'The flight is not available :('
+        ];
+        
+        $response
+            ->assertStatus(409)
             ->assertJsonFragment($resultData);
     }
 }
