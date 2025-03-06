@@ -111,6 +111,10 @@ Route::prefix('booking')
             ->middleware(['scope:list-bookings', 'checkRole:user', 'throttle:60,1'])
             ->name('apiIndexBooking');
 
+        Route::get('/{id}', 'show')
+            ->middleware(['scope:list-all-bookings', 'checkRole:admin', 'throttle:60,1'])
+            ->name('apiShowBooking');
+
         Route::post('/', 'store')
             ->middleware(['scope:make-booking', 'checkRole:user', 'throttle:10,1'])
             ->name('apiMakeBooking');
