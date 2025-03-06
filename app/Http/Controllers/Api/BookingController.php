@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $user = $this->getUserFromRequest($request);
@@ -52,9 +49,6 @@ class BookingController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $flight = $this->getFlightById($id);
@@ -67,18 +61,7 @@ class BookingController extends Controller
 
         return $this->responseWithSuccess($users, 200);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Request $request, string $id)
     {
         $user = $this->getUserFromRequest($request);
@@ -101,6 +84,11 @@ class BookingController extends Controller
         return $request->user();
     }
 
+    private function getUsersFromFlight(Flight $flight)
+    {
+        return $flight->users;
+    }
+
     private function getBookingsFromUser(User $user)
     {
         return $user->flights;
@@ -111,6 +99,11 @@ class BookingController extends Controller
         return $user->flights()->find($id);
     }
 
+    private function getFlightById(int $id)
+    {
+        return Flight::find($id);
+    }
+
     private function validateData(Request $request)
     {
         $rules = [
@@ -118,16 +111,6 @@ class BookingController extends Controller
         ];
 
         return $request->validate($rules);
-    }
-
-    private function getFlightById(int $id)
-    {
-        return Flight::find($id);
-    }
-
-    private function getUsersFromFlight(Flight $flight)
-    {
-        return $flight->users;
     }
 
     private function flightIsAvaliable(Flight $flight)
