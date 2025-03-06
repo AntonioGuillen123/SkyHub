@@ -127,4 +127,21 @@ class BookingTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(1);
     }
+
+    public function test_CheckIfRecieveAllUsersByWrongFlightIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(1, ['list-all-bookings']);
+
+        $response = $this->getJson(route('apiShowBooking', 9999));
+
+        $resultData = [
+            'message' => 'The flight id does not exist :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($resultData);
+    }
 }
