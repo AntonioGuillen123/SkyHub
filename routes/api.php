@@ -114,4 +114,8 @@ Route::prefix('booking')
         Route::post('/', 'store')
             ->middleware(['scope:make-booking', 'checkRole:user', 'throttle:10,1'])
             ->name('apiMakeBooking');
+
+        Route::delete('/', 'destroy')
+            ->middleware(['scope:cancel-booking', 'checkRole:user', 'throttle:10,1'])
+            ->name('apiCancelBooking');
     });
