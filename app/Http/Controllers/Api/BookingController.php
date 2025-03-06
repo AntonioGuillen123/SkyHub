@@ -45,7 +45,7 @@ class BookingController extends Controller
             return $this->responseWithError('The user already has a reservation on that flight', 409);
         }
 
-        $this->makeBooking($user, $flight);
+        $this->manageMakeBooking($user, $flight);
 
         return $this->responseWithSuccess([
             'message' => 'The flight has been booked successfully'
@@ -110,9 +110,23 @@ class BookingController extends Controller
         return $user->flights()->find($flight->id);
     }
 
+    private function manageMakeBooking(User $user, Flight $flight)
+    {
+        $this->makeBooking($user, $flight);
+
+        $this->decreasePlaceFromFlight($flight);
+    }
+
     private function makeBooking(User $user, Flight $flight)
     {
         $user->flights()->save($flight);
+    }
+
+    private function decreasePlaceFromFlight(Flight $flight)
+    {
+        $flight->remaining_places--;
+
+        $flight->save();
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
