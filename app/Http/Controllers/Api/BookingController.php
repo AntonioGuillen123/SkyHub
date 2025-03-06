@@ -9,6 +9,64 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/booking",
+     *     tags={"Booking"},
+     *     security={{ "pat": {} }},
+     *     summary="List all Bookings in the system from the authenticated user",
+     *     description="This endpoint returns a list of all bookings available in the system from the authenticated user.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", description="Unique identifier of the booking", example=2),
+     *             @OA\Property(property="airplane_id", type="integer", description="The ID of the airplane assigned to the flight", example=2),
+     *             @OA\Property(property="journey_id", type="integer", description="The ID of the journey associated with the flight", example=2),
+     *             @OA\Property(property="state", type="integer", description="Indicates the state of the booking (1 = active, 0 = inactive)", example=1),
+     *             @OA\Property(property="remaining_places", type="integer", description="Number of available seats remaining for the flight", example=179),
+     *             @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight", example="2025-03-05 11:41:47"),
+     *             @OA\Property(property="price", type="integer", description="The price of the flight ticket", example=200),
+     *             @OA\Property(property="created_at", type="string", format="date-time", description="The timestamp when the booking was created", example="2025-03-05T10:41:47.000000Z"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", description="The timestamp when the booking was last updated", example="2025-03-06T18:29:03.000000Z"),
+     *             @OA\Property(
+     *                 property="pivot",
+     *                 type="object",
+     *                 description="Pivot table data for the relationship between user and flight",
+     *                 @OA\Property(property="user_id", type="integer", description="The ID of the user who made the booking", example=2),
+     *                 @OA\Property(property="flight_id", type="integer", description="The ID of the flight associated with the booking", example=2),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the pivot record was created", example="2025-03-05T10:41:49.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the pivot record was last updated", example="2025-03-05T10:41:49.000000Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user is not authenticated", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message indicating the user has made too many requests", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $user = $this->getUserFromRequest($request);
@@ -61,7 +119,7 @@ class BookingController extends Controller
 
         return $this->responseWithSuccess($users, 200);
     }
-    
+
     public function destroy(Request $request, string $id)
     {
         $user = $this->getUserFromRequest($request);
