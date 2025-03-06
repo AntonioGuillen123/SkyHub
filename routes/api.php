@@ -111,7 +111,7 @@ Route::prefix('booking')
             ->middleware(['scope:list-bookings', 'checkRole:user', 'throttle:60,1'])
             ->name('apiIndexBooking');
 
-        Route::post('/', 'makeBooking')
+        Route::post('/', 'store')
             ->middleware(['scope:make-booking', 'checkRole:user', 'throttle:10,1'])
             ->name('apiMakeBooking');
     });
