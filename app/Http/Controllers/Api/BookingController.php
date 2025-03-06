@@ -21,7 +21,7 @@ class BookingController extends Controller
         return $this->responseWithSuccess($bookings);
     }
 
-    public function makeBooking(Request $request)
+    public function store(Request $request)
     {
         $validated = $this->validateData($request);
 
@@ -33,17 +33,17 @@ class BookingController extends Controller
 
         $isAvailable = $this->flightIsAvaliable($flight);
 
-        if (!$isAvailable){
+        if (!$isAvailable) {
             return $this->responseWithError('The flight is not available', 409);
         }
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $user = $this->getUserFromRequest($request);
+
+        $this->makeBooking($user, $flight);
+
+        return $this->responseWithSuccess([
+            'message' => 'The flight has been booked successfully'
+        ], 201);
     }
 
     /**
@@ -94,8 +94,14 @@ class BookingController extends Controller
         return Flight::find($id);
     }
 
-    private function flightIsAvaliable(Flight $flight) {
+    private function flightIsAvaliable(Flight $flight)
+    {
         return $flight->isAvailable();
+    }
+
+    private function makeBooking(User $user, Flight $flight)
+    {
+        $user->flights()->save($flight);
     }
 
     private function responseWithSuccess(mixed $data, int $status = 200)
