@@ -78,10 +78,14 @@ class BookingController extends Controller
         $reservation = $this->getBookingFromUserById($user, $id);
 
         if (!$reservation) {
-            return $this->responseWithError('The user does not have any reservations with that id', 404);
+            return $this->responseWithError('The user does not have any reservations on a plane with that id', 404);
         }
 
+        $this->manageCancelBooking($user, $reservation);
 
+        return $this->responseWithSuccess([
+            'message' => 'The reservation has been cancelled successfully'
+        ], 200);
     }
 
     private function getUserFromRequest(Request $request)
@@ -94,7 +98,8 @@ class BookingController extends Controller
         return $user->flights;
     }
 
-    private function getBookingFromUserById(User $user, string $id){
+    private function getBookingFromUserById(User $user, string $id)
+    {
         return $user->flights()->find($id);
     }
 
@@ -124,14 +129,33 @@ class BookingController extends Controller
         $this->decreasePlaceFromFlight($flight);
     }
 
+    private function manageCancelBooking(User $user, Flight $flight)
+    {
+        $this->cancelBooking($user, $flight->id);
+
+        $this->increasePlaceFromFlight($flight);
+    }
+
     private function makeBooking(User $user, Flight $flight)
     {
         $user->flights()->save($flight);
     }
 
+    private function cancelBooking(User $user, string $id)
+    {
+        $user->flights()->detach($id);
+    }
+
     private function decreasePlaceFromFlight(Flight $flight)
     {
         $flight->remaining_places--;
+
+        $flight->save();
+    }
+
+    private function increasePlaceFromFlight(Flight $flight)
+    {
+        $flight->remaining_places++;
 
         $flight->save();
     }
