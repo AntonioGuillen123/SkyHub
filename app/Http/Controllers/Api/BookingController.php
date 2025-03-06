@@ -74,6 +74,14 @@ class BookingController extends Controller
     public function destroy(Request $request, string $id)
     {
         $user = $this->getUserFromRequest($request);
+
+        $reservation = $this->getBookingFromUserById($user, $id);
+
+        if (!$reservation) {
+            return $this->responseWithError('The user does not have any reservations with that id', 404);
+        }
+
+
     }
 
     private function getUserFromRequest(Request $request)
