@@ -544,7 +544,7 @@ class FlightController extends Controller
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
                 'flight_date' => 'date_format:Y-m-d H:i',
-                'price' => 'required|decimal|min:0'
+                'price' => 'required|decimal:0,2|min:0'
             ]
             : [
                 'airplane_id' => 'integer|min:0',
@@ -552,7 +552,7 @@ class FlightController extends Controller
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
                 'flight_date' => 'date_format:Y-m-d H:i',
-                'price' => 'decimal|min:0'
+                'price' => 'decimal:0,2|min:0'
             ];
 
         return $request->validate($rules);
