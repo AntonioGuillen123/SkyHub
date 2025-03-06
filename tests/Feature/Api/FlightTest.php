@@ -2,14 +2,24 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class FlightTest extends TestCase
 {
     use RefreshDatabase;
+
+    private function authenticate(){
+        $user = User::find(1);
+
+        Passport::actingAs(
+            $user,
+            ['manage-flights']
+        );
+    }
 
     public function test_CheckIfRecieveAllEntriesOfFlightsInJsonFile()
     {
@@ -25,7 +35,7 @@ class FlightTest extends TestCase
     public function test_CheckIfRecieveAnEntryOfFlightByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
-
+        
         $response = $this->getJson(route('apiShowFlight', 1));
 
         $responseData = [
@@ -60,11 +70,14 @@ class FlightTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        $this->authenticate();
+
         $data = [
             'airplane_id' => 1,
             'journey_id' => 1,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 555
         ];
 
         $response = $this->postJson(route('apiStoreFlight'), $data);
@@ -78,11 +91,14 @@ class FlightTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
+        $this->authenticate();
+
         $data = [
             'airplane_id' => 99999,
             'journey_id' => 1,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 555
         ];
 
         $response = $this->postJson(route('apiStoreFlight'), $data);
@@ -99,7 +115,8 @@ class FlightTest extends TestCase
             'airplane_id' => 1,
             'journey_id' => 99999,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 555
         ];
 
         $response = $this->postJson(route('apiStoreFlight'), $data);
@@ -116,12 +133,15 @@ class FlightTest extends TestCase
     public function test_CheckIfUpdateAnEntryOfFlightByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+        
+        $this->authenticate();
 
         $data = [
             'airplane_id' => 2,
             'journey_id' => 2,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 999
         ];
 
         $response = $this->putJson(route('apiUpdateFlight', 1), $data);
@@ -134,12 +154,15 @@ class FlightTest extends TestCase
     public function test_CheckIfUpdateAnEntryOfFlightWrongInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+        
+        $this->authenticate();
 
         $data = [
             'airplane_id' => 1,
             'journey_id' => 1,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 999
         ];
 
         $response = $this->putJson(route('apiUpdateFlight', -1), $data);
@@ -156,7 +179,8 @@ class FlightTest extends TestCase
             'airplane_id' => 99999,
             'journey_id' => 1,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 999
         ];
 
         $response = $this->putJson(route('apiUpdateFlight', 1), $data);
@@ -173,7 +197,8 @@ class FlightTest extends TestCase
             'airplane_id' => 1,
             'journey_id' => 99999,
             'state' => 0,
-            'remaining_places' => 999
+            'remaining_places' => 999,
+            'price' => 999
         ];
 
         $response = $this->putJson(route('apiUpdateFlight', 1), $data);
@@ -190,6 +215,8 @@ class FlightTest extends TestCase
     public function test_CheckIfDeleteAnEntryOfFlightByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+        
+        $this->authenticate();
 
         $response = $this->deleteJson(route('apiDestroyFlight', 1));
 
@@ -200,6 +227,8 @@ class FlightTest extends TestCase
     public function test_CheckIfDeleteAnEntryOfAirplaneWrongByIdInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
+        
+        $this->authenticate();
 
         $response = $this->deleteJson(route('apiDestroyFlight', -1));
 
