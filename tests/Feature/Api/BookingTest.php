@@ -13,7 +13,8 @@ class BookingTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function authenticate($idUser, $scopes){
+    private function authenticate($idUser, $scopes)
+    {
         $user = User::find($idUser);
 
         Passport::actingAs(
@@ -22,19 +23,21 @@ class BookingTest extends TestCase
         );
     }
 
-    public function test_CheckIfRecieveAllEntriesOfBookingsFromUserInJsonFile(){
+    public function test_CheckIfRecieveAllEntriesOfBookingsFromUserInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $this->authenticate(2, ['list-bookings']);
 
         $response = $this->getJson(route('apiIndexBooking'));
-        
+
         $response
             ->assertStatus(200)
             ->assertJsonCount(1);
     }
 
-    public function test_CheckIfPostAnEntryOfBookingInJsonFile(){
+    public function test_CheckIfPostAnEntryOfBookingInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $this->authenticate(2, ['make-booking']);
@@ -48,13 +51,14 @@ class BookingTest extends TestCase
         $resultData = [
             'message' => 'The flight has been booked successfully'
         ];
-        
+
         $response
             ->assertStatus(201)
             ->assertJsonFragment($resultData);
     }
 
-    public function test_CheckIfPostAnEntryOfBookingWithWrongFlightIdInJsonFile(){
+    public function test_CheckIfPostAnEntryOfBookingWithWrongFlightIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $this->authenticate(2, ['make-booking']);
@@ -68,13 +72,14 @@ class BookingTest extends TestCase
         $resultData = [
             'message' => 'The flight id does not exist :('
         ];
-        
+
         $response
             ->assertStatus(404)
             ->assertJsonFragment($resultData);
     }
 
-    public function test_CheckIfPostAnEntryOfBookingWithUnavailableFlightIdInJsonFile(){
+    public function test_CheckIfPostAnEntryOfBookingWithUnavailableFlightIdInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $this->authenticate(2, ['make-booking']);
@@ -88,13 +93,14 @@ class BookingTest extends TestCase
         $resultData = [
             'message' => 'The flight is not available :('
         ];
-        
+
         $response
             ->assertStatus(409)
             ->assertJsonFragment($resultData);
     }
 
-    public function test_CheckIfPostAnEntryOfBookingWithAlreadyReservationInJsonFile(){
+    public function test_CheckIfPostAnEntryOfBookingWithAlreadyReservationInJsonFile()
+    {
         $this->seed(DatabaseSeeder::class);
 
         $this->authenticate(2, ['make-booking']);
@@ -110,7 +116,7 @@ class BookingTest extends TestCase
         $resultData = [
             'message' => 'The user already has a reservation on that flight :('
         ];
-        
+
         $response
             ->assertStatus(409)
             ->assertJsonFragment($resultData);
