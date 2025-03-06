@@ -531,14 +531,16 @@ class FlightController extends Controller
                 'journey_id' => 'required|integer|min:0',
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
-                'flight_date' => 'date_format:Y-m-d H:i'
+                'flight_date' => 'date_format:Y-m-d H:i',
+                'price' => 'required|integer|min:0'
             ]
             : [
                 'airplane_id' => 'integer|min:0',
                 'journey_id' => 'integer|min:0',
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
-                'flight_date' => 'date_format:Y-m-d H:i'
+                'flight_date' => 'date_format:Y-m-d H:i',
+                'price' => 'integer|min:0'
             ];
 
         return $request->validate($rules);
