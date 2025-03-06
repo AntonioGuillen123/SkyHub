@@ -62,6 +62,10 @@ class BookingController extends Controller
         if (!$flight) {
             return $this->responseWithError('The flight id does not exist', 404);
         }
+
+        $users = $this->getUsersFromFlight($flight);
+
+        return $this->responseWithSuccess($users, 200);
     }
 
     /**
@@ -119,6 +123,11 @@ class BookingController extends Controller
     private function getFlightById(int $id)
     {
         return Flight::find($id);
+    }
+
+    private function getUsersFromFlight(Flight $flight)
+    {
+        return $flight->users;
     }
 
     private function flightIsAvaliable(Flight $flight)
