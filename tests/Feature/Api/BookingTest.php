@@ -32,4 +32,24 @@ class BookingTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(1);
     }
+
+    public function test_CheckIfPostAnEntryOfBookingInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['make-booking']);
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->postJson(route('apiMakeBooking'), $data);
+
+        $resultData = [
+            'message' => 'The flight has been booked successfully'
+        ];
+        
+        $response
+            ->assertStatus(201)
+            ->assertJsonFragment($resultData);
+    }
 }
