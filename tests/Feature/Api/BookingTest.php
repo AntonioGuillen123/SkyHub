@@ -114,4 +114,17 @@ class BookingTest extends TestCase
             ->assertStatus(409)
             ->assertJsonFragment($resultData);
     }
+
+    public function test_CheckIfRecieveAllUsersByFlightIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(1, ['list-all-bookings']);
+
+        $response = $this->getJson(route('apiShowBooking', 1));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(1);
+    }
 }
