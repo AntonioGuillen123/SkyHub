@@ -39,7 +39,7 @@ class BookingController extends Controller
 
         $user = $this->getUserFromRequest($request);
 
-        $hasReservation = $this->userHasReservation($user, $flight);
+        $hasReservation = $this->getBookingFromUserById($user, $flight->id);
 
         if ($hasReservation) {
             return $this->responseWithError('The user already has a reservation on that flight', 409);
@@ -71,9 +71,9 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        $user = $this->getUserFromRequest($request);
     }
 
     private function getUserFromRequest(Request $request)
@@ -84,6 +84,10 @@ class BookingController extends Controller
     private function getBookingsFromUser(User $user)
     {
         return $user->flights;
+    }
+
+    private function getBookingFromUserById(User $user, string $id){
+        return $user->flights()->find($id);
     }
 
     private function validateData(Request $request)
@@ -103,11 +107,6 @@ class BookingController extends Controller
     private function flightIsAvaliable(Flight $flight)
     {
         return $flight->isAvailable();
-    }
-
-    private function userHasReservation(User $user, Flight $flight)
-    {
-        return $user->flights()->find($flight->id);
     }
 
     private function manageMakeBooking(User $user, Flight $flight)
