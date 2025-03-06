@@ -44,12 +44,14 @@ class Flight extends Pivot
             DB::transaction(function () use ($flight) { // Funciona como una función lambda, hay que usar el use para pasar una variable del ámbito externo a el ámbito interno de la función anónima :))
                 $state = $flight->state;
                 $remaining_places = $flight->remaining_places;
+                $createdDate = $flight->created_at;
+                $updatedDate = $flight->updated_at;
 
                 if ($state && $remaining_places == self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) {
                     $flight->state = false;
                 }
 
-                if (!$state && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
+                if ($createdDate != $updatedDate && !$state && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
                     $flight->state = true;
                 }
             });
