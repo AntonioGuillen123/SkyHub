@@ -104,6 +104,7 @@ class BookingTest extends TestCase
         ];
 
         $this->postJson(route('apiMakeBooking'), $data);
+
         $response = $this->postJson(route('apiMakeBooking'), $data);
 
         $resultData = [
@@ -142,6 +143,23 @@ class BookingTest extends TestCase
 
         $response
             ->assertStatus(404)
+            ->assertJsonFragment($resultData);
+    }
+
+    public function test_CheckIfDeleteAnEntryOfBookingByFlightIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['cancel-booking']);
+
+        $response = $this->deleteJson(route('apiCancelBooking', 2));
+
+        $resultData = [
+            'message' => 'The reservation has been cancelled successfully'
+        ];
+
+        $response
+            ->assertStatus(200)
             ->assertJsonFragment($resultData);
     }
 }
