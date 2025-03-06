@@ -279,6 +279,62 @@ class BookingController extends Controller
         return $this->responseWithSuccess($users, 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/booking/{id}",
+     *     tags={"Booking"},
+     *     security={{ "pat": {} }},
+     *     summary="Cancel a booking",
+     *     description="This endpoint allows an authenticated user to cancel a booking for a specific flight.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="The ID of the flight reservation to be canceled",
+     *         @OA\Schema(type="integer", example=2)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The reservation has been cancelled successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The user does not have any reservations on a plane with that id :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message indicating the user has made too many requests", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function destroy(Request $request, string $id)
     {
         $user = $this->getUserFromRequest($request);
