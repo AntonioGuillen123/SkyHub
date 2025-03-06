@@ -93,4 +93,25 @@ class BookingTest extends TestCase
             ->assertStatus(409)
             ->assertJsonFragment($resultData);
     }
+
+    public function test_CheckIfPostAnEntryOfBookingWithAlreadyReservationInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['make-booking']);
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $this->postJson(route('apiMakeBooking'), $data);
+        $response = $this->postJson(route('apiMakeBooking'), $data);
+
+        $resultData = [
+            'message' => 'The user already has a reservation on that flight :('
+        ];
+        
+        $response
+            ->assertStatus(409)
+            ->assertJsonFragment($resultData);
+    }
 }
