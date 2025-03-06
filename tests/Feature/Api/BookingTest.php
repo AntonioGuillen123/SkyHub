@@ -52,4 +52,24 @@ class BookingTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment($resultData);
     }
+
+    public function test_CheckIfPostAnEntryOfBookingWithWrongFlightIdInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['make-booking']);
+
+        $data = [
+            'flight_id' => 9999
+        ];
+
+        $response = $this->postJson(route('apiMakeBooking'), $data);
+
+        $resultData = [
+            'message' => 'The flight id does not exist :('
+        ];
+        
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($resultData);
+    }
 }
