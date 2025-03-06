@@ -39,6 +39,12 @@ class BookingController extends Controller
 
         $user = $this->getUserFromRequest($request);
 
+        $hasReservation = $this->userHasReservation($user, $flight);
+
+        if ($hasReservation) {
+            return $this->responseWithError('The user already has a reservation on that flight', 409);
+        }
+
         $this->makeBooking($user, $flight);
 
         return $this->responseWithSuccess([
@@ -97,6 +103,11 @@ class BookingController extends Controller
     private function flightIsAvaliable(Flight $flight)
     {
         return $flight->isAvailable();
+    }
+
+    private function userHasReservation(User $user, Flight $flight)
+    {
+        return $user->flights()->find($flight->id);
     }
 
     private function makeBooking(User $user, Flight $flight)
