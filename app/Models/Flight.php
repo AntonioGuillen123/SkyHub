@@ -48,6 +48,10 @@ class Flight extends Pivot
                 if ($state && $remaining_places == self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) {
                     $flight->state = false;
                 }
+
+                if (!$state && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
+                    $flight->state = true;
+                }
             });
         });
 
@@ -62,7 +66,8 @@ class Flight extends Pivot
         });
     }
 
-    public function isAvailable(){
+    public function isAvailable()
+    {
         return $this->state;
     }
 }
