@@ -57,7 +57,11 @@ class BookingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $flight = $this->getFlightById($id);
+
+        if (!$flight) {
+            return $this->responseWithError('The flight id does not exist', 404);
+        }
     }
 
     /**
