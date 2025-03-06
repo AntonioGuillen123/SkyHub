@@ -162,4 +162,21 @@ class BookingTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment($resultData);
     }
+
+    public function test_CheckIfDeleteAnEntryOfBookingByWrongFlightIdInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['cancel-booking']);
+
+        $response = $this->deleteJson(route('apiCancelBooking', 1));
+
+        $resultData = [
+            'message' => 'The user does not have any reservations on a plane with that id :('
+        ];
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($resultData);
+    }
 }
