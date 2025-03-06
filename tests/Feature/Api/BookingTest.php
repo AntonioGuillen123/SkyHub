@@ -2,19 +2,34 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class BookingTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    private function authenticate($idUser, $scopes){
+        $user = User::find($idUser);
+
+        Passport::actingAs(
+            $user,
+            $scopes
+        );
+    }
+
+    public function test_CheckIfRecieveAllEntriesOfBookingsFromUserInJsonFile(){
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['list-bookings']);
+
+        $response = $this->getJson(route('apiIndexBooking'));
+        
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(1);
     }
 }
