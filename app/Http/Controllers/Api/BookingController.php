@@ -150,6 +150,14 @@ class BookingController extends Controller
      *                 )
      *             )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message indicating the user has made too many requests", example="Too Many Attempts.")
+     *         )
      *     )
      * )
      */
@@ -184,6 +192,80 @@ class BookingController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/booking/{id}",
+     *     tags={"Booking"},
+     *     security={{ "pat": {} }},
+     *     summary="Get booking details",
+     *     description="This endpoint allow an admin retrieves a list of users who have booked a specific flight based on the provided flight ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="The ID of the flight whose bookings are being retrieved",
+     *         @OA\Schema(type="integer", example=2)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response with a list of users who have booked this flight",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", description="User ID", example=2),
+     *                 @OA\Property(property="name", type="string", description="User's full name", example="Jane Smith"),
+     *                 @OA\Property(property="email", type="string", description="User's email address", example="jane@example.com"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time", description="Timestamp when the user's email was verified", example="2025-03-05T10:41:47.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the user was created", example="2025-03-05T10:41:49.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the user's data was last updated", example="2025-03-05T10:41:49.000000Z"),
+     *                 @OA\Property(property="role_user_id", type="integer", description="Role ID assigned to the user", example=2),
+     *                 @OA\Property(
+     *                     property="pivot",
+     *                     type="object",
+     *                     description="Pivot table data for the relationship between flight and user",
+     *                     @OA\Property(property="flight_id", type="integer", description="The ID of the flight associated with the booking", example=2),
+     *                     @OA\Property(property="user_id", type="integer", description="The ID of the user who made the booking", example=2),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the pivot record was created", example="2025-03-05T10:41:49.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the pivot record was last updated", example="2025-03-05T10:41:49.000000Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message when user does not have sufficient permissions", example="Invalid scope(s) provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="The flight id does not exist :(")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=429,
+     *         description="Too many requests",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", description="Error message indicating the user has made too many requests", example="Too Many Attempts.")
+     *         )
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         $flight = $this->getFlightById($id);
