@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Flight extends Pivot
@@ -47,7 +48,7 @@ class Flight extends Pivot
                 $createdDate = $flight->created_at;
                 $updatedDate = $flight->updated_at;
                 $flightDateHasPassed = $flight->dateHasPassed();
-                
+
                 if ($remaining_places == self::MIN_PLACES_TO_DEACTIVATE_FLIGHT || $flightDateHasPassed) {
                     $flight->state = false;
                 }
@@ -76,9 +77,9 @@ class Flight extends Pivot
 
     private function dateHasPassed()
     {
-        $flightDate = $this->flight_date;
-        $nowDate = now()->format('Y-m-d H:i:s');
-
-        return $nowDate > $flightDate;
+        $flightDate = Carbon::parse($this->flight_date);
+        $nowDate = now();
+        
+        return $nowDate->greaterThan($flightDate);
     }
 }
