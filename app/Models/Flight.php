@@ -46,24 +46,25 @@ class Flight extends Pivot
                 $remaining_places = $flight->remaining_places;
                 $createdDate = $flight->created_at;
                 $updatedDate = $flight->updated_at;
-
-                if ($state && $remaining_places == self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) {
+                $flightDateHasPassed = $flight->dateHasPassed();
+                
+                if ($remaining_places == self::MIN_PLACES_TO_DEACTIVATE_FLIGHT || $flightDateHasPassed) {
                     $flight->state = false;
                 }
 
-                if (!$state && $createdDate != $updatedDate && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
+                if (!$state && $createdDate != $updatedDate && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT && !$flightDateHasPassed) {
                     $flight->state = true;
                 }
             });
         });
 
         static::created(function (Flight $flight) {
-            $remaining_places = $flight->remaining_places;
+            $remainingPlaces = $flight->remaining_places;
 
-            if (is_null($remaining_places)) {
+            if (is_null($remainingPlaces)) {
                 $flight->remaining_places = $flight->airplane->maximum_places;
             }
-            
+
             $flight->save();
         });
     }
@@ -71,5 +72,13 @@ class Flight extends Pivot
     public function isAvailable()
     {
         return $this->state;
+    }
+
+    private function dateHasPassed()
+    {
+        $flightDate = $this->flight_date;
+        $nowDate = now()->format('Y-m-d H:i:s');
+
+        return $nowDate > $flightDate;
     }
 }
