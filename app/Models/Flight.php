@@ -51,7 +51,7 @@ class Flight extends Pivot
                     $flight->state = false;
                 }
 
-                if ($createdDate != $updatedDate && !$state && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
+                if (!$state && $createdDate != $updatedDate && $remaining_places > self::MIN_PLACES_TO_DEACTIVATE_FLIGHT) { // TODO Poner condición para comprobar que la fecha no haya pasado :)
                     $flight->state = true;
                 }
             });
@@ -60,11 +60,11 @@ class Flight extends Pivot
         static::created(function (Flight $flight) {
             $remaining_places = $flight->remaining_places;
 
-            if (!$remaining_places) {
+            if (is_null($remaining_places)) {
                 $flight->remaining_places = $flight->airplane->maximum_places;
-
-                $flight->save();
             }
+            
+            $flight->save();
         });
     }
 
