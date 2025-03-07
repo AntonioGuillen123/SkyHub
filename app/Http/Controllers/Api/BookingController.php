@@ -276,7 +276,7 @@ class BookingController extends Controller
 
         $users = $this->getUsersFromFlight($flight);
 
-        return $this->responseWithSuccess($users, 200);
+        return $this->responseWithSuccess($users);
     }
 
     /**
@@ -349,7 +349,7 @@ class BookingController extends Controller
 
         return $this->responseWithSuccess([
             'message' => 'The reservation has been cancelled successfully'
-        ], 200);
+        ]);
     }
 
     private function getUserFromRequest(Request $request)
