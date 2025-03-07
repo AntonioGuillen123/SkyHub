@@ -72,6 +72,14 @@ class Flight extends Pivot
 
     public function isAvailable()
     {
+        $dateHasPassed = $this->dateHasPassed();
+
+        if($dateHasPassed){
+            $this->state = false;
+
+            $this->save();
+        }
+
         return $this->state;
     }
 
