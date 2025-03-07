@@ -245,6 +245,34 @@ class AuthTest extends TestCase
             ->assertJsonFragment($responseData);
     }
 
+    public function test_CheckIfICanVerifyEmailWithWrongHashInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $user = User::find(1);
+
+        Notification::fake();
+
+        $user->notify(new VerifyEmailAPI($user));
+
+        $notification = Notification::sent($user, VerifyEmailAPI::class)->first();
+
+        $signedURL = $notification->toMail($user)->actionUrl;
+
+        $responseData = [
+            'message' =>  'This link is invalid :(',
+        ];
+
+        $user->email = '';
+        $user->save();
+
+        $response = $this->getJson($signedURL);
+
+        $response
+            ->assertStatus(400)
+            ->assertJsonFragment($responseData);
+    }
+
     public function test_CheckIfICanResendEmailInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
