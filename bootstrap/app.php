@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->call(new UpdateFlightStatus)->everyFiveMinutes();
+        $schedule->call(new UpdateFlightStatus);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
