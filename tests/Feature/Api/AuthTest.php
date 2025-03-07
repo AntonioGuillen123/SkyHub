@@ -288,6 +288,25 @@ class AuthTest extends TestCase
             ->assertJsonFragment($responseData);
     }
 
+    public function test_CheckIfICanForgotPasswordWrongInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $requestData = [
+            'email' => 'error@example.com'
+        ];
+
+        $responseData = [
+            'message' =>  'This user does not exist :(',
+        ];
+
+        $response = $this->postJson(route('apiForgotPassword'), $requestData);
+
+        $response
+            ->assertStatus(404)
+            ->assertJsonFragment($responseData);
+    }
+
     public function test_CheckIfICanResetPasswordInJsonFile()
     {
         $this->seed(DatabaseSeeder::class);
