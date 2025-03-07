@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Middleware\CheckUserRole;
+use App\UpdateFlightStatus;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Laravel\Passport\Http\Middleware\CheckScopes;
 
@@ -20,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'scope' => CheckForAnyScope::class,
             'checkRole' => CheckUserRole::class
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->call(new UpdateFlightStatus)->everyFiveSeconds();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
