@@ -16,7 +16,10 @@
             </div>
             <ul class="flex flex-wrap items-center text-sm font-medium mt-4 md:mt-0 text-[#FFDE59]">
                 <li>
-                    <a href="/" class="hover:underline me-4 md:me-6">Home</a>
+                    <a href="{{ route('home') }}" class="hover:underline me-4 md:me-6">Home</a>
+                </li>
+                <li>
+                    <a href="{{ route('indexFlight') }}" class="hover:underline me-4 md:me-6">Flights</a>
                 </li>
             </ul>
         </div>
