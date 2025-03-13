@@ -9,6 +9,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
+Route::post('/booking', [FlightController::class, 'store'])->name('makeBooking');
+Route::delete('/booking', [FlightController::class, 'destroy'])->name('cancelBooking');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
