@@ -27,7 +27,8 @@ class FlightController extends Controller
      *                  @OA\Property(property="airplane_id", type="integer", description="The unique identifier of the airplane associated with the flight. This field references the Airplane model.", example=1),   
      *                  @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight. This field references the Journey model.", example=1),     
      *                  @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
-     *                  @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),     
+     *                  @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *                  @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40"),     
      *                  @OA\Property(property="remaining_places", type="integer", description="The remaining places of the flight.", example=420),     
      *                  @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),     
      *                  @OA\Property(property="created_at", type="date-time", description="The timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),     
@@ -61,13 +62,14 @@ class FlightController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *              type="object",
-     *              required={"airplane_id", "journey_id", "price"},
+     *              required={"airplane_id", "journey_id", "price", "arrival_date"},
      *              @OA\Property(property="airplane_id", type="integer", description="The unique identifier of the airplane associated with the flight.", example=1),
      *              @OA\Property(property="journey_id", type="integer", description="The unique identifier of the journey associated with the flight.", example=1),
      *              @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining places of the flight.", example=420),
      *              @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),     
-     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40")
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *              @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40")
      *         )
      *     ),
      *     @OA\Response(
@@ -81,6 +83,7 @@ class FlightController extends Controller
      *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
      *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *              @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40"),
      *              @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),     
      *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
@@ -154,6 +157,9 @@ class FlightController extends Controller
      *                 @OA\Property(property="flight_date", type="array",
      *                     @OA\Items(type="string", example="The flight_date field does not match the format Y-m-d H:i.")
      *                 ),
+     *                 @OA\Property(property="arrival_date", type="array",
+     *                     @OA\Items(type="string", example="The arrival_date field does not match the format Y-m-d H:i.")
+     *                 ),
      *                 @OA\Property(property="price", type="array",
      *                     @OA\Items(type="string", example="The price field must be at least 0.")
      *                 )
@@ -214,6 +220,7 @@ class FlightController extends Controller
      *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
      *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *              @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40"),
      *              @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),
      *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
@@ -299,7 +306,8 @@ class FlightController extends Controller
      *              @OA\Property(property="state", type="boolean", description="The state of the flight.", example=true),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining seats of the flight.", example=420),
      *              @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),
-     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40")
+     *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *              @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40")
      *         )
      *     ),
      *     @OA\Response(
@@ -313,6 +321,7 @@ class FlightController extends Controller
      *              @OA\Property(property="state", type="integer", description="The state of the flight.", example=1),
      *              @OA\Property(property="remaining_places", type="integer", description="The remaining available seats on the flight.", example=420),
      *              @OA\Property(property="flight_date", type="string", format="date-time", description="The scheduled date and time of the flight.", example="2025-12-31 15:40"),
+     *              @OA\Property(property="arrival_date", type="string", format="date-time", description="The scheduled arrival date and time of the flight.", example="2026-12-31 15:40"),
      *              @OA\Property(property="price", type="decimal", description="The price of the flight.", example=555),
      *              @OA\Property(property="created_at", type="string", format="date-time", description="Timestamp when the flight record was created.", example="2025-02-04T15:10:13.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", description="Timestamp when the flight record was last updated.", example="2025-02-04T15:10:13.000000Z"),
@@ -393,6 +402,9 @@ class FlightController extends Controller
      *                 ),
      *                 @OA\Property(property="flight_date", type="array",
      *                     @OA\Items(type="string", example="The flight_date field does not match the format Y-m-d H:i.")
+     *                 ),
+     *                 @OA\Property(property="arrival_date", type="array",
+     *                     @OA\Items(type="string", example="The arrival_date field does not match the format Y-m-d H:i.")
      *                 ),
      *                 @OA\Property(property="price", type="array",
      *                     @OA\Items(type="string", example="The price field must be at least 0.")
@@ -544,6 +556,7 @@ class FlightController extends Controller
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
                 'flight_date' => 'date_format:Y-m-d H:i',
+                'arrival_date' => 'required|date_format:Y-m-d H:i',
                 'price' => 'required|decimal:0,2|min:0'
             ]
             : [
@@ -552,6 +565,7 @@ class FlightController extends Controller
                 'state' => 'boolean',
                 'remaining_places' => 'integer|min:0',
                 'flight_date' => 'date_format:Y-m-d H:i',
+                'arrival_date' => 'date_format:Y-m-d H:i',
                 'price' => 'decimal:0,2|min:0'
             ];
 
