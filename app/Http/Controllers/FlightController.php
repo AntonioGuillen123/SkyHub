@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flight;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FlightController extends Controller
 {
@@ -12,54 +16,35 @@ class FlightController extends Controller
      */
     public function index()
     {
-        //
+        /* $flights = Flight::orderBy('flight_date', 'asc')
+            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
+            ->get(); */
+        /* $flights = Flight::orderBy('flight_date', 'asc')
+            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
+            ->find(1); */
+        $user = $this->getUserFromAuth();
+        $userId = $user->id ?? 0;
+
+        $flights = Flight::orderBy('flight_date', 'asc')
+            ->withCount(['users as booked' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
+            ->get();
+
+
+        /* $booking = $user->flights()->find($flights->id); */
+
+        // return response()->json($flights);
+
+        return view('flight', compact('flights'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function store() {}
+    public function destroy() {}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    private function getUserFromAuth()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Flight $flight)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Flight $flight)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Flight $flight)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Flight $flight)
-    {
-        //
+        return Auth::user();
     }
 }
