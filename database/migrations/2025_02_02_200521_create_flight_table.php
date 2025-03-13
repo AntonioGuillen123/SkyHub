@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('state')->default(1);
             $table->integer('remaining_places')->nullable();
             $table->timestamp('flight_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('arrival_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->double('price');
             $table->timestamps();
         });

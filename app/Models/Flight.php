@@ -19,6 +19,7 @@ class Flight extends Pivot
         'state',
         'remaining_places',
         'flight_date',
+        'arrival_date',
         'price'
     ];
 
