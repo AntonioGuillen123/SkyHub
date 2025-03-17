@@ -8,25 +8,6 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $this->validateData($request);
@@ -56,33 +37,6 @@ class BookingController extends Controller
         return $this->responseWithMessage('The flight has been booked successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         $validated = $this->validateData($request);
@@ -100,25 +54,6 @@ class BookingController extends Controller
         return $this->responseWithMessage('The reservation has been cancelled successfully');
     }
 
-    private function validateData(Request $request)
-    {
-        $rules = [
-            'flight_id' => 'required|integer|min:0'
-        ];
-
-        return $request->validate($rules);
-    }
-
-    private function getFlightById(int $id)
-    {
-        return Flight::find($id);
-    }
-
-    private function flightIsAvaliable(Flight $flight)
-    {
-        return $flight->isAvailable();
-    }
-
     private function getUserFromRequest(Request $request)
     {
         return $request->user();
@@ -129,23 +64,30 @@ class BookingController extends Controller
         return $user->flights()->find($id);
     }
 
+    private function getFlightById(int $id)
+    {
+        return Flight::find($id);
+    }
+
+    private function validateData(Request $request)
+    {
+        $rules = [
+            'flight_id' => 'required|integer|min:0'
+        ];
+
+        return $request->validate($rules);
+    }
+
+    private function flightIsAvaliable(Flight $flight)
+    {
+        return $flight->isAvailable();
+    }
+
     private function manageMakeBooking(User $user, Flight $flight)
     {
         $this->makeBooking($user, $flight);
 
         $this->decreasePlaceFromFlight($flight);
-    }
-
-    private function makeBooking(User $user, Flight $flight)
-    {
-        $user->flights()->save($flight);
-    }
-
-    private function decreasePlaceFromFlight(Flight $flight)
-    {
-        $flight->remaining_places--;
-
-        $flight->save();
     }
 
     private function manageCancelBooking(User $user, Flight $flight)
@@ -155,9 +97,21 @@ class BookingController extends Controller
         $this->increasePlaceFromFlight($flight);
     }
 
+    private function makeBooking(User $user, Flight $flight)
+    {
+        $user->flights()->save($flight);
+    }
+
     private function cancelBooking(User $user, string $id)
     {
         $user->flights()->detach($id);
+    }
+
+    private function decreasePlaceFromFlight(Flight $flight)
+    {
+        $flight->remaining_places--;
+
+        $flight->save();
     }
 
     private function increasePlaceFromFlight(Flight $flight)
