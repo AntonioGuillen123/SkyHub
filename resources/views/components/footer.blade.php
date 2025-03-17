@@ -21,6 +21,9 @@
                 <li>
                     <a href="{{ route('indexFlight') }}" class="hover:underline me-4 md:me-6">Flights</a>
                 </li>
+                <li>
+                    <a href="{{ url('api/documentation') }}" class="hover:underline me-4 md:me-6">API Docs</a>
+                </li>
             </ul>
         </div>
     </div>
