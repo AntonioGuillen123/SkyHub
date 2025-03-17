@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                         {{ __('Flights') }}
                     </x-nav-link>
+                    <x-nav-link :href="url('api/documentation')">
+                        {{ __('API Docs') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -45,6 +48,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                 {{ __('Flights') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="url('api/documentation')">
+                {{ __('API Docs') }}
             </x-responsive-nav-link>
         </div>
 
