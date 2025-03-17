@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -9,8 +10,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
-Route::post('/booking', [FlightController::class, 'store'])->name('makeBooking');
-Route::delete('/booking', [FlightController::class, 'destroy'])->name('cancelBooking');
+Route::post('/booking', [BookingController::class, 'store'])->name('makeBooking');
+Route::delete('/booking', [BookingController::class, 'destroy'])->name('cancelBooking');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
