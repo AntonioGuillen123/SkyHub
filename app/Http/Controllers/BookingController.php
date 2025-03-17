@@ -83,9 +83,21 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $validated = $this->validateData($request);
+
+        $user = $this->getUserFromRequest($request);
+
+        $reservation = $this->getBookingFromUserById($user, $validated['flight_id']);
+
+        if (!$reservation) {
+            return $this->responseWithMessage('The user does not have any reservations on a plane with that id');
+        }
+
+        $this->manageCancelBooking($user, $reservation);
+
+        return $this->responseWithMessage('The reservation has been cancelled successfully');
     }
 
     private function validateData(Request $request)
@@ -132,6 +144,25 @@ class BookingController extends Controller
     private function decreasePlaceFromFlight(Flight $flight)
     {
         $flight->remaining_places--;
+
+        $flight->save();
+    }
+
+    private function manageCancelBooking(User $user, Flight $flight)
+    {
+        $this->cancelBooking($user, $flight->id);
+
+        $this->increasePlaceFromFlight($flight);
+    }
+
+    private function cancelBooking(User $user, string $id)
+    {
+        $user->flights()->detach($id);
+    }
+
+    private function increasePlaceFromFlight(Flight $flight)
+    {
+        $flight->remaining_places++;
 
         $flight->save();
     }
