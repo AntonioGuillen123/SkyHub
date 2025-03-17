@@ -40,9 +40,6 @@ class FlightController extends Controller
         return view('flight', compact('flights'));
     }
 
-    public function store() {}
-    public function destroy() {}
-
     private function getUserFromAuth()
     {
         return Auth::user();
