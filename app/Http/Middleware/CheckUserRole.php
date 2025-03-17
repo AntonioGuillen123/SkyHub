@@ -20,11 +20,23 @@ class CheckUserRole
         $userHasRole = $user->hasRole($role);
 
         if (!$userHasRole) {
-            return response()->json([
-                'message' => 'Access denied. You don´t have permissions to do that'
-            ], 403);
+            $message = 'Access denied. You don´t have permissions to do that';
+            $routeIsApi = $this->isApi($request);
+
+            return $routeIsApi
+                ? response()->json([
+                    'message' => $message
+                ], 403)
+                : redirect()
+                ->route('indexFlight', [], 303) // Se usa el 303 ya que se redirige y se evita que se vuelva a enviar
+                ->with('message', $message);
         }
 
         return $next($request);
+    }
+
+    private function isApi(Request $request)
+    {
+        return $request->is('api/*');
     }
 }
