@@ -24,6 +24,7 @@
 
                         $statusClass = $isActive ? 'border-emerald-500' : 'border-red-500';
                         $bookedClass = $isActive && !$isBooked ? 'text-emerald-500' : 'text-red-500';
+                        $bookedBgHoverClass = 'bg-[#4c5057]';
                         $bookingRoute = $isBooked ? 'cancelBooking' : 'makeBooking';
                         $bookingText = $isBooked ? 'Cancel' : 'Reserve';
                     @endphp
@@ -60,7 +61,7 @@
                         @else
                             <div class="flex justify-center">
                                 <a href="{{ route($bookingRoute) }}"
-                                    class="bg-[#383E48] {{ $bookedClass }} p-1 px-2 rounded-xl">
+                                    class="bg-[#383E48] hover:{{ $bookedBgHoverClass }} {{ $bookedClass }} p-1 px-2 rounded-xl">
                                     {{ $bookingText }}
                                 </a>
                             </div>
