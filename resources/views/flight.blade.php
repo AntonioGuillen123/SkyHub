@@ -4,6 +4,7 @@
             <div class="overflow-hidden flex flex-wrap justify-center gap-8">
                 @foreach ($flights as $flight)
                     @php
+                        $flightId = $flight->id;
                         $price = $flight->price;
                         $remainingPlaces = $flight->remaining_places;
                         $flightDateTime = date('Y-m-d H:i', strtotime($flight->flight_date));
@@ -60,10 +61,17 @@
                         @if (!$isActive && !$isBooked)
                         @else
                             <div class="flex justify-center">
-                                <a href="{{ route($bookingRoute) }}"
-                                    class="bg-[#383E48] hover:{{ $bookedBgHoverClass }} {{ $bookedClass }} p-1 px-2 rounded-xl">
-                                    {{ $bookingText }}
-                                </a>
+                                <form action="{{ route($bookingRoute) }}" method="POST">
+                                    <input type="hidden" name="flight_id" value="{{ $flightId }}">
+                                    @csrf
+                                    @if ($isBooked)
+                                        @method('DELETE')
+                                    @endif
+                                    <button type="submit"
+                                        class="bg-[#383E48] hover:{{ $bookedBgHoverClass }} {{ $bookedClass }} p-1 px-2 rounded-xl">
+                                        {{ $bookingText }}
+                                    </button>
+                                </form>
                             </div>
                         @endif
                     </div>
