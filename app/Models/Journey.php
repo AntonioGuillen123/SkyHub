@@ -29,6 +29,7 @@ class Journey extends Model
         return $this->belongsToMany(Airplane::class, 'flight')
             ->using(Flight::class)
             ->withPivot('flight_date', 'arrival_date', 'state', 'remaining_places')
+            ->as('flight')
             ->withTimestamps();
     }
 }
