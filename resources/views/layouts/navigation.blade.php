@@ -1,4 +1,8 @@
 <nav x-data="{ open: false }" class="bg-[#36AEC2]">
+    @php
+        $user = Auth::user();
+        $isAdmin = $user?->hasRole('admin');
+    @endphp
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -18,6 +22,11 @@
                     <x-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                         {{ __('Flights') }}
                     </x-nav-link>
+                    @if ($user !== null && $isAdmin)
+                        <x-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
+                            {{ __('Airplanes') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="url('api/documentation')">
                         {{ __('API Docs') }}
                     </x-nav-link>
@@ -49,6 +58,11 @@
             <x-responsive-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                 {{ __('Flights') }}
             </x-responsive-nav-link>
+            @if ($user !== null && $isAdmin)
+                <x-responsive-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
+                    {{ __('Airplanes') }}
+                </x-responsive-nav-link>
+            @endif
             <x-responsive-nav-link :href="url('api/documentation')">
                 {{ __('API Docs') }}
             </x-responsive-nav-link>
@@ -56,10 +70,10 @@
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 bg-[#383E48] border-t-[3px] border-[#c5a938]">
-            @if (Auth::user() !== null)
+            @if ($user !== null)
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ $user->name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ $user->email }}</div>
                 </div>
 
                 <div class="mt-3 mb-2 space-y-1">
