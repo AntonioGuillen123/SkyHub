@@ -10,8 +10,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
-Route::post('/booking', [BookingController::class, 'store'])->name('makeBooking');
-Route::delete('/booking', [BookingController::class, 'destroy'])->name('cancelBooking');
+Route::post('/booking', [BookingController::class, 'store'])->middleware('auth', 'checkRole:user')->name('makeBooking');
+Route::delete('/booking', [BookingController::class, 'destroy'])->middleware('auth', 'checkRole:user')->name('cancelBooking');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
