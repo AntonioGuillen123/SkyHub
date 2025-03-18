@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airplane;
+use App\Models\Flight;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AirplaneController extends Controller
@@ -12,7 +14,14 @@ class AirplaneController extends Controller
      */
     public function index()
     {
-        //
+        $flights = Flight::with(['users', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
+            ->get();
+
+        $airplanes = $flights->groupBy(['airplane.name', 'airplane.maximum_places']);
+
+        //return response()->json($airplanes);
+
+        return view('airplane', compact('airplanes'));
     }
 
     /**
