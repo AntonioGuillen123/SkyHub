@@ -11,7 +11,9 @@
             @endphp
 
             @if ($sessionMessage)
-                <div class="w-full flex justify-center">
+                <div class="w-full flex justify-center" x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show"
+                    x-transition:leave="transition-opacity duration-[3s] ease-in-out"
+                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
                     <div
                         class="fixed flex items-center mx-4 max-w-xl md:mx-auto mt-4 p-4 border-2 rounded-lg {{ $sessionMessageBg }} 
                         {{ $sessionMessageBorder }} {{ $sessionMessageText }}">
