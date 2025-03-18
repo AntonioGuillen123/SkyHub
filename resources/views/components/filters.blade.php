@@ -1,4 +1,4 @@
-<div class="flex justify-evenly items-center font-bold">
+<div class="flex flex-col md:flex-row gap-4 md:gap-0 justify-evenly items-center font-bold">
     <div class="rounded-lg">
         <select id="filtersActive" name="filtersActive" class="rounded-lg w-36">
             <option value="all" {{ !request()->has('state') ? 'selected' : '' }}>All</option>
