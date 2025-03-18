@@ -15,13 +15,13 @@ class BookingController extends Controller
         $flight = $this->getFlightById($validated['flight_id']);
 
         if (!$flight) {
-            return $this->responseWithMessage('The flight id does not exist');
+            return $this->responseWithMessage('The flight id does not exist', 'danger');
         }
 
         $isAvailable = $this->flightIsAvaliable($flight);
 
         if (!$isAvailable) {
-            return $this->responseWithMessage('The flight is not available');
+            return $this->responseWithMessage('The flight is not available', 'danger');
         }
 
         $user = $this->getUserFromRequest($request);
@@ -29,12 +29,12 @@ class BookingController extends Controller
         $hasReservation = $this->getBookingFromUserById($user, $flight->id);
 
         if ($hasReservation) {
-            return $this->responseWithMessage('The user already has a reservation on that flight');
+            return $this->responseWithMessage('The user already has a reservation on that flight', 'danger');
         }
 
         $this->manageMakeBooking($user, $flight);
 
-        return $this->responseWithMessage('The flight has been booked successfully');
+        return $this->responseWithMessage('The flight has been booked successfully', 'success');
     }
 
     public function destroy(Request $request)
@@ -46,12 +46,12 @@ class BookingController extends Controller
         $reservation = $this->getBookingFromUserById($user, $validated['flight_id']);
 
         if (!$reservation) {
-            return $this->responseWithMessage('The user does not have any reservations on a plane with that id');
+            return $this->responseWithMessage('The user does not have any reservations on a plane with that id', 'danger');
         }
 
         $this->manageCancelBooking($user, $reservation);
 
-        return $this->responseWithMessage('The reservation has been cancelled successfully');
+        return $this->responseWithMessage('The reservation has been cancelled successfully', 'success');
     }
 
     private function getUserFromRequest(Request $request)
@@ -121,8 +121,11 @@ class BookingController extends Controller
         $flight->save();
     }
 
-    private function responseWithMessage(mixed $message)
+    private function responseWithMessage(string $message, string $messageType)
     {
-        return redirect()->route('indexFlight')->with('message', $message);
+        return redirect()
+        ->route('indexFlight')
+        ->with('message', $message)
+        ->with('messageType', $messageType);
     }
 }
