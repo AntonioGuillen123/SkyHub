@@ -11,42 +11,31 @@ use Illuminate\Support\Facades\DB;
 
 class FlightController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        /* $flights = Flight::orderBy('flight_date', 'asc')
-            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
-            ->get(); */
-        /* $flights = Flight::orderBy('flight_date', 'asc')
-            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
-            ->find(1); */
-
         $queryParams = $this->getQueryParams($request);
         $userId = $this->getUserId();
 
-        /*  $flights = Flight::orderBy('flight_date', 'asc')
-            ->withCount(['users as booked' => function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            }])
-            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
-            ->get(); */ // Todos
-
-        /* $flights = Flight::orderBy('flight_date', 'asc')
-            ->withCount(['users as booked' => function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            }])
-            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival'])
-            ->get(); */
         $flights = $this->getFlights($userId, $queryParams);
 
+        return $this->responseWithSuccess($flights);
+    }
 
-        /* $booking = $user->flights()->find($flights->id); */
+    private function getQueryParams(Request $request)
+    {
+        return $request->query();
+    }
 
-        // return response()->json($flights);
+    private function getUserFromAuth()
+    {
+        return Auth::user();
+    }
 
-        return view('flight', compact('flights'));
+    private function getUserId()
+    {
+        $user = $this->getUserFromAuth();
+
+        return $user->id ?? 0;
     }
 
     private function getFlights(int $userId, array|null $queryParams)
@@ -58,6 +47,15 @@ class FlightController extends Controller
         }
 
         return $queryFlights->get();
+    }
+
+    private function getAllFlights(int $userId)
+    {
+        return Flight::orderBy('flight_date', 'asc')
+            ->withCount(['users as booked' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
     }
 
     private function getFlightsWithFilters(mixed $queryFlights, array $queryParams)
@@ -96,29 +94,8 @@ class FlightController extends Controller
         return $queryFlights->where('flight_date', $option, now());
     }
 
-    private function getAllFlights(int $userId)
+    private function responseWithSuccess(mixed $flights)
     {
-        return Flight::orderBy('flight_date', 'asc')
-            ->withCount(['users as booked' => function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            }])
-            ->with(['airplane', 'journey', 'journey.destinationDeparture', 'journey.destinationArrival']);
-    }
-
-    private function getQueryParams(Request $request)
-    {
-        return $request->query();
-    }
-
-    private function getUserId()
-    {
-        $user = $this->getUserFromAuth();
-
-        return $user->id ?? 0;
-    }
-
-    private function getUserFromAuth()
-    {
-        return Auth::user();
+        return view('flight', compact('flights'));
     }
 }
