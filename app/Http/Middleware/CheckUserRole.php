@@ -29,7 +29,8 @@ class CheckUserRole
                 ], 403)
                 : redirect()
                 ->route('indexFlight', [], 303) // Se usa el 303 ya que se redirige y se evita que se vuelva a enviar
-                ->with('message', $message);
+                ->with('message', $message)
+                ->with('messageType', 'danger');
         }
 
         return $next($request);
