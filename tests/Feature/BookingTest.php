@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Flight;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -52,6 +53,33 @@ class BookingTest extends TestCase
         $response = $this->post(route('makeBooking'), $data);
 
         $resultMessage = 'The flight id does not exist';
+        $resultMessageType = 'danger';
+
+        $response
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
+
+    public function test_CheckIfPostAnEntryOfBookingInWebWithUnavailableFlight()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+
+        $flight = Flight::find(1);
+
+        $flight->update(['state' => 0]);
+
+        $flight->save();
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->post(route('makeBooking'), $data);
+
+        $resultMessage = 'The flight is not available';
         $resultMessageType = 'danger';
 
         $response
