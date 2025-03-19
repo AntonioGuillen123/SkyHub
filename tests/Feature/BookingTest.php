@@ -114,4 +114,31 @@ class BookingTest extends TestCase
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
+
+    public function test_CheckIfDeleteAnEntryOfBookingInWeb()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+
+        $user = User::find(2);
+
+        $flight = Flight::find(1);
+
+        $user->flights()->save($flight);
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->delete(route('cancelBooking'), $data);
+
+        $resultMessage = 'The reservation has been cancelled successfully';
+        $resultMessageType = 'success';
+
+        $response
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
 }
