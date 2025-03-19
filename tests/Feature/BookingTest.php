@@ -87,4 +87,31 @@ class BookingTest extends TestCase
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
+
+    public function test_CheckIfPostAnEntryOfBookingInWebWithUserAlreadyHasBooking()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+
+        $user = User::find(2);
+
+        $flight = Flight::find(1);
+
+        $user->flights()->save($flight);
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->post(route('makeBooking'), $data);
+
+        $resultMessage = 'The user already has a reservation on that flight';
+        $resultMessageType = 'danger';
+
+        $response
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
 }
