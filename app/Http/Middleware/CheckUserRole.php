@@ -16,19 +16,20 @@ class CheckUserRole
     public function handle(Request $request, Closure $next, string $role): Response
     {
         $user = $request->user();
-
+        
         $userHasRole = $user->hasRole($role);
 
         if (!$userHasRole) {
             $message = 'Access denied. You don´t have permissions to do that';
             $routeIsApi = $this->isApi($request);
+            $previousUrl = url()->previous();
 
             return $routeIsApi
                 ? response()->json([
                     'message' => $message
                 ], 403)
                 : redirect()
-                ->route('indexFlight', [], 303) // Se usa el 303 ya que se redirige y se evita que se vuelva a enviar
+                ->to($previousUrl, 303) // Se usa el 303 ya que se redirige y se evita que se vuelva a enviar
                 ->with('message', $message)
                 ->with('messageType', 'danger');
         }
