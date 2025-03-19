@@ -1,4 +1,8 @@
 <footer class="bg-[#36AEC2]">
+    @php
+        $user = Auth::user();
+        $isAdmin = $user?->hasRole('admin');
+    @endphp
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-4 md:py-4">
         <div class="sm:flex sm:items-center sm:justify-between">
             <div class="flex gap-3">
@@ -21,6 +25,11 @@
                 <li>
                     <a href="{{ route('indexFlight') }}" class="hover:underline me-4 md:me-6">Flights</a>
                 </li>
+                @if ($user !== null && $isAdmin)
+                    <li>
+                        <a href="{{ route('indexAirplane') }}" class="hover:underline me-4 md:me-6">Airplanes</a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ url('api/documentation') }}" class="hover:underline me-4 md:me-6">API Docs</a>
                 </li>
