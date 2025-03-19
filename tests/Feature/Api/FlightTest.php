@@ -118,6 +118,7 @@ class FlightTest extends TestCase
             'journey_id' => 99999,
             'state' => 0,
             'remaining_places' => 999,
+            'arrival_date' => '2026-12-31 15:40',
             'price' => 555
         ];
 
@@ -143,6 +144,7 @@ class FlightTest extends TestCase
             'journey_id' => 2,
             'state' => 0,
             'remaining_places' => 999,
+            'arrival_date' => '2026-12-31 15:40',
             'price' => 999
         ];
 
