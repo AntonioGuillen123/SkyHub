@@ -34,8 +34,29 @@ class BookingTest extends TestCase
         $resultMessageType = 'success';
 
         $response
-        ->assertRedirect(route('indexFlight'))
-        ->assertSessionHas('message', $resultMessage)
-        ->assertSessionHas('messageType', $resultMessageType);
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
+
+    public function test_CheckIfPostAnEntryOfBookingInWebWithWrongFlightId()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+
+        $data = [
+            'flight_id' => 9999
+        ];
+
+        $response = $this->post(route('makeBooking'), $data);
+
+        $resultMessage = 'The flight id does not exist';
+        $resultMessageType = 'danger';
+
+        $response
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
     }
 }
