@@ -32,6 +32,8 @@
 
         <!-- Page Content -->
         <main class="flex-grow bg-[#383E48]">
+            <x-redirect-message></x-redirect-message>
+            
             {{ $slot }}
         </main>
 
