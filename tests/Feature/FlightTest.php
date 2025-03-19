@@ -19,4 +19,17 @@ class FlightTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_CheckIfFlightViewIsLoadedWithStateFilter(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $paremeters = [
+            'state' => 1
+        ];
+
+        $response = $this->get(route('indexFlight', $paremeters));
+
+        $response->assertStatus(200);
+    }
 }
