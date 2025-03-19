@@ -10,7 +10,7 @@
                 <!-- Logo -->
                 <a class="shrink-0 flex gap-3 items-center" href="{{ route('home') }}">
 
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
 
                     <div class="text-3xl text-[#FFDE59] font-bold">
                         {{ config('app.name', 'Laravel') }}
@@ -72,7 +72,7 @@
         <div class="pt-4 pb-1 bg-[#383E48] border-t-[3px] border-[#c5a938]">
             @if ($user !== null)
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ $user->name }}</div>
+                    <div class="font-medium text-base text-gray-200">{{ $user->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ $user->email }}</div>
                 </div>
 
