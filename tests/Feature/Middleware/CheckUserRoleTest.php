@@ -15,10 +15,10 @@ class CheckUserRoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function createTestRoute(string $role, string $message, int $status)
+    private function createTestRoute(string $role, string $route, string $message, int $status)
     {
         Route::middleware('checkRole:' . $role)
-            ->get('/test', function () use ($message, $status) {
+            ->get($route, function () use ($message, $status) {
                 return response($message, $status);
             });
     }
@@ -32,19 +32,42 @@ class CheckUserRoleTest extends TestCase
         );
     }
 
+    public function test_CheckIfMiddlewareIsWebSuccess()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $messageTest = 'OK';
+
+        $route = '/test';
+
+        $statusTest = 200;
+
+        $this->createTestRoute('admin', $route, $messageTest, $statusTest);
+
+        $this->authenticate();
+
+        $response = $this->get($route);
+
+        $response
+            ->assertStatus($statusTest)
+            ->assertContent($messageTest);
+    }
 
     public function test_CheckIfMiddlewareIsSuccess()
     {
         $this->seed(DatabaseSeeder::class);
 
         $messageTest = 'OK';
+
+        $route = '/api/test';
+
         $statusTest = 200;
 
-        $this->createTestRoute('admin', $messageTest, $statusTest);
+        $this->createTestRoute('admin', $route, $messageTest, $statusTest);
 
         $this->authenticate();
 
-        $response = $this->get('/test');
+        $response = $this->get($route);
 
         $response
             ->assertStatus($statusTest)
@@ -58,13 +81,16 @@ class CheckUserRoleTest extends TestCase
         $messageTest = [
             'message' => 'Access denied. You don´t have permissions to do that'
         ];
+
+        $route = '/api/test';
+
         $statusTest = 403;
 
-        $this->createTestRoute('user', $messageTest['message'], $statusTest);
+        $this->createTestRoute('user', $route, $messageTest['message'], $statusTest);
 
         $this->authenticate();
 
-        $response = $this->get('/test');
+        $response = $this->get($route);
 
         $response
             ->assertStatus($statusTest)
