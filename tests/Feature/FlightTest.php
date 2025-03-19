@@ -2,18 +2,20 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FlightTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    public function test_CheckIfFlightViewIsLoaded(): void
     {
-        $response = $this->get('/');
+        $this->seed(DatabaseSeeder::class);
+
+        $response = $this->get(route('indexFlight'));
 
         $response->assertStatus(200);
     }
