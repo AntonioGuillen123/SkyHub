@@ -29,4 +29,13 @@ class AirplaneTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_CheckIfAirplaneViewIsRedirectWithUnauthenticated(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+        
+        $response = $this->get(route('indexAirplane'));
+
+        $response->assertStatus(302);
+    }
 }
