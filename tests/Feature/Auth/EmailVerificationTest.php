@@ -22,6 +22,15 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_email_verification_screen_is_not_rendered(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/verify-email');
+
+        $response->assertRedirect(route('home', absolute: false));
+    }
+
     public function test_email_can_be_verified(): void
     {
         $user = User::factory()->unverified()->create();
