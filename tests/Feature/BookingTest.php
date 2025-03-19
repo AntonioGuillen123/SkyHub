@@ -141,4 +141,25 @@ class BookingTest extends TestCase
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
+
+    public function test_CheckIfDeleteAnEntryOfBookingInWebWithDoesNotHasBooking()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->delete(route('cancelBooking'), $data);
+
+        $resultMessage = 'The user does not have any reservations on a plane with that id';
+        $resultMessageType = 'danger';
+
+        $response
+            ->assertRedirect(route('indexFlight'))
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
 }
