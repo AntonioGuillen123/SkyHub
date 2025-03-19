@@ -14,6 +14,7 @@ class FlightController extends Controller
     public function index(Request $request)
     {
         $queryParams = $this->getQueryParams($request);
+        
         $userId = $this->getUserId();
 
         $flights = $this->getFlights($userId, $queryParams);
