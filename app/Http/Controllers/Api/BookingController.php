@@ -326,6 +326,13 @@ class BookingController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=409,
+     *         description="Conflict",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Error message when the user tries to cancel a reservation with a past date", example="The reservation cannot be cancelled because the flight date has passed :(")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=429,
      *         description="Too many requests",
      *         @OA\JsonContent(
@@ -348,7 +355,7 @@ class BookingController extends Controller
         $flightIsPassed = $this->flightIsPassed($reservation);
 
         if ($flightIsPassed) {
-            return $this->responseWithError('The reservation cannot be cancelled because the flight date has passed.', 409);
+            return $this->responseWithError('The reservation cannot be cancelled because the flight date has passed', 409);
         }
 
         $this->manageCancelBooking($user, $reservation);
