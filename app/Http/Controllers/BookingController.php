@@ -150,8 +150,7 @@ class BookingController extends Controller
 
     private function responseWithMessage(string $message, string $messageType)
     {
-        return redirect()
-            ->route('indexFlight')
+        return back()
             ->with('message', $message)
             ->with('messageType', $messageType);
     }
