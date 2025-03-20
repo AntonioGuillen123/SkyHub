@@ -1,3 +1,7 @@
+@section('title')
+    {{ config('app.name', 'Laravel') }} | Register
+@endsection
+
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf

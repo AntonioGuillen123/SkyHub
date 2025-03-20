@@ -1,3 +1,7 @@
+@section('title')
+    {{ config('app.name', 'Laravel') }} | Reset Password
+@endsection
+
 <x-guest-layout>
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
