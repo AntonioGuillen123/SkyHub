@@ -95,4 +95,12 @@ class EmailVerificationTest extends TestCase
         ->assertSessionHas('status', 'verification-link-sent');
     }
 
+    public function test_email_verification_notification_can_not_be_sended(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/email/verification-notification');
+
+        $response->assertRedirect(route('home', absolute: false));
+    }
 }
