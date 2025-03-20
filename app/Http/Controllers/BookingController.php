@@ -14,8 +14,6 @@ class BookingController extends Controller
 
         $bookings = $this->getBookingsFromUser($user);
 
-        return response()->json($bookings);
-
         return $this->responseWithSuccess($bookings);
     }
 
