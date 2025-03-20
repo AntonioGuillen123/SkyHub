@@ -172,4 +172,33 @@ class BookingTest extends TestCase
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
+
+    public function test_CheckIfDeleteAnEntryOfBookingInWebWithBookingDatePassed()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $user = $this->authenticate(2);
+
+        $flight = Flight::find(1);
+
+        $user->flights()->save($flight);
+
+        $flight->flight_date = now()->subYear(1)->format('Y-m-d H:i');
+
+        $flight->save();
+
+        $data = [
+            'flight_id' => 1
+        ];
+
+        $response = $this->delete(route('cancelBooking'), $data);
+
+        $resultMessage = 'The reservation cannot be cancelled because the flight date has passed';
+        $resultMessageType = 'danger';
+
+        $response
+            ->assertRedirect()
+            ->assertSessionHas('message', $resultMessage)
+            ->assertSessionHas('messageType', $resultMessageType);
+    }
 }
