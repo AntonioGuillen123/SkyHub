@@ -185,4 +185,27 @@ class BookingTest extends TestCase
             ->assertStatus(404)
             ->assertJsonFragment($resultData);
     }
+
+    public function test_CheckIfDeleteAnEntryOfBookingByDateFlightPassedInJsonFile()
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2, ['cancel-booking']);
+
+        $flight = Flight::find(2);
+
+        $flight->flight_date = now()->subYear(1)->format('Y-m-d H:i');
+
+        $flight->save();
+
+        $response = $this->deleteJson(route('apiCancelBooking', 2));
+
+        $resultData = [
+            'message' => 'The reservation cannot be cancelled because the flight date has passed :('
+        ];
+
+        $response
+            ->assertStatus(409)
+            ->assertJsonFragment($resultData);
+    }
 }
