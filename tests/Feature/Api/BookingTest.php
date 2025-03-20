@@ -33,7 +33,7 @@ class BookingTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(1);
+            ->assertJsonCount(5);
     }
 
     public function test_CheckIfPostAnEntryOfBookingInJsonFile()
