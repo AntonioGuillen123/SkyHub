@@ -14,6 +14,9 @@ Route::prefix('booking')
     ->controller(BookingController::class)
     ->middleware(['auth', 'checkRole:user'])
     ->group(function () {
+        Route::get('/', 'index')
+        ->name('indexBooking');
+
         Route::post('/', 'store')
             ->name('makeBooking');
 
