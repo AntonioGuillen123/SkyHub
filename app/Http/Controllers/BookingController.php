@@ -8,6 +8,17 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
+    public function index(Request $request)
+    {
+        $user = $this->getUserFromRequest($request);
+
+        $bookings = $this->getBookingsFromUser($user);
+
+        return response()->json($bookings);
+
+        return $this->responseWithSuccess($bookings);
+    }
+
     public function store(Request $request)
     {
         $validated = $this->validateData($request);
@@ -57,6 +68,11 @@ class BookingController extends Controller
     private function getUserFromRequest(Request $request)
     {
         return $request->user();
+    }
+
+    private function getBookingsFromUser(User $user)
+    {
+        return $user->flights()->with(['journey', 'journey.destinationDeparture', 'journey.destinationArrival'])->get();
     }
 
     private function getBookingFromUserById(User $user, string $id)
@@ -127,5 +143,10 @@ class BookingController extends Controller
             ->route('indexFlight')
             ->with('message', $message)
             ->with('messageType', $messageType);
+    }
+
+    private function responseWithSuccess(mixed $bookings)
+    {
+        return view('booking', compact('bookings'));
     }
 }
