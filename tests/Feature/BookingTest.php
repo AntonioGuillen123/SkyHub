@@ -17,6 +17,20 @@ class BookingTest extends TestCase
         $user = User::find($idUser);
 
         $this->actingAs($user);
+
+        return $user;
+    }
+
+    public function test_CheckIfBookingViewIsLoaded(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $this->authenticate(2);
+        
+        $response = $this->get(route('indexBooking'));
+
+        $response
+        ->assertStatus(200);
     }
 
     public function test_CheckIfPostAnEntryOfBookingInWeb()
@@ -92,9 +106,7 @@ class BookingTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->authenticate(2);
-
-        $user = User::find(2);
+        $user = $this->authenticate(2);
 
         $flight = Flight::find(1);
 
@@ -119,9 +131,7 @@ class BookingTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->authenticate(2);
-
-        $user = User::find(2);
+        $user = $this->authenticate(2);
 
         $flight = Flight::find(1);
 
