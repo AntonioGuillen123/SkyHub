@@ -29,7 +29,7 @@ class FlightTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(10);
+            ->assertJsonCount(20);
     }
 
     public function test_CheckIfRecieveAnEntryOfFlightByIdInJsonFile()
