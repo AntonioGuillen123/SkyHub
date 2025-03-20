@@ -22,10 +22,16 @@
                     <x-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                         {{ __('Flights') }}
                     </x-nav-link>
-                    @if ($user !== null && $isAdmin)
-                        <x-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
-                            {{ __('Airplanes') }}
-                        </x-nav-link>
+                    @if ($user !== null)
+                        @if ($isAdmin)
+                            <x-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
+                                {{ __('Airplanes') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link :href="route('indexBooking')" :active="request()->routeIs('indexBooking')">
+                                {{ __('Bookings') }}
+                            </x-nav-link>
+                        @endif
                     @endif
                     <x-nav-link :href="url('api/documentation')">
                         {{ __('API Docs') }}
@@ -58,10 +64,16 @@
             <x-responsive-nav-link :href="route('indexFlight')" :active="request()->routeIs('indexFlight')">
                 {{ __('Flights') }}
             </x-responsive-nav-link>
-            @if ($user !== null && $isAdmin)
-                <x-responsive-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
-                    {{ __('Airplanes') }}
-                </x-responsive-nav-link>
+            @if ($user !== null)
+                @if ($isAdmin)
+                    <x-responsive-nav-link :href="route('indexAirplane')" :active="request()->routeIs('indexAirplane')">
+                        {{ __('Airplanes') }}
+                    </x-responsive-nav-link>
+                @else
+                    <x-responsive-nav-link :href="route('indexBooking')" :active="request()->routeIs('indexBooking')">
+                        {{ __('Bookings') }}
+                    </x-responsive-nav-link>
+                @endif
             @endif
             <x-responsive-nav-link :href="url('api/documentation')">
                 {{ __('API Docs') }}
