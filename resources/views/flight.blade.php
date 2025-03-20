@@ -34,30 +34,27 @@
 
                     <div class="flex flex-col gap-2 bg-white p-2 border-2 {{ $statusClass }} rounded-lg w-64">
                         <div>
-                            <div class="flex justify-center font-bold">{{ $flightDate }}</div>
+                            <div class="flex justify-center font-semibold">📅 {{ $flightDate }}</div>
                             <div class="flex justify-around">
                                 <div>
-                                    <div class="font-bold">{{ $departure }}</div>
-                                    <div class="flex justify-center">{{ $flightTime }}</div>
+                                    <div class="font-semibold">🏙️ {{ $departure }}</div>
+                                    <div class="flex justify-center text-gray-700">🕛 {{ $flightTime }}</div>
                                 </div>
+                                <div class="text-3xl">→</div>
                                 <div>
-                                    <div class="font-bold">{{ $arrival }}</div>
-                                    <div class="flex justify-center">{{ $arrivalTime }}</div>
+                                    <div class="font-semibold">🌆 {{ $arrival }}</div>
+                                    <div class="flex justify-center text-gray-700">🕡 {{ $arrivalTime }}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col text-gray-700">
                             <div class="flex justify-between">
-                                <div class="font-bold">Price:</div>
+                                <div class="font-semibold">💰 Price:</div>
                                 <div>{{ $price }} €</div>
                             </div>
                             <div class="flex justify-between">
-                                <div class="font-bold">Remaining Places:</div>
-                                <div>{{ $remainingPlaces }}</div>
-                            </div>
-                            <div class="flex justify-between">
-                                <div class="font-bold">Total Places:</div>
-                                <div>{{ $totalPlaces }}</div>
+                                <div class="font-semibold">💺 Places:</div>
+                                <div>{{ $remainingPlaces }} / {{ $totalPlaces }}</div>
                             </div>
                         </div>
                         @if (!$isActive && !$isBooked)
