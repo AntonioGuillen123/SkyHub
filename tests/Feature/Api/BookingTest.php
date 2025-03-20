@@ -43,7 +43,7 @@ class BookingTest extends TestCase
         $this->authenticate(2, ['make-booking']);
 
         $data = [
-            'flight_id' => 1
+            'flight_id' => 2
         ];
 
         $response = $this->postJson(route('apiMakeBooking'), $data);
