@@ -43,7 +43,7 @@ class FlightTest extends TestCase
             'airplane_id' => 1,
             'journey_id' => 1,
             'state' => 1,
-            'remaining_places' => 420
+            'remaining_places' => 400
         ];
 
         $response
