@@ -132,7 +132,7 @@ class BookingTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(1);
+            ->assertJsonCount(3);
     }
 
     public function test_CheckIfRecieveAllUsersByWrongFlightIdInJsonFile()
