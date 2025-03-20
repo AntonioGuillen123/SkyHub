@@ -10,9 +10,18 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::prefix('booking')
+    ->controller(BookingController::class)
+    ->middleware(['auth', 'checkRole:user'])
+    ->group(function () {
+        Route::post('/', 'store')
+            ->name('makeBooking');
+
+        Route::delete('/', 'destroy')
+            ->name('cancelBooking');
+    });
+
 Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
-Route::post('/booking', [BookingController::class, 'store'])->middleware('auth', 'checkRole:user')->name('makeBooking');
-Route::delete('/booking', [BookingController::class, 'destroy'])->middleware('auth', 'checkRole:user')->name('cancelBooking');
 
 Route::get('/airplane', [AirplaneController::class, 'index'])->middleware('auth', 'checkRole:admin')->name('indexAirplane');
 
@@ -22,4 +31,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
