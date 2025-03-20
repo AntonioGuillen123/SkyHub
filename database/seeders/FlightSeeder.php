@@ -25,7 +25,7 @@ class FlightSeeder extends Seeder
             ['airplane_id' => 7, 'journey_id' => 7, 'state' => 1, 'price' => 140, 'remaining_places' => 250, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2 hours'))],
             ['airplane_id' => 8, 'journey_id' => 8, 'state' => 1, 'price' => 160, 'remaining_places' => 200, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +1.5 hours'))],
             ['airplane_id' => 9, 'journey_id' => 9, 'state' => 1, 'price' => 190, 'remaining_places' => 400, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2 hours'))],
-            ['airplane_id' => 10, 'journey_id' => 10, 'state' => 1, 'price' => 210, 'remaining_places' => 80, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2.5 hours'))],
+            ['airplane_id' => 10, 'journey_id' => 10, 'state' => 1, 'price' => 210, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2.5 hours'))],
             ['airplane_id' => 1, 'journey_id' => 11, 'state' => 0, 'price' => 130, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2 hours'))],
             ['airplane_id' => 2, 'journey_id' => 12, 'state' => 0, 'price' => 250, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +3 hours'))],
             ['airplane_id' => 3, 'journey_id' => 13, 'state' => 0, 'price' => 180, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2.5 hours'))],
