@@ -89,7 +89,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('P@ssw0rd'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
-            ],
+            ]
         ];
         
         foreach ($users as $user) {

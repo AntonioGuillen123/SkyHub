@@ -22,7 +22,7 @@ class AirplaneSeeder extends Seeder
             ['name' => 'Bombardier CRJ700', 'maximum_places' => 278],
             ['name' => 'Boeing 737', 'maximum_places' => 215],
             ['name' => 'Airbus A350', 'maximum_places' => 440],
-            ['name' => 'Antonov An-225', 'maximum_places' => 88],
+            ['name' => 'Antonov An-225', 'maximum_places' => 88]
         ];
 
         foreach ($airplanes as $airplane) {

@@ -22,7 +22,7 @@ class DestinationSeeder extends Seeder
             ['name' => 'Toronto'],
             ['name' => 'Madrid'],
             ['name' => 'Berlin'],
-            ['name' => 'Rome'],
+            ['name' => 'Rome']
         ];
 
         foreach ($destinations as $destination) {

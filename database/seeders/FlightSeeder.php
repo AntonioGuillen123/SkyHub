@@ -35,7 +35,7 @@ class FlightSeeder extends Seeder
             ['airplane_id' => 7, 'journey_id' => 17, 'state' => 0, 'price' => 210, 'remaining_places' => 250, 'flight_date' => $pastDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($pastDate . ' +2.5 hours'))],
             ['airplane_id' => 8, 'journey_id' => 18, 'state' => 0, 'price' => 230, 'remaining_places' => 200, 'flight_date' => $pastDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($pastDate . ' +3 hours'))],
             ['airplane_id' => 9, 'journey_id' => 19, 'state' => 0, 'price' => 170, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +1.5 hours'))],
-            ['airplane_id' => 10, 'journey_id' => 20, 'state' => 0, 'price' => 250, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2 hours'))],
+            ['airplane_id' => 10, 'journey_id' => 20, 'state' => 0, 'price' => 250, 'remaining_places' => 0, 'flight_date' => $futureDate, 'arrival_date' => date('Y-m-d H:i:s', strtotime($futureDate . ' +2 hours'))]
         ];
 
         foreach ($flights as $flight) {
