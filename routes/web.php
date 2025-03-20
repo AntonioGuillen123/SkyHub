@@ -25,10 +25,18 @@ Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
 
 Route::get('/airplane', [AirplaneController::class, 'index'])->middleware('auth', 'checkRole:admin')->name('indexAirplane');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::prefix('profile')
+    ->controller(ProfileController::class)
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/', 'edit')
+            ->name('profile.edit');
+
+        Route::patch('/', 'update')
+            ->name('profile.update');
+
+        Route::delete('/', 'destroy')
+            ->name('profile.destroy');
+    });
 
 require __DIR__ . '/auth.php';
