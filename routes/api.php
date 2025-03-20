@@ -52,8 +52,8 @@ Route::prefix('auth')
     });
 
 Route::prefix('airplane')
-    ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
     ->controller(AirplaneController::class)
+    ->middleware(['auth:api', 'scope:manage-airplanes', 'checkRole:admin'])
     ->group(function () {
         Route::get('/', 'index')
             ->middleware('throttle:60,1')
