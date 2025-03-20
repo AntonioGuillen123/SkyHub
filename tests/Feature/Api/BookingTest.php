@@ -192,13 +192,13 @@ class BookingTest extends TestCase
 
         $this->authenticate(2, ['cancel-booking']);
 
-        $flight = Flight::find(2);
+        $flight = Flight::find(1);
 
         $flight->flight_date = now()->subYear(1)->format('Y-m-d H:i');
 
         $flight->save();
 
-        $response = $this->deleteJson(route('apiCancelBooking', 2));
+        $response = $this->deleteJson(route('apiCancelBooking', 1));
 
         $resultData = [
             'message' => 'The reservation cannot be cancelled because the flight date has passed :('
