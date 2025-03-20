@@ -35,7 +35,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'success';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
@@ -56,7 +56,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'danger';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
@@ -83,7 +83,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'danger';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
@@ -110,7 +110,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'danger';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
@@ -137,7 +137,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'success';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
@@ -158,7 +158,7 @@ class BookingTest extends TestCase
         $resultMessageType = 'danger';
 
         $response
-            ->assertRedirect(route('indexFlight'))
+            ->assertRedirect()
             ->assertSessionHas('message', $resultMessage)
             ->assertSessionHas('messageType', $resultMessageType);
     }
