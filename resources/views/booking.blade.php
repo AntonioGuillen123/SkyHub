@@ -2,7 +2,7 @@
     <div class="py-12 h-full">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden flex flex-wrap justify-center">
-                <div class="flex flex-col gap-4 w-4/5">
+                <div class="flex flex-col gap-4 w-4/5 md:w-2/3">
                     @forelse ($bookings as  $booking)
                         @php
                             $bookingId = $booking->id;
@@ -15,7 +15,7 @@
                             $arrival = $journey->destinationArrival->name;
                         @endphp
 
-                        <div class="bg-white rounded-xl flex items-center text-xs md:text-sm justify-between p-2">
+                        <div class="bg-white rounded-xl flex items-center text-xs md:text-sm justify-between p-2 gap-2 md:gap-0">
                             <div class="flex justify-center font-bold">✈️📅 Booking</div>
                             <div class="flex justify-center font-bold w-32">
                                 <span>
