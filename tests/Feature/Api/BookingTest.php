@@ -158,7 +158,7 @@ class BookingTest extends TestCase
 
         $this->authenticate(2, ['cancel-booking']);
 
-        $response = $this->deleteJson(route('apiCancelBooking', 2));
+        $response = $this->deleteJson(route('apiCancelBooking', 1));
 
         $resultData = [
             'message' => 'The reservation has been cancelled successfully'
@@ -175,7 +175,7 @@ class BookingTest extends TestCase
 
         $this->authenticate(2, ['cancel-booking']);
 
-        $response = $this->deleteJson(route('apiCancelBooking', 1));
+        $response = $this->deleteJson(route('apiCancelBooking', 2));
 
         $resultData = [
             'message' => 'The user does not have any reservations on a plane with that id :('
