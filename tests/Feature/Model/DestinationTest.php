@@ -20,4 +20,12 @@ class DestinationTest extends TestCase
 
         $this->assertInstanceOf(Journey::class, $destination->journeyDepartures[0]);
     }
+
+    public function test_CheckIfDestinationHasJourneyArrivalsRelationship(){
+        $this->seed(DatabaseSeeder::class);
+
+        $destination = Destination::find(1);
+
+        $this->assertInstanceOf(Journey::class, $destination->journeyArrivals[0]);
+    }
 }
