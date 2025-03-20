@@ -8,7 +8,7 @@
             <x-filters></x-filters>
 
             <div class="overflow-hidden flex flex-wrap justify-center gap-8">
-                @foreach ($flights as $flight)
+                @forelse ($flights as $flight)
                     @php
                         $flightId = $flight->id;
                         $price = $flight->price;
@@ -78,7 +78,10 @@
                             </div>
                         @endif
                     </div>
-                @endforeach
+                @empty
+                    <div class="p-4 bg-white text-gray-500 text-center rounded-lg w-4/5 md:w-2/3">No Flights available.
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
