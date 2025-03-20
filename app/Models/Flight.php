@@ -84,7 +84,7 @@ class Flight extends Pivot
         return $this->state;
     }
 
-    private function dateHasPassed()
+    public function dateHasPassed()
     {
         $flightDate = Carbon::parse($this->flight_date);
         $nowDate = now();
