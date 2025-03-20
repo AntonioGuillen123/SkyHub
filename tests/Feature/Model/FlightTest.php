@@ -26,4 +26,18 @@ class FlightTest extends TestCase
 
         $this->assertTrue($flight->state);
     }
+
+    public function test_CheckIfFlightIsAvailableWithPassedDate(){
+        $this->seed(DatabaseSeeder::class);
+        
+        $flight = Flight::find(1);
+
+        $flight->flight_date = now()->subYear(1)->format('Y-m-d H:i');
+
+        $flight->update();
+
+        $isAvailable = $flight->isAvailable();
+
+        $this->assertFalse($isAvailable);
+    }
 }
