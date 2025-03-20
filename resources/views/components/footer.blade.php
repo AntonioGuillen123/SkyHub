@@ -25,10 +25,16 @@
                 <li>
                     <a href="{{ route('indexFlight') }}" class="hover:underline me-4 md:me-6">Flights</a>
                 </li>
-                @if ($user !== null && $isAdmin)
-                    <li>
-                        <a href="{{ route('indexAirplane') }}" class="hover:underline me-4 md:me-6">Airplanes</a>
-                    </li>
+                @if ($user !== null)
+                    @if ($isAdmin)
+                        <li>
+                            <a href="{{ route('indexAirplane') }}" class="hover:underline me-4 md:me-6">Airplanes</a>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ route('indexBooking') }}" class="hover:underline me-4 md:me-6">Bookings</a>
+                        </li>
+                    @endif
                 @endif
                 <li>
                     <a href="{{ url('api/documentation') }}" class="hover:underline me-4 md:me-6">API Docs</a>
