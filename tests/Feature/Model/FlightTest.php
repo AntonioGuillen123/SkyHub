@@ -2,19 +2,28 @@
 
 namespace Tests\Feature\Model;
 
+use App\Models\Flight;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FlightTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function test_CheckIfFlightChangeStateWhenIsUpdating(){
+        $this->seed(DatabaseSeeder::class);
+        
+        $flight = Flight::find(1);
+
+        $flight->state = 0;
+        $flight->remaining_places = 15;
+        $flight->flight_date = now()->addYear(1)->format('Y-m-d H:i');
+        $flight->updated_at = now()->addYear(1)->format('Y-m-d H:i');
+
+        $flight->update();
+
+        $this->assertTrue($flight->state);
     }
 }
