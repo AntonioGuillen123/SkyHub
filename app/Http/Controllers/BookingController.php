@@ -60,6 +60,12 @@ class BookingController extends Controller
             return $this->responseWithMessage('The user does not have any reservations on a plane with that id', 'danger');
         }
 
+        $flightIsPassed = $this->flightIsPassed($reservation);
+
+        if ($flightIsPassed) {
+            return $this->responseWithMessage('The reservation cannot be cancelled because the flight date has passed', 'danger');
+        }
+
         $this->manageCancelBooking($user, $reservation);
 
         return $this->responseWithMessage('The reservation has been cancelled successfully', 'success');
@@ -97,6 +103,11 @@ class BookingController extends Controller
     private function flightIsAvaliable(Flight $flight)
     {
         return $flight->isAvailable();
+    }
+
+    private function flightIsPassed(Flight $flight)
+    {
+        return $flight->dateHasPassed();
     }
 
     private function manageMakeBooking(User $user, Flight $flight)
