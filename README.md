@@ -54,15 +54,17 @@ Below is a diagram of the database:
 - In this new .env, change the variables you need
   - 📂 **Database Connection**:
  
-    In DB_CONNECTION will come mysqlite, change it to the bd you use (in this case MySQL)
+    Here we will set variables for the database connection, in which we will configure the connection driver, the host, the port, the database name, the user and the password.
+    
+    In **DB_CONNECTION** will come mysqlite, change it to the bd you use (in this case **mysql**)
 
     ```
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
+    DB_CONNECTION=YOUR_DB_CONNECTION
+    DB_HOST=YOUR_DB_HOST
+    DB_PORT=YOUR_DB_PORT
     DB_DATABASE=skyhub
-    DB_USERNAME=root
-    DB_PASSWORD=
+    DB_USERNAME=YOUR_DB_USERNAME
+    DB_PASSWORD=YOUR_DB_PASSWORD
     ```
 
   - 📧 **Mailer**:
@@ -86,7 +88,7 @@ Below is a diagram of the database:
     Here we will set variables for the swagger, in which we will configure the host, the title, if we want the configuration to reload itself with each change or if we want to have the dark mode always activated by default.
 
     ```
-    L5_SWAGGER_CONST_HOST=http://127.0.0.1:8000
+    L5_SWAGGER_CONST_HOST=YOUR_SWAGGER_HOST
     SWAGGER_API_TITLE="${APP_NAME} | API Documentation"
     L5_SWAGGER_GENERATE_ALWAYS=true 
     L5_SWAGGER_UI_DARK_MODE=true
@@ -133,7 +135,8 @@ php artisan migrate --seed
 
 ## ▶️⚡ Run
 
-### ▶️⚡ Run Locally
+### 💻 Run Locally
+Follow these steps to run the project locally.
 
   - If you use **XAMPP** to run it locally, you should know that passport uses an extension called **sodium** that must be enabled manually.
   
@@ -144,20 +147,51 @@ php artisan migrate --seed
     ```
     Just delete the ; save the file and restart xampp
 
- - How to run the Laravel server  
+  - How to run the Laravel server  
     ```
     php artisan serve
     ```
 
-- If you want to run all this in development environment run the following command  
-  ```
-  npm run dev
-  ```
+  - If you want to run all this in development environment run the following command  
+    ```
+    npm run dev
+    ```
 
-- For production you should run the following command 
-  ```
-  npm run build
-  ```
+  - For production you should run the following command 
+    ```
+    npm run build
+    ```
+
+### 🐳 Run on Docker
+Follow these steps to run the project inside a Docker container
+
+  - We must change the **DB_HOST** variable in the **.env** file to the **mysql** database container
+
+    ```
+    DB_HOST=mysql
+    ```
+
+  - We will start the containers with **docker compose** (The **-d** parameter is to run the containers in the background and the **--build** parameter is **only necessary the first time** as it is used to build the containers correctly)
+    ```
+    docker compose -d --build
+    ```
+
+  - Once we have the services up, it is time to execute the migrations with their seeders, for this we will use the **web** container with the following command
+    ```
+    docker compose exec web php artisan migrate --seed
+    ```
+
+  - Once the migrations are done, it is time to create the personal access token inside the **web** container, to do this we execute the following command
+    ```
+    docker compose exec web php artisan passport:client --personal
+    ```
+  
+    The result will be printed on the screen and we will have to substitute the respective environment variables with the generated data
+  
+  - To stop the services, we enter the following command
+    ```
+    docker compose down
+    ```
 
 ## 🏃‍♂️🧪 Running Tests
 
