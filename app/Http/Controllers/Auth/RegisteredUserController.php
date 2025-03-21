@@ -45,6 +45,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        return redirect(route('home', absolute: false))
+        ->with('message', 'User registered successfully. Check your inbox for verify email :)')
+        ->with('messageType', 'success');
     }
 }
