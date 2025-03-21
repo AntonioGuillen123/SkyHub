@@ -13,7 +13,7 @@ Whether through the platform or the API, Sky Hub offers a seamless and efficient
 
 ## 🛠️🚀 Tech Stack
 - 🖥️ **Frameworks:** Laravel
-- 🌐 **Server & Runtime:** Xampp, Apache, Nodejs, Docker
+- 🌐 **Server & Runtime:** XAMPP, Apache, Nodejs, Docker
 - 📂 **Database:** MySQL
 - 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web)
 - 📖 **API Documentation:** Swagger
@@ -33,21 +33,21 @@ Below is a diagram of the database:
 ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742509688/imagen_2025-03-20_232807017_pduee4.png)
 
 ## 🔧⚙️ Installation
+
 - Clone repository
-```
-git clone https://github.com/AntonioGuillen123/SkyHub
-```
+  ```
+  git clone https://github.com/AntonioGuillen123/SkyHub
+  ```
 
-- Install Composer dependencies
+- Install Composer dependencies (If you use XAMPP see [this](#run-locally) before do that )
+  ```
+  composer install
+  ```
 
-```
-composer install
-```
 - Install Nodejs dependencies
-
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
 ### 📝 .Env File
 - Duplicate .env.example file and rename to .env
@@ -131,21 +131,33 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-## ▶️💻 Run Locally
-- How to run the Laravel server  
-```
-php artisan serve
-```
+## ▶️⚡ Run
+
+### ▶️⚡ Run Locally
+
+  - If you use **XAMPP** to run it locally, you should know that passport uses an extension called **sodium** that must be enabled manually.
+  
+    To do this, we must go to the php.ini file and look for
+
+    ```
+    ;extension=sodium
+    ```
+    Just delete the ; save the file and restart xampp
+
+ - How to run the Laravel server  
+    ```
+    php artisan serve
+    ```
 
 - If you want to run all this in development environment run the following command  
-```
-npm run dev
-```
+  ```
+  npm run dev
+  ```
 
 - For production you should run the following command 
-```
-npm run build
-```
+  ```
+  npm run build
+  ```
 
 ## 🏃‍♂️🧪 Running Tests
 
