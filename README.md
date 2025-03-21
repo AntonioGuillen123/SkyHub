@@ -1,21 +1,36 @@
 # 🛫 Welcome to Sky Hub 🌐
-Sky Hub is a platform designed to efficiently manage flights and airplanes.
+**Sky Hub** ✈️ is a comprehensive web platform for managing flights, reservations, and airplanes efficiently. 
 
-The system offers a powerful API that allows operators to oversee flights, track airplane availability, and ensure seamless coordination of journeys.
+**Users** can 🔐 authenticate, 🔎 browse available flights using an advanced filtering system, and seamlessly 📅 book, ❌ cancel, or 📂 review their reservations. 
 
-With this platform, airlines and administrators can streamline flight scheduling, enhance operational efficiency, and reduce logistical challenges in air travel.
+**Administrators** have access to a detailed view of all 🛩️ airplanes, including their 🗂️ associated flights and the 👥 users who have booked each one.
+
+In addition to its web interface, Sky Hub provides a 🚀 **powerful API** for managing flights, airplanes, and reservations programmatically. 
+
+The API is secured with 🛡️ **Laravel Passport** for robust authentication and authorization, and it is fully documented using 📖 **Swagger**, making integration and development easier. 
+
+Whether through the platform or the API, Sky Hub offers a seamless and efficient solution for flight management.
 
 ## 🛠️🚀 Tech Stack
-- **Frameworks:** Laravel
-- **Server:** Xampp, Apache, Nodejs
-- **Database:** Mysql
-- **Others:** Composer, Postman, JIRA
+- 🖥️ **Frameworks:** Laravel
+- 🌐 **Server & Runtime:** Xampp, Apache, Nodejs, Docker
+- 📂 **Database:** MySQL
+- 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web)
+- 📖 **API Documentation:** Swagger
+- 🧪 **Testing:** PHPUnit
+- 🔧 **Tools & Others:** Composer, Postman, JIRA
 
 ## 📊📁 DB Diagram
 Below is a diagram of the database:
-- **airplane - journey:** Many to many relationship. A journey can have many airplanes, and airplane can have many journeys. This relationship is represented by flight pivot table.
+- **airplane - journey:** Many to many relationship. A journey can have many airplanes, and an airplane can have many journeys. This relationship is represented by **flight** pivot table.
 
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1738703842/imagen_2025-02-04_221723922_acc9a4.png)
+- **users - flight:** Many to many relationship. A flight can have many users, and a user can have many flights. This relationship is represented by **booking** pivot table.
+
+- **users - role_user:** One to many relationship. A role_user can have many users, but each user belongs to only one role_user.
+
+- **journey - destination:** One to many relationship. A destination can have many journey, but each journey belongs to only one destination with two differents departure points, by **departure_id** (departure) and **arrival_id** (arrival).
+
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742509688/imagen_2025-03-20_232807017_pduee4.png)
 
 ## 🔧⚙️ Installation
 - Clone repository
@@ -87,294 +102,19 @@ With the following command we run the tests and we will also generate a coverage
 
 If everything is correct, everything should be OK.
 
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1738703578/imagen_2025-02-04_221259065_km78tn.png)
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742515295/imagen_2025-03-21_010134316_uhwgig.png)
 
 
-A folder called coverage-report will also have been generated with **87.12%** coverage.
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1738702394/imagen_2025-02-04_215315877_x46iff.png)
+A folder called coverage-report will also have been generated with **100%** coverage.
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742515465/imagen_2025-03-21_010425371_p0ktvn.png)
 
 ## 📡🌐 Sky Hub API
-This API allows you to manage airplane and flight and provides CRUD (Create, Read, Update, Delete) operations for them.
+This API has interactive documentation generated with **Swagger**. To view it and try out the different available routes, follow these steps:
 
-### Airplane
-#### 1 Get all airplane entries
-
-```http
-GET /api/airplane
-
+### 🛠 Requirements
 ```
-### 🔹Request
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 200
-- **Content Type:** application/json
-
-#
-
-#### 2 Get an airplane by ID
-
-```http
-GET /api/airplane/{id}
-
+php artisan l5-swagger:generate
 ```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Airplane Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 200, 404
-- **Content Type:** application/json
-
-#
-
-#### 3 Create a new airplane
-
-```http
-POST /api/airplane
-
-```
-### 🔹Request
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-#### Body: 
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `name`    | `string` | **Required.** **Max: 255.** Airplane name    |
-| `maximum_places`    | `integer` | **Required.** **Min: 0.** Airplane maximum places    |
-
-### 🔹Response
-
-- **Status Code:** 201, 422
-- **Content Type:** application/json
-
-#
-
-#### 4 Update an existing airplane by ID
-
-```http
-PUT /api/airplane/{id}
-
-```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Airplane Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-#### Body: 
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `name`    | `string` | **Max: 255.** Airplane name    |
-| `maximum_places`    | `integer` | **Min: 0.** Airplane maximum places    |
-
-### 🔹Response
-
-- **Status Code:** 200, 404, 422
-- **Content Type:** application/json
-
-#
-
-#### 5 Delete an airplane by ID
-
-```http
-DELETE /api/airplane/{id}
-
-```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Airplane Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 204, 404
-- **Content Type:** No-Content, application/json
-
-#
-
-### Flight
-#### 1 Get all flight entries
-
-```http
-GET /api/flight
-
-```
-### 🔹Request
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 200
-- **Content Type:** application/json
-
-#
-
-#### 2 Get a flight by ID
-
-```http
-GET /api/flight/{id}
-
-```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Flight Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 200, 404
-- **Content Type:** application/json
-
-#
-
-#### 3 Create a new flight
-
-```http
-POST /api/flight
-
-```
-### 🔹Request
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-#### Body: 
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `airplane_id`    | `integer` | **Required.** **Min: 0.** Airplane Id    |
-| `journey_id`    | `integer` | **Required.** **Min: 0.** Journey Id    |
-| `state`    | `boolean` | Flight state    |
-| `remaining_places`    | `integer` | **Min: 0.** Flight state    |
-| `flight_date`    | `date` | **date_format: Y-m-d H:i.** Flight date    |
-
-### 🔹Response
-
-- **Status Code:** 201, 404, 422
-- **Content Type:** application/json
-
-#
-
-#### 4 Update an existing flight by ID
-
-```http
-PUT /api/flight/{id}
-
-```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Flight Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-#### Body: 
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `airplane_id`    | `integer` | **Min: 0.** Airplane Id    |
-| `journey_id`    | `integer` | **Min: 0.** Journey Id    |
-| `state`    | `boolean` | Flight state    |
-| `remaining_places`    | `integer` | **Min: 0.** Flight state    |
-| `flight_date`    | `date` | **date_format: Y-m-d H:i.** Flight date    |
-
-### 🔹Response
-
-- **Status Code:** 200, 404, 422
-- **Content Type:** application/json
-
-#
-
-#### 5 Delete a flight by ID
-
-```http
-DELETE /api/flight/{id}
-
-```
-### 🔹Request
-
-#### Path Parameters:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id`      | `integer` | **Required**. Flight Id     |
-
-#### Header:
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Accept`      | `string` | Must be **application/json**    |
-
-### 🔹Response
-
-- **Status Code:** 204, 404
-- **Content Type:** No-Content, application/json
 
 ## ✍️🙍 Author
 - **Antonio Guillén:**  [![GitHub](https://img.shields.io/badge/GitHub-Perfil-black?style=flat-square&logo=github)](https://github.com/AntonioGuillen123)
