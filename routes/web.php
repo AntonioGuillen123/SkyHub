@@ -4,7 +4,11 @@ use App\Http\Controllers\AirplaneController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialiteRedirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialiteCallback');
 
 Route::get('/', function () {
     return view('home');
@@ -15,7 +19,7 @@ Route::prefix('booking')
     ->middleware(['auth', 'checkRole:user'])
     ->group(function () {
         Route::get('/', 'index')
-        ->name('indexBooking');
+            ->name('indexBooking');
 
         Route::post('/', 'store')
             ->name('makeBooking');
