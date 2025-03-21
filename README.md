@@ -48,20 +48,80 @@ composer install
 ```
 npm install
 ```
-- Duplicate .env.example file and rename to .env
-- In this new .env, change the variables you need, but it is very important to uncomment the database connection lines that are these:
- 
-In DB_CONNECTION will come mysqlite, change it to the bd you use (in this case MySQL)
 
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=skyhub
-DB_USERNAME=root
-DB_PASSWORD=
-```
- - Generate an App Key with this command 
+### 📝 .Env File
+- Duplicate .env.example file and rename to .env
+- In this new .env, change the variables you need
+  - 📂 **Database Connection**:
+ 
+    In DB_CONNECTION will come mysqlite, change it to the bd you use (in this case MySQL)
+
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=skyhub
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+
+  - 📧 **Mailer**:
+ 
+    Here we will set variables for the email service, in which we will configure the host, encryption, email expiration, among others
+
+    ```
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.gmail.com
+    MAIL_PORT=587
+    MAIL_USERNAME=YOUR_EMAIL
+    MAIL_PASSWORD=YOUR_PASSWORD
+    MAIL_FROM_NAME="${APP_NAME}"
+    MAIL_FROM_ADDRESS=YOUR_EMAIL
+    MAIL_HASH=sha256
+    MAIL_EXPIRATION_MINUTES=30
+    ```
+
+  - 📖 **Swagger**:
+ 
+    Here we will set variables for the swagger, in which we will configure the host, the title, if we want the configuration to reload itself with each change or if we want to have the dark mode always activated by default.
+
+    ```
+    L5_SWAGGER_CONST_HOST=http://127.0.0.1:8000
+    SWAGGER_API_TITLE="${APP_NAME} | API Documentation"
+    L5_SWAGGER_GENERATE_ALWAYS=true 
+    L5_SWAGGER_UI_DARK_MODE=true
+    ```
+
+  - 🛡️ **Passport**:
+ 
+    Here we will set variables for API authentication such as the public and private RSA keys, the personal access client and id, and the name of the app along with the token expiration.
+
+    - To generate RSA keys it is necessary to enter the following command (The --force parameter is used to regenerate them)
+
+      ```
+      php artisan passport:keys --force
+      ```
+
+      Once generated, two files will be created in the **/storage** folder, we copy and paste them in their respective variables of the **.env** file
+    
+    - To generate the data of the personal access client, it is necessary to enter the following command
+
+      ```
+      php artisan passport:client --personal
+      ```
+      
+      Once generated, the data will be printed on the screen, you will only see them once, you must copy and paste them in their respective variables of the **.env** file **(Important to do this after running the migrations)**
+
+    ```
+    PASSPORT_PRIVATE_KEY=YOUR_PRIVATE_KEY
+    PASSPORT_PUBLIC_KEY=YOUR_PUBLIC_KEY
+    PASSPORT_PERSONAL_ACCESS_CLIENT_ID=YOUR_PERSONAL_ACCESS_CLIENT_ID
+    PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET=YOUR_PERSONAL_ACCESS_CLIENT_SECRET
+    PASSPORT_PERSONAL_ACCESS_CLIENT_NAME=" - Personal Access Token | ${APP_NAME}"
+    PASSPORT_PERSONAL_ACCESS_TOKEN_EXPIRATION=15
+    ```
+
+- Generate an App Key with this command 
 ```
 php artisan key:generate 
 ```
@@ -112,6 +172,7 @@ A folder called coverage-report will also have been generated with **100%** cove
 This API has interactive documentation generated with **Swagger**. To view it and try out the different available routes, follow these steps:
 
 ### 🛠 Requirements
+The first thing to do is to generate the documentation with the following command
 ```
 php artisan l5-swagger:generate
 ```
