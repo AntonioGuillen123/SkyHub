@@ -1,3 +1,4 @@
+
 # 🛫 Welcome to Sky Hub 🌐
 **Sky Hub** ✈️ is a comprehensive web platform for managing flights, reservations, and airplanes efficiently. 
 
@@ -10,6 +11,75 @@ In addition to its web interface, Sky Hub provides a 🚀 **powerful API** for m
 The API is secured with 🛡️ **Laravel Passport** for robust authentication and authorization, and it is fully documented using 📖 **Swagger**, making integration and development easier. 
 
 Whether through the platform or the API, Sky Hub offers a seamless and efficient solution for flight management.
+
+## 👀🖥 Overview
+The platform consists of the following views:
+
+- **Home View**
+
+  This page works as a gateway to the website
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742583946/imagen_2025-03-21_200545090_xprend.png)
+
+- **Flight View**
+
+  This page works as a list of flights which can be booked or cancelled
+
+  It has 3 types of filters:
+
+    - **If active or not**
+    - **If empty or not**
+    - **If date has passed or not**
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742584145/imagen_2025-03-21_200904355_ffe9wo.png)
+
+- **Booking View**
+
+  This page works as a list of the reservations that the authenticated user has, which can be cancelled
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742584467/imagen_2025-03-21_201425335_ttyqrj.png)
+
+- **Airplane View**
+
+  This page functions as a list of airplanes with their assigned flights, with the users who have booked each flight, which can only be viewed by the authenticated admin
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742584761/imagen_2025-03-21_201920125_tpqt3k.png)
+
+- **Register View**
+
+  This page works as a register to the website
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742584992/imagen_2025-03-21_202311009_wgflpi.png)
+
+- **Login View**
+
+  This page works as a login to the website
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585142/imagen_2025-03-21_202541231_pkfold.png)
+
+- **Profile View**
+
+  This page works as a user/admin profile edition
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585218/imagen_2025-03-21_202656584_q68kiq.png)
+
+- **Forgot Password View**
+
+  This page works as a password recovery
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585380/imagen_2025-03-21_202938517_t7dqyi.png)
+
+- **Reset Password View**
+
+  This page works as a password reset
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585507/imagen_2025-03-21_203145736_lsdfiq.png)
+
+- **Resend Verify Email View**
+
+  This page works as a forwarding of the confirmation email.
+
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585927/imagen_2025-03-21_203825428_ck5hcg.png)
 
 ## 🛠️🚀 Tech Stack
 - 🖥️ **Frameworks:** Laravel
@@ -134,6 +204,8 @@ php artisan migrate --seed
 ```
 
 ## ▶️⚡ Run
+This project includes several ways to run the project. 
+The following are the different ways to execute them
 
 ### 💻 Run Locally
 Follow these steps to run the project locally.
@@ -162,7 +234,7 @@ Follow these steps to run the project locally.
     npm run build
     ```
 
-### 🐳 Run on Docker
+### 🐳 Run in Docker
 Follow these steps to run the project inside a Docker container
 
   - We must change the **DB_HOST** variable in the **.env** file to the **mysql** database container
@@ -171,7 +243,7 @@ Follow these steps to run the project inside a Docker container
     DB_HOST=mysql
     ```
 
-  - We will start the containers with **docker compose** (The **-d** parameter is to run the containers in the background and the **--build** parameter is **only necessary the first time** as it is used to build the containers correctly)
+  - We will start the containers with **Docker Compose** (The **-d** parameter is to run the containers in the background and the **--build** parameter is **only necessary the first time** as it is used to build the containers correctly)
     ```
     docker compose -d --build
     ```
@@ -195,7 +267,7 @@ Follow these steps to run the project inside a Docker container
 
 ## 🏃‍♂️🧪 Running Tests
 
-To run test you should uncomment the following lines on the phpunit.xml file.
+To run test you should uncomment the following lines on the **phpunit.xml** file.
 
 ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1733829455/imagen_2024-12-10_121742908_b3mfqm.png)
 
@@ -217,11 +289,67 @@ A folder called coverage-report will also have been generated with **100%** cove
 ## 📡🌐 Sky Hub API
 This API has interactive documentation generated with **Swagger**. To view it and try out the different available routes, follow these steps:
 
-### 🛠 Requirements
-The first thing to do is to generate the documentation with the following command
+- We must generate the documentation with the following command
+
+  ```
+  php artisan l5-swagger:generate
+  ```
+
+- Once the documentation has been generated, with the server started, we will go to the following path in the browser
+
+  ```
+  /api/documentation
+  ```
+
+## ⏳📝 Automated Tasks
+This project includes **automated tasks** that run at scheduled intervals to handle background processes efficiently. 
+
+One of the key features is the periodic check of a flight's date. If the flight date has passed, its status will automatically be updated to **"inactive."** 
+
+Below are the different ways to execute these automated tasks:
+
+### ⚙️ Running Tasks Locally
+To test scheduled tasks locally, use Laravel's scheduler worker
+
 ```
-php artisan l5-swagger:generate
+php artisan schedule:work
 ```
+
+This will keep running in the foreground
+
+### 🖥 Running Tasks on Windows (Batch File)
+For Windows users, a **batch file (.bat)** is provided in the **/tasks/windows/** directory. It automates the execution of scheduled tasks
+
+**Setting Up Windows Task Scheduler:**
+- **Open Task Scheduler:** Press `Win + R`, type `taskschd.msc`, and hit Enter
+
+- **Create a New Task:** Click **"Create Basic Task"** and give it a meaningful name (e.g., **SkyHub Scheduler**)
+
+- **Choose a Trigger:** Select **"Daily"**, **"Hourly"**, or another schedule based on your needs
+
+- **Set the Action:** Choose **"Start a Program"** and browse to select the batch file
+
+  ```
+  C:\path-to-your-project\tasks\windows\execute_tasks.bat
+  ```
+
+- **Configure Additional Settings:**
+  - Check **"Run whether user is logged on or not"**
+  - Check **"Run with highest privileges"** if needed
+
+- **Finish & Test:** Click **"Finish"**, then right-click the task and select **"Run"** to test it
+
+### 🐳 Running Tasks in Docker
+Scheduled tasks run **automatically** every **10 minutes** when containers are started using **Docker Compose**.
+
+
+- The crontab configuration is located at
+
+  ```
+  C:\path-to-your-project\tasks\cron\crontab
+  ```
+
+- A **Dockerfile** is included to build the service and ensure the scheduler runs inside the container.
 
 ## ✍️🙍 Author
 - **Antonio Guillén:**  [![GitHub](https://img.shields.io/badge/GitHub-Perfil-black?style=flat-square&logo=github)](https://github.com/AntonioGuillen123)
