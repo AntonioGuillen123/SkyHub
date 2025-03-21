@@ -109,7 +109,7 @@ Below is a diagram of the database:
   git clone https://github.com/AntonioGuillen123/SkyHub
   ```
 
-- Install Composer dependencies (If you use XAMPP see [this](#run-locally) before do that )
+- Install Composer dependencies (If you use XAMPP see [this](#-run-locally) before do that )
   ```
   composer install
   ```
