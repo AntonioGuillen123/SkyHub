@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AirplaneController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/{service}/redirect', [SocialiteController::class, 'redirect'])->name('socialiteRedirect');
