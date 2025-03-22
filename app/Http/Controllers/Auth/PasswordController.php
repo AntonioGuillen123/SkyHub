@@ -26,4 +26,20 @@ class PasswordController extends Controller
 
         return back()->with('status', 'password-updated');
     }
+
+    /**
+     * Create the oauth user's password.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validateWithBag('createPassword', [
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return back()->with('status', 'password-created');
+    }
 }
