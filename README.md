@@ -2,7 +2,7 @@
 # 🛫 Welcome to Sky Hub 🌐
 **Sky Hub** ✈️ is a comprehensive web platform for managing flights, reservations, and airplanes efficiently. 
 
-**Users** can 🔐 authenticate, 🔎 browse available flights using an advanced filtering system, and seamlessly 📅 book, ❌ cancel, or 📂 review their reservations. 
+**Users** can 🔐 authenticate (**Google** and **GitHub** included), 🔎 browse available flights using an advanced filtering system, and seamlessly 📅 book, ❌ cancel, or 📂 review their reservations. 
 
 **Administrators** have access to a detailed view of all 🛩️ airplanes, including their 🗂️ associated flights and the 👥 users who have booked each one.
 
@@ -49,17 +49,18 @@ The platform consists of the following views:
 
   This page works as a register to the website
 
-  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742584992/imagen_2025-03-21_202311009_wgflpi.png)
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742661031/imagen_2025-03-22_173028839_wyz6c3.png)
 
 - **Login View**
 
   This page works as a login to the website
 
-  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585142/imagen_2025-03-21_202541231_pkfold.png)
+  ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742661095/imagen_2025-03-22_173134574_ncm0fo.png)
 
 - **Profile View**
 
-  This page works as a user/admin profile edition
+  This page works as a user/admin profile edition. 
+  If the user has registered via **Google** or **Github**, he will be given the option to create a password for his account.
 
   ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585218/imagen_2025-03-21_202656584_q68kiq.png)
 
@@ -85,7 +86,7 @@ The platform consists of the following views:
 - 🖥️ **Frameworks:** Laravel
 - 🌐 **Server & Runtime:** XAMPP, Apache, Nodejs, Docker
 - 📂 **Database:** MySQL
-- 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web)
+- 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web), Laravel Socialite (Social Login)
 - 📖 **API Documentation:** Swagger
 - 🧪 **Testing:** PHPUnit
 - 🔧 **Tools & Others:** Composer, Postman, JIRA
@@ -98,9 +99,11 @@ Below is a diagram of the database:
 
 - **users - role_user:** One to many relationship. A role_user can have many users, but each user belongs to only one role_user.
 
+- **users - auth_provider:** One to many relationship. A auth_provider belongs to a user, but each user have many auth_provider.
+
 - **journey - destination:** One to many relationship. A destination can have many journey, but each journey belongs to only one destination with two differents departure points, by **departure_id** (departure) and **arrival_id** (arrival).
 
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742509688/imagen_2025-03-20_232807017_pduee4.png)
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742661654/imagen_2025-03-22_174052714_erszht.png)
 
 ## 🔧⚙️ Installation
 
@@ -192,6 +195,28 @@ Below is a diagram of the database:
     PASSPORT_PERSONAL_ACCESS_CLIENT_NAME=" - Personal Access Token | ${APP_NAME}"
     PASSPORT_PERSONAL_ACCESS_TOKEN_EXPIRATION=15
     ```
+  
+  - 🌐 **Socialite:**
+
+    Here we set variables for authentication with services like **Github** or **Google**.
+
+    **To use them it is necessary to create a client app in the respective service**
+
+    - **GitHub**
+
+      ```
+      GITHUB_CLIENT_ID=YOUR_GITHUB_CLIENT_ID
+      GITHUB_CLIENT_SECRET=YOUR_GITHUB_CLIENT_SECRET
+      GITHUB_REDIRECT_URI=YOUR_GITHUB_CALLBACK_URI
+      ```
+  
+    - **Google**
+
+      ```
+      GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+      GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
+      GOOGLE_REDIRECT_URI=YOUR_GOOGLE_CALLBACK_URI
+      ```
 
 - Generate an App Key with this command 
 ```
@@ -280,11 +305,11 @@ With the following command we run the tests and we will also generate a coverage
 
 If everything is correct, everything should be OK.
 
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742515295/imagen_2025-03-21_010134316_uhwgig.png)
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742665229/imagen_2025-03-22_184027922_xyajmv.png)
 
 
 A folder called coverage-report will also have been generated with **100%** coverage.
-![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742515465/imagen_2025-03-21_010425371_p0ktvn.png)
+![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742664529/imagen_2025-03-22_182847353_poqymz.png)
 
 ## 📡🌐 Sky Hub API
 This API has interactive documentation generated with **Swagger**. To view it and try out the different available routes, follow these steps:
@@ -355,4 +380,3 @@ Scheduled tasks run **automatically** every **10 minutes** when containers are s
 - **Antonio Guillén:**  [![GitHub](https://img.shields.io/badge/GitHub-Perfil-black?style=flat-square&logo=github)](https://github.com/AntonioGuillen123)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Perfil-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/antonio-guillen-garcia)
 [![Correo](https://img.shields.io/badge/Email-Contacto-red?style=flat-square&logo=gmail)](mailto:antonioguillengarcia123@gmail.com)
-
