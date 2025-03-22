@@ -7,8 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialiteRedirect');
-Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialiteCallback');
+Route::get('/auth/{service}/redirect', [SocialiteController::class, 'redirect'])->name('socialiteRedirect');
+Route::get('/auth/{service}/callback', [SocialiteController::class, 'callback'])->name('socialiteCallback');
 
 Route::get('/', function () {
     return view('home');
