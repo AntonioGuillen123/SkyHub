@@ -16,7 +16,7 @@ Route::get('/', function () {
 
 Route::prefix('booking')
     ->controller(BookingController::class)
-    ->middleware(['auth', 'checkRole:user'])
+    ->middleware(['auth', 'checkRole:user', 'verified'])
     ->group(function () {
         Route::get('/', 'index')
             ->name('indexBooking');
@@ -30,7 +30,7 @@ Route::prefix('booking')
 
 Route::get('/flight', [FlightController::class, 'index'])->name('indexFlight');
 
-Route::get('/airplane', [AirplaneController::class, 'index'])->middleware('auth', 'checkRole:admin')->name('indexAirplane');
+Route::get('/airplane', [AirplaneController::class, 'index'])->middleware('auth', 'checkRole:admin', 'verified')->name('indexAirplane');
 
 Route::prefix('profile')
     ->controller(ProfileController::class)
