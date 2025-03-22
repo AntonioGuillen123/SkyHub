@@ -4,10 +4,8 @@ namespace Tests\Feature\Auth;
 
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Provider;
 use Mockery;
 use Tests\TestCase;
