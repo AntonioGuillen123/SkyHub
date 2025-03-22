@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\RoleUser;
 use App\Models\Flight;
+use App\Models\AuthProvider;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -50,7 +51,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function roleUser(){
+    public function roleUser()
+    {
         return $this->belongsTo(RoleUser::class);
     }
 
@@ -59,7 +61,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Flight::class, 'booking', 'user_id', 'flight_id')->withTimestamps();
     }
 
-    public function hasRole(string $roleUser){
+    public function authProviders()
+    {
+        return $this->hasMany(AuthProvider::class);
+    }
+
+    public function hasRole(string $roleUser)
+    {
         return $this->roleUser()->where('name', $roleUser)->exists();
     }
 }
