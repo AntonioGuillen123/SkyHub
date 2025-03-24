@@ -89,7 +89,7 @@ The platform consists of the following views:
 - 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web), Laravel Socialite (Social Login)
 - 📖 **API Documentation:** Swagger
 - 🧪 **Testing:** PHPUnit
-- 🔧 **Tools & Others:** Composer, Postman, JIRA
+- 🔧 **Tools & Others:** Composer, Postman, HeidiSQL, JIRA
 
 ## 📊📁 DB Diagram
 Below is a diagram of the database:
