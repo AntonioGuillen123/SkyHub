@@ -53,7 +53,7 @@ class SocialiteController extends Controller
 
     private function getProviderUser(Provider $provider)
     {
-        return $provider->user();
+        return $provider->stateless()->user(); // Se ha tenido que añadir el estateless aunque se menos seguro ya que Laravel funciona tan de maravilla que sin motivo alguno falla :))))))
     }
 
     private function getUserDataFromUserProvider(SocialiteUser $userProvider)

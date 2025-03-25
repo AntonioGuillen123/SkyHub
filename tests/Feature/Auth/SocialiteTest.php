@@ -45,6 +45,9 @@ class SocialiteTest extends TestCase
         $abstractUser->shouldReceive('getNickname')->andReturn('testuser');
 
         $mockProvider = Mockery::mock(Provider::class);
+        $mockProvider->shouldReceive('stateless')
+            ->once()
+            ->andReturnSelf();
         $mockProvider->shouldReceive('user')
             ->once()
             ->andReturn($abstractUser);
@@ -71,6 +74,9 @@ class SocialiteTest extends TestCase
         $abstractUser->shouldReceive('getNickname');
 
         $mockProvider = Mockery::mock(Provider::class);
+        $mockProvider->shouldReceive('stateless')
+            ->once()
+            ->andReturnSelf();
         $mockProvider->shouldReceive('user')
             ->once()
             ->andReturn($abstractUser);
