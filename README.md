@@ -1,4 +1,32 @@
 
+## 📖 Index
+- [🛫 Welcome to Sky Hub](#welcome-to-sky-hub)
+- [👀🖥 Overview](#overview)
+  - [🏠 Home View](#home-view)
+  - [✈️ Flight View](#flight-view)
+  - [📅 Booking View](#booking-view)
+  - [🛩 Airplane View](#airplane-view)
+  - [📝 Register View](#register-view)
+  - [🔑 Login View](#login-view)
+  - [👤 Profile View](#profile-view)
+  - [🔐 Forgot Password View](#forgot-password-view)
+  - [🔄 Reset Password View](#reset-password-view)
+  - [📩 Resend Verify Email View](#resend-verify-email-view)
+- [🛠️🚀 Tech Stack](#tech-stack)
+- [📊📁 Database Diagram](#db-diagram)
+- [🔧⚙️ Installation](#installation)
+- [▶️⚡ Run Project](#️run)
+  - [💻 Run Locally](#run-locally)
+  - [🐳 Run in Docker](#run-in-docker)
+- [🏃‍♂️🧪 Running Test](#running-tests)
+- [📡🌐 API Docs](#sky-hub-api)
+- [⏳📝 Automated Tasks](#automated-tasks)
+  - [⚙️ Running Task Locally](#️running-task-locally)
+  - [🖥 Running Task on Windows](#running-task-on-windows-(batch-file))
+  - [🐳 Running Task on Docker](#running-task-docker)
+- [✍️🙍 Author](#️author)
+
+
 # 🛫 Welcome to Sky Hub 🌐
 **Sky Hub** ✈️ is a comprehensive web platform for managing flights, reservations, and airplanes efficiently. 
 
