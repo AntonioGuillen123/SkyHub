@@ -36,7 +36,7 @@
 - [📊📁 Database Diagram](#-db-diagram)
 - [🔧⚙️ Installation](#%EF%B8%8F-installation)
   - [📝 .Env File](#-env-file)
-- [▶️⚡ Run Project](#️%EF%B8%8F-run)
+- [▶️⚡ Run](#️%EF%B8%8F-run)
   - [💻 Run Locally](#-run-locally)
   - [🐳 Run in Docker](#-run-in-docker)
 - [🏃‍♂️🧪 Running Test](#%EF%B8%8F-running-tests)
@@ -44,7 +44,7 @@
 - [⏳📝 Automated Tasks](#-automated-tasks)
   - [⚙️ Running Task Locally](#️%EF%B8%8F-running-tasks-locally)
   - [🖥 Running Task on Windows](#-running-tasks-on-windows-batch-file)
-  - [🐳 Running Task on Docker](#-running-tasks-in-docker)
+  - [🐳 Running Task in Docker](#-running-tasks-in-docker)
 - [✍️🙍 Author](#️-author)
 
 
