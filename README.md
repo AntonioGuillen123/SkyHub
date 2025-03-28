@@ -39,7 +39,7 @@
 - [▶️⚡ Run](#️%EF%B8%8F-run)
   - [💻 Run Locally](#-run-locally)
   - [🐳 Run in Docker](#-run-in-docker)
-- [🏃‍♂️🧪 Running Test](#%EF%B8%8F-running-tests)
+- [🏃‍♂️🧪 Running Tests](#%EF%B8%8F-running-tests)
 - [📡🌐 API Docs](#-sky-hub-api)
 - [⏳📝 Automated Tasks](#-automated-tasks)
   - [⚙️ Running Task Locally](#️%EF%B8%8F-running-tasks-locally)
