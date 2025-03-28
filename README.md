@@ -30,7 +30,7 @@
 </p>
 
 ## 📖 Index
-- [🛫 Welcome to Sky Hub](#🛫-welcome-to-sky-hub)
+- [🛫 Welcome to Sky Hub](#-welcome-to-sky-hub-)
 - [👀🖥 Overview](#overview)
   - [🏠 Home View](#home-view)
   - [✈️ Flight View](#flight-view)
