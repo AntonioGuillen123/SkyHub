@@ -375,6 +375,24 @@ This API has interactive documentation generated with **Swagger**. To view it an
   /api/documentation
   ```
 
+Once the doc is generated we will have different endpoints:
+
+  - ✈️ **Airplane**
+
+    ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1743184791/imagen_2025-03-28_185949241_j9rso7.png)
+  
+  - ☁️ **Flight**
+
+    ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1743184864/imagen_2025-03-28_190103025_n7arnl.png)
+
+  - 🕛 **Booking**
+
+    ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1743184903/imagen_2025-03-28_190141576_syg2ek.png)
+
+  - 🔐 **Auth**
+
+    ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1743184935/imagen_2025-03-28_190214035_kxadn8.png)
+
 ## ⏳📝 Automated Tasks
 This project includes **automated tasks** that run at scheduled intervals to handle background processes efficiently. 
 
