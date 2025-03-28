@@ -1,6 +1,36 @@
+<div align="center">
+  <h1 align="center">
+    SkyHub
+    <br />
+    <br />
+      <img src="public/images/SkyHub.png" alt="SkyHub" width="235">
+  </h1>
+</div>
+
+<p align="center">
+  <img src="https://img.shields.io/github/license/sourcerer-io/hall-of-fame.svg?colorB=ff0000" alt="License">
+  <img src="https://img.shields.io/badge/REST_API-009688.svg?logo=api&logoColor=white" alt="API REST">
+  <img src="https://img.shields.io/badge/OAuth2-3C3C3C.svg?logo=auth0&logoColor=gold" alt="Oauth2">
+  <img src="https://img.shields.io/badge/Passport-2D2D2D.svg?logo=laravel" alt="Laravel Passport">
+  <img src="https://img.shields.io/badge/Socialite-FF5733.svg?logo=google&logoColor=white" alt="Laravel Socialite">
+  <img src="https://img.shields.io/badge/Tested_With-PhpUnit-8697FF.svg" alt="Tested With PhpUnit">
+  <img src="https://img.shields.io/badge/Test_Coverage-100%25-brightgreen.svg" alt="Tested Coverage 100%">
+  <img src="https://img.shields.io/badge/Laravel-FF2D20.svg?logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/TailwindCSS-06B6D4.svg?logo=Tailwindcss&logoColor=white" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/MySQL-4479A1.svg?logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Composer-885630.svg?logo=composer&logoColor=white" alt="composer">
+  <img src="https://img.shields.io/badge/Node.js-339933.svg?logo=node.js&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Swagger-85EA2D.svg?logo=swagger&logoColor=black" alt="Swagger">
+  <img src="https://img.shields.io/badge/XAMPP-FB7A24.svg?logo=xampp&logoColor=white" alt="XAMPP">
+  <img src="https://img.shields.io/badge/Postman-FF6C37.svg?logo=postman&logoColor=white" alt="Postman">
+  <img src="https://img.shields.io/badge/Cloudinary-3448C5.svg?logo=cloudinary&logoColor=white" alt="Cloudinary">
+  <img src="https://img.shields.io/badge/JIRA-0052CC.svg?logo=jira&logoColor=white" alt="JIRA">
+  <img src="https://img.shields.io/github/last-commit/AntonioGuillen123/SkyHub.svg" alt="Last Commit">
+</p>
 
 ## 📖 Index
-- [🛫 Welcome to Sky Hub](#welcome-to-sky-hub)
+- [🛫 Welcome to Sky Hub](#🛫-welcome-to-sky-hub)
 - [👀🖥 Overview](#overview)
   - [🏠 Home View](#home-view)
   - [✈️ Flight View](#flight-view)
@@ -111,7 +141,7 @@ The platform consists of the following views:
   ![image](https://res.cloudinary.com/dierpqujk/image/upload/v1742585927/imagen_2025-03-21_203825428_ck5hcg.png)
 
 ## 🛠️🚀 Tech Stack
-- 🖥️ **Frameworks:** Laravel
+- 🖥️ **Frameworks:** Laravel, TailwindCSS
 - 🌐 **Server & Runtime:** XAMPP, Apache, Nodejs, Docker
 - 📂 **Database:** MySQL
 - 🛡️ **Authentication:** Laravel Passport (API), Session-based Authentication (Web), Laravel Socialite (Social Login)
